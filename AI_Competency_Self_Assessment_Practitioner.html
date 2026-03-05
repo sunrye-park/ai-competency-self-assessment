@@ -55,7 +55,7 @@
     /* ===== INTRO ===== */
     .intro-hero {
       text-align: center;
-      padding: 50px 20px 30px;
+      padding: 34px 20px 18px;
     }
 
     .version-tag {
@@ -70,9 +70,10 @@
       margin-bottom: 14px;
     }
 
-    .intro-hero .emoji-big {
-      font-size: 60px;
-      margin-bottom: 14px;
+    .intro-hero .hero-figure {
+      width: 150px;
+      margin: 0 auto 12px;
+      display: block;
       animation: float 3s ease-in-out infinite;
     }
 
@@ -88,25 +89,22 @@
       }
     }
 
-    .intro-hero h1 {
-      font-size: 26px;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 12px;
-    }
-
-    .intro-hero p {
-      font-size: 15px;
+    .intro-summary {
+      display: inline-block;
+      font-size: 14px;
       color: var(--text-light);
-      max-width: 500px;
-      margin: 0 auto 28px;
+      background: #eef0ff;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 14px;
+      margin-bottom: 14px;
     }
 
     .intro-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
-      margin-bottom: 36px;
+      margin-bottom: 18px;
     }
 
     .intro-card {
@@ -123,9 +121,16 @@
     }
 
     .intro-card .ic-emoji {
-      font-size: 26px;
-      margin-bottom: 6px;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      margin: 0 auto 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f3f5ff;
     }
+    .intro-card .ic-emoji svg { width: 20px; height: 20px; }
 
     .intro-card .ic-title {
       font-size: 13px;
@@ -157,7 +162,7 @@
     .intro-note {
       font-size: 13px;
       color: var(--accent);
-      margin-top: 14px;
+      margin-top: 12px;
       font-weight: 500;
     }
 
@@ -351,7 +356,9 @@
     .result-header .emoji-big {
       font-size: 52px;
       margin-bottom: 10px;
+      color: var(--primary);
     }
+    .result-header .emoji-big .icon-inline { width: 52px; height: 52px; margin: 0 auto; }
 
     .level-badge {
       display: inline-block;
@@ -416,6 +423,15 @@
       align-items: center;
       gap: 8px;
     }
+    .icon-inline {
+      width: 18px;
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .icon-inline svg { width: 100%; height: 100%; }
 
     .radar-wrap {
       display: flex;
@@ -542,8 +558,13 @@
     }
 
     .profile-badge .pf-emoji {
-      font-size: 22px;
+      width: 24px;
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
+    .profile-badge .pf-emoji svg { width: 100%; height: 100%; }
 
     .profile-insight {
       font-size: 15px;
@@ -609,9 +630,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
+      color: white;
       flex-shrink: 0;
     }
+    .plan-track-icon svg { width: 20px; height: 20px; }
 
     .track-practice .plan-track-icon {
       background: linear-gradient(135deg, #1B1464, #6C5CE7);
@@ -717,10 +739,6 @@
         padding: 14px;
       }
 
-      .intro-hero h1 {
-        font-size: 22px;
-      }
-
       .intro-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: 8px;
@@ -751,42 +769,59 @@
   <div id="screen-intro" class="screen active">
     <div class="container">
       <div class="intro-hero">
-        <div class="version-tag">LEVEL-UP 실무자용</div>
-        <div class="emoji-big">⚡</div>
-        <h1>AI, 나는 제대로<br>쓰고 있을까?</h1>
-        <p>AI를 써봤다면 이제 중요한 건 '얼마나 잘' 쓰고 있는지.<br>18문항으로 나의 AI 활용 패턴과 수준을 객관적으로 점검하세요.</p>
+        <svg class="hero-figure" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="pBodyGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#7dd3fc"/>
+              <stop offset="1" stop-color="#06c755"/>
+            </linearGradient>
+          </defs>
+          <circle cx="90" cy="28" r="8" fill="#06c755"/>
+          <rect x="86" y="36" width="8" height="14" rx="4" fill="#a7f3d0"/>
+          <rect x="52" y="44" width="76" height="72" rx="26" fill="url(#pBodyGrad)"/>
+          <rect x="62" y="58" width="56" height="42" rx="16" fill="#ffffff"/>
+          <circle cx="78" cy="77" r="6" fill="#1f2937"/>
+          <circle cx="102" cy="77" r="6" fill="#1f2937"/>
+          <path d="M75 91c5 6 25 6 30 0" stroke="#1f2937" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <rect x="38" y="66" width="16" height="10" rx="5" fill="#a7f3d0"/>
+          <rect x="126" y="66" width="16" height="10" rx="5" fill="#a7f3d0"/>
+          <rect x="64" y="114" width="14" height="30" rx="7" fill="#34d399"/>
+          <rect x="102" y="114" width="14" height="30" rx="7" fill="#34d399"/>
+          <rect x="60" y="142" width="22" height="10" rx="5" fill="#1f2937"/>
+          <rect x="98" y="142" width="22" height="10" rx="5" fill="#1f2937"/>
+        </svg>
+        <div class="intro-summary">6개 영역으로 실무형 진단 내용을 점검해요.</div>
+        <div style="text-align:center;">
+          <button class="btn-start" onclick="startQuiz()">검진 시작하기 →</button>
+          <div class="intro-note">이미 AI를 써본 분들을 위한 셀프 점검입니다.</div>
+        </div>
       </div>
 
       <div class="intro-grid">
         <div class="intro-card">
-          <div class="ic-emoji">🔄</div>
+          <div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none"><path d="M19 8.5A7 7 0 1 0 19 15" stroke="#1B1464" stroke-width="2" stroke-linecap="round"/><path d="M19 4v5h-5" stroke="#1B1464" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           <div class="ic-title">사용 습관 & 패턴</div>
         </div>
         <div class="intro-card">
-          <div class="ic-emoji">🎯</div>
+          <div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="7" stroke="#F97F51" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="#F97F51"/></svg></div>
           <div class="ic-title">전략적 소통</div>
         </div>
         <div class="intro-card">
-          <div class="ic-emoji">🌐</div>
+          <div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="#6C5CE7" stroke-width="2"/><path d="M4 12h16M12 4c2.3 2.2 2.3 13.8 0 16M12 4c-2.3 2.2-2.3 13.8 0 16" stroke="#6C5CE7" stroke-width="2"/></svg></div>
           <div class="ic-title">AI 활용 스펙트럼</div>
         </div>
         <div class="intro-card">
-          <div class="ic-emoji">⚙️</div>
+          <div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3.2" stroke="#00B894" stroke-width="2"/><path d="M12 3.8v3M12 17.2v3M3.8 12h3M17.2 12h3M6.4 6.4l2.2 2.2M15.4 15.4l2.2 2.2M17.6 6.4l-2.2 2.2M8.6 15.4l-2.2 2.2" stroke="#00B894" stroke-width="2" stroke-linecap="round"/></svg></div>
           <div class="ic-title">워크플로우 통합</div>
         </div>
         <div class="intro-card">
-          <div class="ic-emoji">✅</div>
+          <div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none"><rect x="4.5" y="4.5" width="15" height="15" rx="4" stroke="#E17055" stroke-width="2"/><path d="m8.5 12 2.3 2.5 4.8-5.2" stroke="#E17055" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           <div class="ic-title">결과물 품질 관리</div>
         </div>
         <div class="intro-card">
-          <div class="ic-emoji">🔭</div>
+          <div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18h16M9.5 18V9.5l6-3 2 3-6 3V18" stroke="#0984E3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           <div class="ic-title">AI 세계관 확장</div>
         </div>
-      </div>
-
-      <div style="text-align:center;">
-        <button class="btn-start" onclick="startQuiz()">검진 시작하기 →</button>
-        <div class="intro-note">🔥 이미 AI를 써본 분들을 위한 셀프 점검입니다</div>
       </div>
     </div>
   </div>
@@ -817,7 +852,7 @@
     <div class="container">
       <div class="result-header">
         <div class="version-tag">LEVEL-UP 실무자용</div>
-        <div class="emoji-big" id="resultEmoji">⚡</div>
+        <div class="emoji-big" id="resultEmoji"></div>
         <div class="level-badge" id="levelBadge"></div>
         <h2 id="levelTitle"></h2>
         <div class="total-score" id="totalScore"></div>
@@ -825,36 +860,71 @@
       </div>
 
       <div class="result-section">
-        <h3>📊 영역별 분석</h3>
+        <h3><span class="icon-inline" id="analysisIcon"></span>영역별 분석</h3>
         <div class="radar-wrap"><canvas id="radarChart" width="320" height="320"></canvas></div>
         <div id="scoreBarList"></div>
       </div>
 
       <div class="result-section">
-        <h3>🧬 나의 AI 활용 프로파일</h3>
+        <h3><span class="icon-inline" id="profileIcon"></span>나의 AI 활용 프로파일</h3>
         <div class="briefing-box" id="briefingBox"></div>
       </div>
 
       <div class="result-section">
-        <h3>🎯 레벨업 종합계획</h3>
+        <h3><span class="icon-inline" id="planIcon"></span>레벨업 종합계획</h3>
         <div id="recList"></div>
       </div>
 
       <div class="result-actions">
-        <button class="btn-retry" onclick="retryQuiz()">🔄 다시 검진하기</button>
+        <button class="btn-retry" onclick="retryQuiz()"><span class="icon-inline" id="retryIcon"></span>다시 검진하기</button>
       </div>
       <div class="footer">AI 활용능력 자가검진 — 실무자용 © 2025</div>
     </div>
   </div>
 
   <script>
+    function getIconSvg(name) {
+      const map = {
+        habit: '<svg viewBox="0 0 24 24" fill="none"><path d="M20 11a8 8 0 1 0 1.5 4.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M20 4v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        strategy: '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="7" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>',
+        spectrum: '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2"/><path d="M4 12h16M12 4c2.3 2.2 2.3 13.8 0 16M12 4c-2.3 2.2-2.3 13.8 0 16" stroke="currentColor" stroke-width="2"/></svg>',
+        workflow: '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3.2" stroke="currentColor" stroke-width="2"/><path d="M12 3.8v3M12 17.2v3M3.8 12h3M17.2 12h3M6.4 6.4l2.2 2.2M15.4 15.4l2.2 2.2M17.6 6.4l-2.2 2.2M8.6 15.4l-2.2 2.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+        quality: '<svg viewBox="0 0 24 24" fill="none"><rect x="4.5" y="4.5" width="15" height="15" rx="4" stroke="currentColor" stroke-width="2"/><path d="m8.5 12 2.3 2.5 4.8-5.2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        horizon: '<svg viewBox="0 0 24 24" fill="none"><path d="M4 18h16M9.5 18V9.5l6-3 2 3-6 3V18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        tip: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5c4 0 7 3 7 6.8 0 2.1-.9 3.5-2.4 5L15 17.5H9l-1.6-2.2C5.9 13.8 5 12.4 5 10.3c0-3.8 3-6.8 7-6.8Z" stroke="currentColor" stroke-width="2"/><path d="M10 20h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+        refresh: '<svg viewBox="0 0 24 24" fill="none"><path d="M20 11a8 8 0 1 0 1.5 4.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M20 4v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        analysis: '<svg viewBox="0 0 24 24" fill="none"><path d="M4 19h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><rect x="6" y="11" width="3" height="6" rx="1" fill="currentColor"/><rect x="11" y="8" width="3" height="9" rx="1" fill="currentColor"/><rect x="16" y="5" width="3" height="12" rx="1" fill="currentColor"/></svg>',
+        profile: '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="2"/><path d="M5 20c1.4-3.1 4.1-4.6 7-4.6s5.6 1.5 7 4.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+        plan: '<svg viewBox="0 0 24 24" fill="none"><path d="m4 12 5 5L20 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        level1: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5c2.8 2.5 4.7 5.2 4.7 8.2 0 3-2.1 5.8-4.7 7.8-2.6-2-4.7-4.8-4.7-7.8 0-3 1.9-5.7 4.7-8.2Z" fill="currentColor"/></svg>',
+        level2: '<svg viewBox="0 0 24 24" fill="none"><path d="M6 12h12M12 6v12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+        level3: '<svg viewBox="0 0 24 24" fill="none"><path d="m13 3-8 10h6l-1 8 9-12h-6l1-6Z" fill="currentColor"/></svg>',
+        level4: '<svg viewBox="0 0 24 24" fill="none"><path d="M5 15.5 12 4l7 11.5H5Z" fill="currentColor"/><path d="M12 4v16" stroke="#fff" stroke-width="2"/></svg>',
+        learning: '<svg viewBox="0 0 24 24" fill="none"><path d="M4 7.5 12 4l8 3.5-8 3.5L4 7.5Z" stroke="currentColor" stroke-width="2"/><path d="M6 11v4.5L12 19l6-3.5V11" stroke="currentColor" stroke-width="2"/></svg>',
+        action: '<svg viewBox="0 0 24 24" fill="none"><path d="m13 3-8 10h6l-1 8 9-12h-6l1-6Z" fill="currentColor"/></svg>'
+      };
+      return map[name] || map.profile;
+    }
+
+    function icon(name, color = 'currentColor') {
+      return `<span class="icon-inline" style="color:${color}">${getIconSvg(name)}</span>`;
+    }
+
+    function profileIconByEmoji(emoji) {
+      const map = {
+        '🔭': 'horizon', '🎯': 'strategy', '🧰': 'workflow', '🌪️': 'habit', '⚙️': 'workflow',
+        '✏️': 'quality', '⚖️': 'analysis', '🏆': 'level4', '⚡': 'action'
+      };
+      return map[emoji] || 'profile';
+    }
+
     const categories = [
-      { name: "사용 습관 & 패턴", emoji: "🔄", color: "#1B1464" },
-      { name: "전략적 소통", emoji: "🎯", color: "#F97F51" },
-      { name: "AI 활용 스펙트럼", emoji: "🌐", color: "#6C5CE7" },
-      { name: "워크플로우 통합", emoji: "⚙️", color: "#00B894" },
-      { name: "결과물 품질 관리", emoji: "✅", color: "#E17055" },
-      { name: "AI 세계관 확장", emoji: "🔭", color: "#0984E3" }
+      { name: "사용 습관 & 패턴", icon: "habit", color: "#1B1464" },
+      { name: "전략적 소통", icon: "strategy", color: "#F97F51" },
+      { name: "AI 활용 스펙트럼", icon: "spectrum", color: "#6C5CE7" },
+      { name: "워크플로우 통합", icon: "workflow", color: "#00B894" },
+      { name: "결과물 품질 관리", icon: "quality", color: "#E17055" },
+      { name: "AI 세계관 확장", icon: "horizon", color: "#0984E3" }
     ];
 
     const questions = [
@@ -1097,13 +1167,13 @@
       const pct = ((currentQ + 1) / questions.length) * 100;
       document.getElementById('progressBar').style.width = pct + '%';
       document.getElementById('progressText').textContent = `${currentQ + 1} / ${questions.length}`;
-      document.getElementById('categoryBadge').innerHTML = `${cat.emoji} ${cat.name}`;
+      document.getElementById('categoryBadge').innerHTML = `${icon(cat.icon, '#FFFFFF')} ${cat.name}`;
       document.getElementById('categoryBadge').style.background = cat.color;
       document.getElementById('qNumber').textContent = `Q${currentQ + 1}`;
       document.getElementById('qText').textContent = q.text;
 
       const insEl = document.getElementById('qInsight');
-      if (q.insight) { insEl.style.display = 'block'; insEl.textContent = '💡 ' + q.insight; }
+      if (q.insight) { insEl.style.display = 'block'; insEl.innerHTML = `${icon('tip', '#1B1464')} ${q.insight}`; }
       else { insEl.style.display = 'none'; }
 
       const optWrap = document.getElementById('qOptions');
@@ -1119,7 +1189,7 @@
       document.getElementById('btnPrev').style.visibility = currentQ === 0 ? 'hidden' : 'visible';
       const btnNext = document.getElementById('btnNext');
       btnNext.disabled = answers[currentQ] === -1;
-      btnNext.textContent = currentQ === questions.length - 1 ? '결과 보기 🎉' : '다음 →';
+      btnNext.textContent = currentQ === questions.length - 1 ? '결과 보기' : '다음 →';
 
       document.getElementById('questionCard').style.animation = 'none';
       setTimeout(() => { document.getElementById('questionCard').style.animation = 'slideIn 0.3s ease'; }, 10);
@@ -1148,14 +1218,14 @@
       const scaled = catScores.map((s, i) => Math.round((s / catMax[i]) * 17));
       const total = scaled.reduce((a, b) => a + b, 0);
 
-      let level, levelTitle, levelEmoji, levelClass;
-      if (total >= 80) { level = 4; levelTitle = "Lv.4 AI 크리에이터"; levelEmoji = "🏆"; levelClass = "level-4"; }
-      else if (total >= 55) { level = 3; levelTitle = "Lv.3 AI 전략가"; levelEmoji = "⚡"; levelClass = "level-3"; }
-      else if (total >= 30) { level = 2; levelTitle = "Lv.2 AI 사용자"; levelEmoji = "🔧"; levelClass = "level-2"; }
-      else { level = 1; levelTitle = "Lv.1 AI 체험자"; levelEmoji = "🌱"; levelClass = "level-1"; }
+      let level, levelTitle, levelIcon, levelClass;
+      if (total >= 80) { level = 4; levelTitle = "Lv.4 AI 크리에이터"; levelIcon = "level4"; levelClass = "level-4"; }
+      else if (total >= 55) { level = 3; levelTitle = "Lv.3 AI 전략가"; levelIcon = "level3"; levelClass = "level-3"; }
+      else if (total >= 30) { level = 2; levelTitle = "Lv.2 AI 사용자"; levelIcon = "level2"; levelClass = "level-2"; }
+      else { level = 1; levelTitle = "Lv.1 AI 체험자"; levelIcon = "level1"; levelClass = "level-1"; }
 
       showScreen('screen-result');
-      document.getElementById('resultEmoji').textContent = levelEmoji;
+      document.getElementById('resultEmoji').innerHTML = icon(levelIcon, '#1B1464');
       document.getElementById('levelBadge').textContent = levelTitle;
       document.getElementById('levelBadge').className = 'level-badge ' + levelClass;
       document.getElementById('levelTitle').textContent = `당신은 "${levelTitle}"`;
@@ -1164,7 +1234,7 @@
       const barHtml = categories.map((cat, i) => `
     <div class="score-item">
       <div class="score-item-header">
-        <span class="score-item-name">${cat.emoji} ${cat.name}</span>
+        <span class="score-item-name">${icon(cat.icon, cat.color)} ${cat.name}</span>
         <span class="score-item-value">${scaled[i]} / 17</span>
       </div>
       <div class="score-bar-bg"><div class="score-bar-fill fill-${i + 1}" id="bar-${i}"></div></div>
@@ -1316,14 +1386,14 @@
 
       let html = `
     <div class="profile-badge">
-      <span class="pf-emoji">${profile.emoji}</span>
+      <span class="pf-emoji">${getIconSvg(profileIconByEmoji(profile.emoji))}</span>
       <span>${profile.name}</span>
     </div>
     <div class="profile-insight">
       <em>${profile.insight}</em>
     </div>
     <div class="profile-action">
-      💡 ${profile.action}
+      ${icon('tip', '#1B1464')} ${profile.action}
     </div>
   `;
       document.getElementById('briefingBox').innerHTML = html;
@@ -1453,7 +1523,7 @@
       // Track 1
       html += `<div class="plan-track track-practice">
     <div class="plan-track-header">
-      <div class="plan-track-icon">🚀</div>
+      <div class="plan-track-icon">${getIconSvg('action')}</div>
       <div class="plan-track-title">AI 활용을 통한 레벨업</div>
     </div>
     <div class="plan-body">`;
@@ -1468,7 +1538,7 @@
       // Track 2
       html += `<div class="plan-track track-learn">
     <div class="plan-track-header">
-      <div class="plan-track-icon">📚</div>
+      <div class="plan-track-icon">${getIconSvg('learning')}</div>
       <div class="plan-track-title">AI 학습을 통한 레벨업</div>
     </div>
     <div class="plan-body">`;
@@ -1481,13 +1551,18 @@
       html += `</div></div>`;
 
       // Summary
-      html += `<div class="plan-summary">💬 ${summaryMsg}</div>`;
+      html += `<div class="plan-summary">${icon('strategy', '#1B1464')} ${summaryMsg}</div>`;
       html += '</div>';
 
       document.getElementById('recList').innerHTML = html;
     }
 
     function retryQuiz() { startQuiz(); }
+
+    document.getElementById('analysisIcon').innerHTML = getIconSvg('analysis');
+    document.getElementById('profileIcon').innerHTML = getIconSvg('profile');
+    document.getElementById('planIcon').innerHTML = getIconSvg('plan');
+    document.getElementById('retryIcon').innerHTML = getIconSvg('refresh');
   </script>
 </body>
 
