@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 활용능력 자가검진</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800&family=Noto+Sans+KR:wght@400;500;700;800&display=swap');
+
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --line-green: #06c755;
+      --ink: #1f2937;
+      --ink-soft: #5f6b7a;
+      --border: #e8ecf2;
+      --shadow: 0 12px 34px rgba(15, 23, 42, 0.08);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Nunito', 'Noto Sans KR', sans-serif;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 0% 10%, rgba(6, 199, 85, 0.08), transparent 26%),
+        radial-gradient(circle at 92% 16%, rgba(79, 172, 254, 0.09), transparent 24%),
+        var(--bg);
+    }
+
+    .screen { display: none; min-height: 100vh; }
+    .screen.active { display: block; }
+
+    .container {
+      width: min(980px, 100%);
+      margin: 0 auto;
+      padding: 28px 18px 32px;
+    }
+
+    .hero {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      padding: 26px 20px;
+      text-align: center;
+    }
+
+    .hero-figure {
+      width: 150px;
+      margin: 0 auto 16px;
+      display: block;
+    }
+
+    .hero h1 {
+      font-size: 26px;
+      line-height: 1.35;
+      letter-spacing: -0.3px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      color: var(--ink-soft);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .choice-grid {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .choice {
+      border: 1px solid var(--border);
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      text-align: left;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .choice:hover {
+      transform: translateY(-3px);
+      border-color: #d1dae5;
+    }
+
+    .choice-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .icon-wrap {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .choice.beginner .icon-wrap {
+      background: #ebf7ff;
+    }
+
+    .choice.practitioner .icon-wrap {
+      background: #ebfff2;
+    }
+
+    .choice-title {
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+    }
+
+    .choice-desc {
+      color: var(--ink-soft);
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .choice-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      background: #f4f7fb;
+      border: 1px solid var(--border);
+      padding: 6px 11px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #364152;
+    }
+
+    .tiny-icon {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+
+    .launch {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .launch-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(4px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .mode-label {
+      color: var(--ink-soft);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.1px;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: #364152;
+      border-radius: 10px;
+      padding: 9px 12px;
+      font-family: 'Nunito', 'Noto Sans KR', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    #assessmentFrame {
+      width: 100%;
+      border: none;
+      flex: 1;
+      min-height: calc(100vh - 58px);
+      background: #fff;
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        padding: 42px 22px;
+      }
+
+      .hero {
+        padding: 34px 30px;
+      }
+
+      .hero h1 {
+        font-size: 32px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .choice-grid {
+        margin-top: 18px;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+
+      .choice {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section id="startScreen" class="screen active">
+    <div class="container">
+      <div class="hero">
+        <svg class="hero-figure" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="bodyGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#7dd3fc"/>
+              <stop offset="1" stop-color="#06c755"/>
+            </linearGradient>
+          </defs>
+          <circle cx="90" cy="28" r="8" fill="#06c755"/>
+          <rect x="86" y="36" width="8" height="14" rx="4" fill="#a7f3d0"/>
+          <rect x="52" y="44" width="76" height="72" rx="26" fill="url(#bodyGrad)"/>
+          <rect x="62" y="58" width="56" height="42" rx="16" fill="#ffffff"/>
+          <circle cx="78" cy="77" r="6" fill="#1f2937"/>
+          <circle cx="102" cy="77" r="6" fill="#1f2937"/>
+          <path d="M75 91c5 6 25 6 30 0" stroke="#1f2937" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <rect x="38" y="66" width="16" height="10" rx="5" fill="#a7f3d0"/>
+          <rect x="126" y="66" width="16" height="10" rx="5" fill="#a7f3d0"/>
+          <rect x="64" y="114" width="14" height="30" rx="7" fill="#34d399"/>
+          <rect x="102" y="114" width="14" height="30" rx="7" fill="#34d399"/>
+          <rect x="60" y="142" width="22" height="10" rx="5" fill="#1f2937"/>
+          <rect x="98" y="142" width="22" height="10" rx="5" fill="#1f2937"/>
+          <circle cx="38" cy="108" r="8" fill="#e5f6ff"/>
+          <circle cx="142" cy="108" r="8" fill="#eaffe8"/>
+        </svg>
+        <h1>나의 AI 활용능력은 어느 수준일까?</h1>
+        <p>현재 수준에 맞는 진단을 선택해 시작하세요.</p>
+      </div>
+
+      <div class="choice-grid">
+        <button class="choice beginner" onclick="openAssessment('beginner')" aria-label="입문용 시작">
+          <div class="choice-header">
+            <div class="icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 3c2.8 2.5 4.7 5.2 4.7 8.2 0 3-2.1 5.8-4.7 7.8-2.6-2-4.7-4.8-4.7-7.8C7.3 8.2 9.2 5.5 12 3Z" fill="#20a7ff"/>
+                <circle cx="12" cy="12" r="2.8" fill="#ffffff"/>
+              </svg>
+            </div>
+            <div class="choice-title">입문용</div>
+          </div>
+          <div class="choice-desc">AI가 처음이거나 가끔 써본 분</div>
+          <div class="choice-meta">
+            <svg class="tiny-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="4" y="5" width="16" height="15" rx="3" stroke="#6b7280" stroke-width="2"/>
+              <path d="M8 3v4M16 3v4M8 11h8M8 15h5" stroke="#6b7280" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            15문항
+          </div>
+        </button>
+
+        <button class="choice practitioner" onclick="openAssessment('practitioner')" aria-label="실무자용 시작">
+          <div class="choice-header">
+            <div class="icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M4 13.5 12 4l8 9.5-8 6.5-8-6.5Z" fill="#06c755"/>
+                <path d="M9.2 12.8 11 14.7l3.8-4.2" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="choice-title">실무자용</div>
+          </div>
+          <div class="choice-desc">이미 업무에 AI를 쓰는 분</div>
+          <div class="choice-meta">
+            <svg class="tiny-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="4" y="5" width="16" height="15" rx="3" stroke="#6b7280" stroke-width="2"/>
+              <path d="M8 3v4M16 3v4M8 11h8M8 15h5" stroke="#6b7280" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            18문항
+          </div>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section id="runScreen" class="screen">
+    <div class="launch">
+      <div class="launch-header">
+        <button class="btn" onclick="goHome()">시작 화면으로</button>
+        <div id="modeLabel" class="mode-label"></div>
+      </div>
+      <iframe id="assessmentFrame" title="AI 역량 자가진단"></iframe>
+    </div>
+  </section>
+
+  <script>
+    const SOURCES = {
+      beginner: {
+        label: '입문용 진단 실행 중',
+        file: 'AI_Competency_Self_Assessment_Beginner.html'
+      },
+      practitioner: {
+        label: '실무자용 진단 실행 중',
+        file: 'AI_Competency_Self_Assessment_Practitioner.html'
+      }
+    };
+
+    const startScreen = document.getElementById('startScreen');
+    const runScreen = document.getElementById('runScreen');
+    const modeLabel = document.getElementById('modeLabel');
+    const frame = document.getElementById('assessmentFrame');
+
+    function openAssessment(mode) {
+      const target = SOURCES[mode];
+      if (!target) return;
+
+      startScreen.classList.remove('active');
+      runScreen.classList.add('active');
+      modeLabel.textContent = target.label;
+      frame.src = target.file;
+      history.replaceState({ mode }, '', `#${mode}`);
+    }
+
+    function goHome() {
+      frame.src = 'about:blank';
+      runScreen.classList.remove('active');
+      startScreen.classList.add('active');
+      modeLabel.textContent = '';
+      history.replaceState({}, '', location.pathname);
+    }
+
+    const modeFromHash = location.hash.replace('#', '');
+    if (SOURCES[modeFromHash]) {
+      openAssessment(modeFromHash);
+    }
+  </script>
+</body>
+</html>

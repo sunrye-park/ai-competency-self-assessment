@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 활용능력 자가검진 — 실무자용</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap');
+
+    :root {
+      --primary: #1B1464;
+      --primary-light: #4834D4;
+      --primary-mid: #30336B;
+      --accent: #F97F51;
+      --accent2: #6C5CE7;
+      --bg: #F4F5F9;
+      --card: #FFFFFF;
+      --text: #1E272E;
+      --text-light: #636E72;
+      --border: #E0E1E8;
+      --gradient1: linear-gradient(135deg, #1B1464 0%, #4834D4 100%);
+      --gradient2: linear-gradient(135deg, #F97F51 0%, #FFC048 100%);
+      --shadow: 0 4px 20px rgba(27, 20, 100, 0.08);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    /* ===== INTRO ===== */
+    .intro-hero {
+      text-align: center;
+      padding: 50px 20px 30px;
+    }
+
+    .version-tag {
+      display: inline-block;
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      background: var(--gradient2);
+      color: white;
+      margin-bottom: 14px;
+    }
+
+    .intro-hero .emoji-big {
+      font-size: 60px;
+      margin-bottom: 14px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .intro-hero h1 {
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .intro-hero p {
+      font-size: 15px;
+      color: var(--text-light);
+      max-width: 500px;
+      margin: 0 auto 28px;
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 36px;
+    }
+
+    .intro-card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 16px 12px;
+      text-align: center;
+      border: 1px solid var(--border);
+      transition: transform 0.2s;
+    }
+
+    .intro-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .intro-card .ic-emoji {
+      font-size: 26px;
+      margin-bottom: 6px;
+    }
+
+    .intro-card .ic-title {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .btn-start {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gradient1);
+      color: white;
+      border: none;
+      padding: 16px 48px;
+      border-radius: 50px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(27, 20, 100, 0.3);
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+
+    .btn-start:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(27, 20, 100, 0.4);
+    }
+
+    .intro-note {
+      font-size: 13px;
+      color: var(--accent);
+      margin-top: 14px;
+      font-weight: 500;
+    }
+
+    /* ===== QUIZ ===== */
+    .progress-bar-wrap {
+      background: var(--border);
+      border-radius: 20px;
+      height: 8px;
+      margin-bottom: 8px;
+      overflow: hidden;
+      position: sticky;
+      top: 12px;
+      z-index: 100;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: var(--gradient1);
+      border-radius: 20px;
+      transition: width 0.4s;
+      width: 0%;
+    }
+
+    .progress-text {
+      text-align: right;
+      font-size: 13px;
+      color: var(--text-light);
+      margin-bottom: 20px;
+    }
+
+    .category-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: white;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 14px;
+    }
+
+    .question-card {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .question-number {
+      font-size: 13px;
+      color: var(--primary-light);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .question-text {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 22px;
+      line-height: 1.6;
+    }
+
+    .question-insight {
+      background: #EEF0FF;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 18px;
+      font-size: 14px;
+      color: var(--primary-mid);
+      border-left: 4px solid var(--primary-light);
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 18px;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 15px;
+      background: white;
+      line-height: 1.5;
+    }
+
+    .option:hover {
+      border-color: var(--primary-light);
+      background: #F8F7FF;
+    }
+
+    .option.selected {
+      border-color: var(--primary);
+      background: #EEF0FF;
+    }
+
+    .option-radio {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+      transition: all 0.2s;
+    }
+
+    .option.selected .option-radio {
+      border-color: var(--primary);
+      background: var(--primary);
+    }
+
+    .option.selected .option-radio::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: white;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .btn-nav {
+      padding: 12px 28px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Noto Sans KR', sans-serif;
+      border: none;
+    }
+
+    .btn-prev {
+      background: var(--border);
+      color: var(--text-light);
+    }
+
+    .btn-prev:hover {
+      background: #D0D1D8;
+    }
+
+    .btn-next {
+      background: var(--gradient1);
+      color: white;
+      box-shadow: 0 4px 12px rgba(27, 20, 100, 0.25);
+    }
+
+    .btn-next:hover {
+      box-shadow: 0 6px 20px rgba(27, 20, 100, 0.35);
+    }
+
+    .btn-next:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* ===== RESULT ===== */
+    .result-header {
+      text-align: center;
+      padding: 40px 20px 16px;
+    }
+
+    .result-header .emoji-big {
+      font-size: 52px;
+      margin-bottom: 10px;
+    }
+
+    .level-badge {
+      display: inline-block;
+      padding: 8px 24px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .level-1 {
+      background: #FFF0E0;
+      color: #E17055;
+    }
+
+    .level-2 {
+      background: #FFF8E1;
+      color: #F39C12;
+    }
+
+    .level-3 {
+      background: #E0F0FF;
+      color: #0984E3;
+    }
+
+    .level-4 {
+      background: #E8F5E9;
+      color: #2E7D32;
+    }
+
+    .result-header h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .result-header .total-score {
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--primary);
+      margin: 4px 0;
+    }
+
+    .result-header .total-label {
+      font-size: 14px;
+      color: var(--text-light);
+    }
+
+    .result-section {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 14px;
+    }
+
+    .result-section h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .radar-wrap {
+      display: flex;
+      justify-content: center;
+      margin: 16px 0;
+    }
+
+    .score-item {
+      margin-bottom: 14px;
+    }
+
+    .score-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+
+    .score-item-name {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .score-item-value {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .score-bar-bg {
+      height: 10px;
+      background: var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .score-bar-fill {
+      height: 100%;
+      border-radius: 10px;
+      transition: width 1s ease;
+      width: 0%;
+    }
+
+    .fill-1 {
+      background: linear-gradient(90deg, #1B1464, #4834D4);
+    }
+
+    .fill-2 {
+      background: linear-gradient(90deg, #F97F51, #FFC048);
+    }
+
+    .fill-3 {
+      background: linear-gradient(90deg, #6C5CE7, #A29BFE);
+    }
+
+    .fill-4 {
+      background: linear-gradient(90deg, #00B894, #55EFC4);
+    }
+
+    .fill-5 {
+      background: linear-gradient(90deg, #E17055, #FAB1A0);
+    }
+
+    .fill-6 {
+      background: linear-gradient(90deg, #0984E3, #74B9FF);
+    }
+
+    .briefing-box {
+      background: linear-gradient(135deg, #F0F0FA 0%, #F5F8FF 100%);
+      border-radius: 16px;
+      padding: 22px;
+      line-height: 1.9;
+      font-size: 15px;
+      border: 1px solid #E0E1E8;
+    }
+
+    .briefing-box .b-greeting {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .briefing-box .b-body {
+      color: var(--text);
+    }
+
+    .briefing-box .b-highlight {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .briefing-box .b-weak {
+      color: #E17055;
+      font-weight: 600;
+    }
+
+    .briefing-box .b-strong {
+      color: #00B894;
+      font-weight: 600;
+    }
+
+    .briefing-box .b-insight {
+      background: white;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-top: 12px;
+      font-size: 14px;
+      color: var(--text-light);
+      border-left: 3px solid var(--accent);
+    }
+
+    .profile-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      background: var(--gradient1);
+      color: white;
+    }
+
+    .profile-badge .pf-emoji {
+      font-size: 22px;
+    }
+
+    .profile-insight {
+      font-size: 15px;
+      line-height: 1.9;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+
+    .profile-insight em {
+      display: block;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      background: white;
+      border-radius: 12px;
+      font-style: normal;
+      color: var(--primary);
+      border-left: 4px solid var(--primary-light);
+      font-weight: 500;
+    }
+
+    .profile-action {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--text-light);
+      padding: 14px 16px;
+      background: white;
+      border-radius: 12px;
+      border: 1px dashed var(--border);
+    }
+
+    .profile-action strong {
+      color: var(--primary);
+    }
+
+    .plan-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    .plan-track {
+      background: white;
+      border-radius: 16px;
+      padding: 22px;
+      border: 1px solid #E8E8F0;
+      box-shadow: 0 2px 8px rgba(27, 20, 100, 0.06);
+    }
+
+    .plan-track-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #E8E8F0;
+    }
+
+    .plan-track-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .track-practice .plan-track-icon {
+      background: linear-gradient(135deg, #1B1464, #6C5CE7);
+    }
+
+    .track-learn .plan-track-icon {
+      background: linear-gradient(135deg, #0984E3, #74B9FF);
+    }
+
+    .plan-track-title {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .track-practice .plan-track-title {
+      color: #1B1464;
+    }
+
+    .track-learn .plan-track-title {
+      color: #0984E3;
+    }
+
+    .plan-body {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.85;
+    }
+
+    .plan-body .plan-item {
+      margin-bottom: 14px;
+      padding: 14px 16px;
+      background: #F4F3FF;
+      border-radius: 12px;
+      border-left: 3px solid #C8C3F5;
+    }
+
+    .track-learn .plan-item {
+      background: #F0F7FF;
+      border-left: 3px solid #A8D4FF;
+    }
+
+    .plan-item-title {
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .plan-item-desc {
+      font-size: 13.5px;
+      color: var(--text-light);
+      line-height: 1.75;
+    }
+
+    .plan-summary {
+      margin-top: 16px;
+      padding: 16px;
+      background: linear-gradient(135deg, #F4F3FF, #F0F7FF);
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--text);
+      border: 1px dashed #C8C3F5;
+    }
+
+    .plan-summary strong {
+      color: #1B1464;
+    }
+
+    .btn-retry {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gradient1);
+      color: white;
+      border: none;
+      padding: 14px 36px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 20px;
+      font-family: 'Noto Sans KR', sans-serif;
+      box-shadow: 0 4px 15px rgba(27, 20, 100, 0.3);
+    }
+
+    .result-actions {
+      text-align: center;
+      margin: 28px 0 40px;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 16px;
+      font-size: 12px;
+      color: var(--text-light);
+      border-top: 1px solid var(--border);
+      margin-top: 30px;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 14px;
+      }
+
+      .intro-hero h1 {
+        font-size: 22px;
+      }
+
+      .intro-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+
+      .intro-card {
+        padding: 12px 8px;
+      }
+
+      .intro-card .ic-title {
+        font-size: 12px;
+      }
+
+      .question-card {
+        padding: 22px 18px;
+      }
+
+      .result-section {
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== INTRO ===== -->
+  <div id="screen-intro" class="screen active">
+    <div class="container">
+      <div class="intro-hero">
+        <div class="version-tag">LEVEL-UP 실무자용</div>
+        <div class="emoji-big">⚡</div>
+        <h1>AI, 나는 제대로<br>쓰고 있을까?</h1>
+        <p>AI를 써봤다면 이제 중요한 건 '얼마나 잘' 쓰고 있는지.<br>18문항으로 나의 AI 활용 패턴과 수준을 객관적으로 점검하세요.</p>
+      </div>
+
+      <div class="intro-grid">
+        <div class="intro-card">
+          <div class="ic-emoji">🔄</div>
+          <div class="ic-title">사용 습관 & 패턴</div>
+        </div>
+        <div class="intro-card">
+          <div class="ic-emoji">🎯</div>
+          <div class="ic-title">전략적 소통</div>
+        </div>
+        <div class="intro-card">
+          <div class="ic-emoji">🌐</div>
+          <div class="ic-title">AI 활용 스펙트럼</div>
+        </div>
+        <div class="intro-card">
+          <div class="ic-emoji">⚙️</div>
+          <div class="ic-title">워크플로우 통합</div>
+        </div>
+        <div class="intro-card">
+          <div class="ic-emoji">✅</div>
+          <div class="ic-title">결과물 품질 관리</div>
+        </div>
+        <div class="intro-card">
+          <div class="ic-emoji">🔭</div>
+          <div class="ic-title">AI 세계관 확장</div>
+        </div>
+      </div>
+
+      <div style="text-align:center;">
+        <button class="btn-start" onclick="startQuiz()">검진 시작하기 →</button>
+        <div class="intro-note">🔥 이미 AI를 써본 분들을 위한 셀프 점검입니다</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== QUIZ ===== -->
+  <div id="screen-quiz" class="screen">
+    <div class="container">
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <div class="progress-text" id="progressText">1 / 18</div>
+      <div id="categoryBadge" class="category-badge"></div>
+      <div class="question-card" id="questionCard">
+        <div class="question-number" id="qNumber"></div>
+        <div class="question-insight" id="qInsight" style="display:none;"></div>
+        <div class="question-text" id="qText"></div>
+        <div class="options" id="qOptions"></div>
+      </div>
+      <div class="nav-buttons">
+        <button class="btn-nav btn-prev" id="btnPrev" onclick="prevQuestion()" style="visibility:hidden;">← 이전</button>
+        <button class="btn-nav btn-next" id="btnNext" onclick="nextQuestion()" disabled>다음 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== RESULT ===== -->
+  <div id="screen-result" class="screen">
+    <div class="container">
+      <div class="result-header">
+        <div class="version-tag">LEVEL-UP 실무자용</div>
+        <div class="emoji-big" id="resultEmoji">⚡</div>
+        <div class="level-badge" id="levelBadge"></div>
+        <h2 id="levelTitle"></h2>
+        <div class="total-score" id="totalScore"></div>
+        <div class="total-label">/ 100점</div>
+      </div>
+
+      <div class="result-section">
+        <h3>📊 영역별 분석</h3>
+        <div class="radar-wrap"><canvas id="radarChart" width="320" height="320"></canvas></div>
+        <div id="scoreBarList"></div>
+      </div>
+
+      <div class="result-section">
+        <h3>🧬 나의 AI 활용 프로파일</h3>
+        <div class="briefing-box" id="briefingBox"></div>
+      </div>
+
+      <div class="result-section">
+        <h3>🎯 레벨업 종합계획</h3>
+        <div id="recList"></div>
+      </div>
+
+      <div class="result-actions">
+        <button class="btn-retry" onclick="retryQuiz()">🔄 다시 검진하기</button>
+      </div>
+      <div class="footer">AI 활용능력 자가검진 — 실무자용 © 2025</div>
+    </div>
+  </div>
+
+  <script>
+    const categories = [
+      { name: "사용 습관 & 패턴", emoji: "🔄", color: "#1B1464" },
+      { name: "전략적 소통", emoji: "🎯", color: "#F97F51" },
+      { name: "AI 활용 스펙트럼", emoji: "🌐", color: "#6C5CE7" },
+      { name: "워크플로우 통합", emoji: "⚙️", color: "#00B894" },
+      { name: "결과물 품질 관리", emoji: "✅", color: "#E17055" },
+      { name: "AI 세계관 확장", emoji: "🔭", color: "#0984E3" }
+    ];
+
+    const questions = [
+      // ===== 1. 사용 습관 & 패턴 (3문항) =====
+      {
+        cat: 0,
+        text: "AI를 사용하는 나의 패턴을 솔직히 돌아보면?",
+        options: [
+          "심심하거나 궁금할 때 가끔 써보는 정도",
+          "특정 일(번역, 요약 등)에만 반복적으로 사용",
+          "다양한 상황에서 의식적으로 AI를 먼저 떠올리며 활용",
+          "AI가 일상·업무 전반에 자연스럽게 녹아있음"
+        ],
+        scores: [0, 1, 2, 3]
+      },
+      {
+        cat: 0,
+        text: "AI를 쓸 때, 주로 어떤 깊이로 사용하고 있나요?",
+        options: [
+          "단순 질문-답변 (검색 대용)",
+          "글 초안 작성, 번역, 요약 등 1회성 작업",
+          "하나의 주제로 여러 번 대화를 주고받으며 결과를 발전시킴",
+          "여러 AI 도구를 연결해 복합적인 작업을 처리"
+        ],
+        scores: [0, 1, 2, 3]
+      },
+      {
+        cat: 0,
+        insight: "AI 활용 수준은 '얼마나 자주' 보다 '얼마나 다양하고 깊게' 쓰느냐에 달려 있어요.",
+        text: "지난 한 달간 AI로 해본 일을 떠올려보면?",
+        options: [
+          "1~2가지 (질문하기, 간단한 글쓰기 정도)",
+          "3~4가지 (요약, 번역, 아이디어, 글쓰기 등)",
+          "5가지 이상 (콘텐츠 제작, 데이터 정리, 학습, 기획 등)",
+          "거의 모든 종류의 작업에 AI를 시도해봄"
+        ],
+        scores: [0, 1, 2, 3]
+      },
+
+      // ===== 2. 전략적 소통 (3문항) =====
+      {
+        cat: 1,
+        insight: "같은 질문이라도 맥락, 형식, 톤을 지정하면 결과가 완전히 달라져요.",
+        text: "AI에게 뭔가를 요청할 때, 보통 어느 정도로 구체적인가요?",
+        options: [
+          "\"~해줘\" 한 줄로 간단하게",
+          "배경이나 목적 정도는 알려주는 편",
+          "대상, 톤, 분량, 형식까지 구체적으로 지정",
+          "상황에 따라 예시, 참고 자료, 제약 조건까지 함께 제공"
+        ],
+        scores: [0, 1, 2, 3]
+      },
+      {
+        cat: 1,
+        text: "AI와 대화할 때, '반복 수정(iteration)'을 얼마나 하나요?",
+        options: [
+          "첫 번째 답을 그대로 사용하는 편",
+          "마음에 안 들면 같은 질문을 다시 보내봄",
+          "피드백을 주면서 2~3회 수정을 거침",
+          "만족할 때까지 여러 번 방향을 조정하며 다듬음"
+        ],
+        scores: [0, 0, 2, 3]
+      },
+      {
+        cat: 1,
+        insight: "요즘은 텍스트뿐 아니라 이미지, 파일, 스크린샷을 함께 보여주며 대화하는 게 훨씬 효과적이에요.",
+        text: "AI에게 이미지·파일·스크린샷을 보여주며 대화해본 적 있나요?",
+        options: [
+          "그런 게 되는지 몰랐어요",
+          "가능하다는 건 아는데 해본 적은 없어요",
+          "가끔 사진이나 파일을 올리며 활용해요",
+          "멀티모달 입력을 자주 활용하고 있어요"
+        ],
+        scores: [0, 0, 2, 3]
+      },
+
+      // ===== 3. AI 활용 스펙트럼 (3문항) =====
+      {
+        cat: 2,
+        insight: "AI의 활용 범위는 텍스트 대화를 넘어 이미지 생성, 데이터 분석, 코딩, 음악·영상 제작, 자동화까지 확대됐어요.",
+        text: "다음 중 직접 경험해본 AI 활용 분야를 모두 생각해보세요. 가장 가까운 것은?",
+        options: [
+          "텍스트(대화, 글쓰기)만 사용해봄",
+          "텍스트 + 이미지 생성(미드저니, DALL-E 등)도 해봄",
+          "텍스트 + 이미지 + 그 외 1~2개(음성, 영상, 데이터 분석 등)",
+          "4가지 이상 영역에서 다양하게 AI를 활용하고 있음"
+        ],
+        scores: [0, 1, 2, 3]
+      },
+      {
+        cat: 2,
+        text: "AI를 활용한 '자동화'(반복 작업 줄이기)에 대한 경험은?",
+        options: [
+          "자동화라는 개념 자체가 낯설어요",
+          "이런 게 가능하다는 건 아는데 해본 적은 없어요",
+          "간단한 자동화를 만들어본 적 있어요",
+          "업무에 AI 자동화를 적극 활용하고 있어요"
+        ],
+        scores: [0, 1, 2, 3]
+      },
+      {
+        cat: 2,
+        text: "AI로 데이터를 분석하거나 정리해본 경험이 있나요?",
+        options: [
+          "AI로 데이터 분석이 되는지 몰랐어요",
+          "간단한 정리나 요약 정도는 해봤어요",
+          "엑셀/CSV 데이터를 AI에 넣고 분석해본 적 있어요",
+          "정기적으로 AI를 활용해 데이터를 처리하고 있어요"
+        ],
+        scores: [0, 1, 2, 3]
+      },
+
+      // ===== 4. 워크플로우 통합 (3문항) =====
+      {
+        cat: 3,
+        insight: "AI를 '가끔 쓰는 도구'가 아니라 '업무 프로세스의 일부'로 통합하면 생산성이 크게 달라져요.",
+        text: "현재 AI가 당신의 업무·학습 프로세스에 통합된 정도는?",
+        options: [
+          "업무와 별개로, 가끔 따로 열어서 사용하는 정도",
+          "특정 작업에서만 도움을 받는 정도",
+          "업무 흐름 속에서 자연스럽게 AI를 활용하는 편",
+          "전체 워크플로우에 AI가 기본으로 포함되어 있음"
+        ],
+        scores: [0, 1, 2, 3]
+      },
+      {
+        cat: 3,
+        text: "복잡한 프로젝트를 할 때, AI를 어느 단계에서 활용하나요?",
+        options: [
+          "특별히 AI를 쓸 생각을 안 해봤어요",
+          "초반 리서치나 아이디어 단계에서만",
+          "리서치 → 초안 작성 → 수정 등 여러 단계에서",
+          "기획부터 실행, 검토까지 전 과정에 AI를 설계해서 활용"
+        ],
+        scores: [0, 1, 2, 3]
+      },
+      {
+        cat: 3,
+        text: "같은 목적의 작업에 여러 AI 도구를 비교·조합해서 사용해본 적 있나요?",
+        options: [
+          "하나의 AI만 사용하고 있어요",
+          "다른 AI를 써볼 생각은 있지만 아직 안 해봤어요",
+          "2~3개를 비교해서 상황에 맞는 걸 선택해요",
+          "작업 성격에 따라 AI를 조합해서 최적의 결과를 만들어요"
+        ],
+        scores: [0, 1, 2, 3]
+      },
+
+      // ===== 5. 결과물 품질 관리 (3문항) =====
+      {
+        cat: 4,
+        text: "AI가 만들어준 결과물을 어떻게 활용하나요?",
+        options: [
+          "거의 그대로 복사해서 사용",
+          "간단히 읽어보고 약간 수정",
+          "내 관점과 스타일에 맞게 꼼꼼히 편집하고 다듬음",
+          "AI 결과물은 초안으로만 활용하고, 상당 부분을 재가공"
+        ],
+        scores: [0, 1, 2, 3]
+      },
+      {
+        cat: 4,
+        insight: "AI가 자신 있게 말해도 틀릴 수 있어요. 특히 숫자, 날짜, 인물, 최신 정보에서 오류가 자주 발생해요.",
+        text: "AI 결과물의 정확성을 어떻게 확인하나요?",
+        options: [
+          "따로 확인하지 않아요",
+          "뭔가 이상하면 확인해보는 정도",
+          "중요한 내용은 반드시 다른 출처로 교차 확인",
+          "숫자·사실·출처를 체계적으로 검증하는 습관이 있음"
+        ],
+        scores: [0, 1, 2, 3]
+      },
+      {
+        cat: 4,
+        text: "AI 결과물에 나의 관점·경험·인사이트를 얼마나 더하나요?",
+        options: [
+          "AI가 만든 그대로가 충분한 것 같아요",
+          "가끔 내 의견을 한두 줄 추가하는 정도",
+          "AI 결과물을 뼈대로, 내 경험과 관점을 적극 반영해서 완성",
+          "항상 '나만의 가치'가 담겨야 결과물이라고 생각하고 작업"
+        ],
+        scores: [0, 1, 2, 3]
+      },
+
+      // ===== 6. AI 세계관 확장 (3문항) =====
+      {
+        cat: 5,
+        insight: "AI는 이제 단순 도우미를 넘어, 에이전트로서 스스로 계획을 세우고 실행하는 방향으로 발전하고 있어요.",
+        text: "'AI 에이전트'라는 개념을 알고 있나요?",
+        options: [
+          "처음 들어봐요",
+          "들어본 적은 있지만 정확히 뭔지 모르겠어요",
+          "AI가 자율적으로 작업을 수행하는 개념이라는 건 알아요",
+          "에이전트 개념을 이해하고, 관련 도구나 서비스를 써봤어요"
+        ],
+        scores: [0, 1, 2, 3]
+      },
+      {
+        cat: 5,
+        text: "AI가 현재 활용되고 있는 범위에 대해 어느 정도 알고 있나요?",
+        options: [
+          "대화형 챗봇 정도만 알고 있어요",
+          "글쓰기, 이미지 생성 정도까지는 알고 있어요",
+          "코딩, 데이터 분석, 영상 제작, 교육, 의료 등 다양한 분야를 알고 있어요",
+          "산업별 AI 적용 사례와 최신 트렌드를 꾸준히 팔로업하고 있어요"
+        ],
+        scores: [0, 1, 2, 3]
+      },
+      {
+        cat: 5,
+        text: "'AI를 제대로 활용한다'는 것은 어떤 의미라고 생각하나요?",
+        options: [
+          "AI에게 질문을 잘 하는 것",
+          "AI로 시간을 아끼고 효율을 높이는 것",
+          "자기 목적에 맞게 AI를 전략적으로 선택하고, 결과를 검증하며, 지속적으로 개선하는 것",
+          "AI의 가능성과 한계를 모두 이해하고, 사람의 강점과 AI의 강점을 조합해 더 큰 가치를 만드는 것"
+        ],
+        scores: [0, 1, 2, 3]
+      }
+    ];
+
+    // ===== STATE =====
+    let currentQ = 0;
+    let answers = new Array(questions.length).fill(-1);
+
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function startQuiz() {
+      currentQ = 0; answers = new Array(questions.length).fill(-1);
+      showScreen('screen-quiz'); renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = questions[currentQ];
+      const cat = categories[q.cat];
+      const pct = ((currentQ + 1) / questions.length) * 100;
+      document.getElementById('progressBar').style.width = pct + '%';
+      document.getElementById('progressText').textContent = `${currentQ + 1} / ${questions.length}`;
+      document.getElementById('categoryBadge').innerHTML = `${cat.emoji} ${cat.name}`;
+      document.getElementById('categoryBadge').style.background = cat.color;
+      document.getElementById('qNumber').textContent = `Q${currentQ + 1}`;
+      document.getElementById('qText').textContent = q.text;
+
+      const insEl = document.getElementById('qInsight');
+      if (q.insight) { insEl.style.display = 'block'; insEl.textContent = '💡 ' + q.insight; }
+      else { insEl.style.display = 'none'; }
+
+      const optWrap = document.getElementById('qOptions');
+      optWrap.innerHTML = '';
+      q.options.forEach((opt, i) => {
+        const div = document.createElement('div');
+        div.className = 'option' + (answers[currentQ] === i ? ' selected' : '');
+        div.innerHTML = `<div class="option-radio"></div><span>${opt}</span>`;
+        div.onclick = () => selectOption(i);
+        optWrap.appendChild(div);
+      });
+
+      document.getElementById('btnPrev').style.visibility = currentQ === 0 ? 'hidden' : 'visible';
+      const btnNext = document.getElementById('btnNext');
+      btnNext.disabled = answers[currentQ] === -1;
+      btnNext.textContent = currentQ === questions.length - 1 ? '결과 보기 🎉' : '다음 →';
+
+      document.getElementById('questionCard').style.animation = 'none';
+      setTimeout(() => { document.getElementById('questionCard').style.animation = 'slideIn 0.3s ease'; }, 10);
+    }
+
+    function selectOption(idx) {
+      answers[currentQ] = idx;
+      document.querySelectorAll('.option').forEach((el, i) => { el.classList.toggle('selected', i === idx); });
+      document.getElementById('btnNext').disabled = false;
+    }
+
+    function nextQuestion() {
+      if (answers[currentQ] === -1) return;
+      if (currentQ < questions.length - 1) { currentQ++; renderQuestion(); }
+      else { showResults(); }
+    }
+
+    function prevQuestion() {
+      if (currentQ > 0) { currentQ--; renderQuestion(); }
+    }
+
+    function showResults() {
+      const catScores = new Array(6).fill(0);
+      const catMax = new Array(6).fill(0);
+      questions.forEach((q, i) => { catScores[q.cat] += q.scores[answers[i]]; catMax[q.cat] += 3; });
+      const scaled = catScores.map((s, i) => Math.round((s / catMax[i]) * 17));
+      const total = scaled.reduce((a, b) => a + b, 0);
+
+      let level, levelTitle, levelEmoji, levelClass;
+      if (total >= 80) { level = 4; levelTitle = "Lv.4 AI 크리에이터"; levelEmoji = "🏆"; levelClass = "level-4"; }
+      else if (total >= 55) { level = 3; levelTitle = "Lv.3 AI 전략가"; levelEmoji = "⚡"; levelClass = "level-3"; }
+      else if (total >= 30) { level = 2; levelTitle = "Lv.2 AI 사용자"; levelEmoji = "🔧"; levelClass = "level-2"; }
+      else { level = 1; levelTitle = "Lv.1 AI 체험자"; levelEmoji = "🌱"; levelClass = "level-1"; }
+
+      showScreen('screen-result');
+      document.getElementById('resultEmoji').textContent = levelEmoji;
+      document.getElementById('levelBadge').textContent = levelTitle;
+      document.getElementById('levelBadge').className = 'level-badge ' + levelClass;
+      document.getElementById('levelTitle').textContent = `당신은 "${levelTitle}"`;
+      document.getElementById('totalScore').textContent = total;
+
+      const barHtml = categories.map((cat, i) => `
+    <div class="score-item">
+      <div class="score-item-header">
+        <span class="score-item-name">${cat.emoji} ${cat.name}</span>
+        <span class="score-item-value">${scaled[i]} / 17</span>
+      </div>
+      <div class="score-bar-bg"><div class="score-bar-fill fill-${i + 1}" id="bar-${i}"></div></div>
+    </div>
+  `).join('');
+      document.getElementById('scoreBarList').innerHTML = barHtml;
+      setTimeout(() => { scaled.forEach((s, i) => { document.getElementById(`bar-${i}`).style.width = `${(s / 17) * 100}%`; }); }, 200);
+
+      drawRadar(scaled, 17);
+      generateBriefing(scaled, total, level, levelTitle);
+      generateRecBriefing(scaled);
+    }
+
+    function drawRadar(scores, maxVal) {
+      const canvas = document.getElementById('radarChart');
+      const ctx = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = 320 * dpr; canvas.height = 320 * dpr;
+      canvas.style.width = '320px'; canvas.style.height = '320px';
+      ctx.scale(dpr, dpr);
+
+      const cx = 160, cy = 160, maxR = 110, n = 6;
+      const angleStep = (Math.PI * 2) / n;
+      const startAngle = -Math.PI / 2;
+
+      ctx.strokeStyle = '#E0E1E8'; ctx.lineWidth = 1;
+      for (let ring = 1; ring <= 4; ring++) {
+        const r = (ring / 4) * maxR;
+        ctx.beginPath();
+        for (let i = 0; i <= n; i++) {
+          const a = startAngle + i * angleStep;
+          i === 0 ? ctx.moveTo(cx + r * Math.cos(a), cy + r * Math.sin(a)) : ctx.lineTo(cx + r * Math.cos(a), cy + r * Math.sin(a));
+        }
+        ctx.closePath(); ctx.stroke();
+      }
+      for (let i = 0; i < n; i++) {
+        const a = startAngle + i * angleStep;
+        ctx.beginPath(); ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + maxR * Math.cos(a), cy + maxR * Math.sin(a)); ctx.stroke();
+      }
+
+      ctx.beginPath();
+      const pts = [];
+      for (let i = 0; i < n; i++) {
+        const a = startAngle + i * angleStep;
+        const r = (scores[i] / maxVal) * maxR;
+        const x = cx + r * Math.cos(a), y = cy + r * Math.sin(a);
+        pts.push({ x, y });
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(27, 20, 100, 0.15)'; ctx.fill();
+      ctx.strokeStyle = '#1B1464'; ctx.lineWidth = 2.5; ctx.stroke();
+
+      pts.forEach(p => {
+        ctx.beginPath(); ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
+        ctx.fillStyle = '#1B1464'; ctx.fill();
+        ctx.strokeStyle = 'white'; ctx.lineWidth = 2; ctx.stroke();
+      });
+
+      ctx.fillStyle = '#1E272E'; ctx.font = '12px Noto Sans KR, sans-serif'; ctx.textAlign = 'center';
+      const lbls = categories.map(c => c.name);
+      for (let i = 0; i < n; i++) {
+        const a = startAngle + i * angleStep;
+        const lr = maxR + 26;
+        let x = cx + lr * Math.cos(a), y = cy + lr * Math.sin(a);
+        if (i === 0) y -= 3;
+        if (i === 3) y += 5;
+        ctx.fillText(lbls[i], x, y);
+      }
+    }
+
+    // ===== PROFILE TYPE =====
+    function getProfileType(scores) {
+      // scores: [0]=습관, [1]=소통, [2]=스펙트럼, [3]=워크플로우, [4]=품질, [5]=세계관
+      const max = Math.max(...scores);
+      const min = Math.min(...scores);
+      const avg = scores.reduce((a, b) => a + b, 0) / 6;
+      const maxIdx = scores.indexOf(max);
+
+      // A: 트렌드 워처형
+      const habSpecAvg = (scores[0] + scores[2]) / 2;
+      if (maxIdx === 5 && habSpecAvg <= 8) return {
+        emoji: '🔭', name: '트렌드 워처형',
+        insight: 'AI 세계의 흐름은 잘 파악하고 계세요. 에이전트, 멀티모달 같은 키워드도 익숙하시죠. 그런데 정작 본인의 일상 업무에는 AI가 깊이 들어와 있지 않아요. 축구 해설은 잘 하는데 직접 공을 차진 않는 느낌이랄까요.',
+        action: '아는 만큼 잘 쓸 수 있는 분이에요. <strong>이번 주 업무 하나에 AI를 정식으로 편입시켜보세요.</strong> 아는 것과 하는 것 사이의 다리를 놓아야 할 타이밍이에요.'
+      };
+
+      // B: 딥다이버형
+      if (maxIdx === 1 && scores[2] <= 5) return {
+        emoji: '🎯', name: '딥다이버형',
+        insight: 'AI와 소통하는 능력이 뛰어나요. 프롬프트를 잘 구성하고, 피드백을 주며 결과를 다듬는 법을 아세요. 그런데 주로 하나의 AI에서만 깊이 파고 있어요. 한 우물만 깊이 파는 장인처럼요.',
+        action: '소통 실력이 좋으니 다른 AI를 만나도 금세 적응할 수 있어요. <strong>이미지 생성, 데이터 분석, 자동화 등 새로운 영역을 하나만 추가해보세요.</strong> 활용의 폭이 확 넓어질 거예요.'
+      };
+
+      // C: 도구 콜렉터형
+      if (maxIdx === 2 && scores[4] <= 5) return {
+        emoji: '🧰', name: '도구 콜렉터형',
+        insight: '다양한 AI 도구를 많이 체험해보셨네요! 호기심과 실행력이 강한 분이에요. 다만 AI가 만든 결과물을 거의 그대로 사용하는 경향이 있어요. 좋은 재료는 많이 모았는데, 요리 마무리를 안 하고 날것으로 내놓는 느낌이랄까요.',
+        action: '도구 활용 폭은 충분해요. 이제 <strong>AI 결과물에 \'나의 관점\'을 더하고, 사실관계를 검증하는 습관</strong>을 들이면 결과물의 품질이 한 단계 올라가요.'
+      };
+
+      // D: 산발적 활용가형
+      if (scores[0] >= 10 && scores[3] <= 5) return {
+        emoji: '🌪️', name: '산발적 활용가형',
+        insight: 'AI를 꽤 자주, 다양하게 쓰고 계세요. 그런데 업무 프로세스에 체계적으로 녕여내지 못하고, 그때그때 따로 쓰는 패턴이에요. 좋은 도구들을 서랍에 따로따로 넣어두고, 필요할 때마다 뒤적거리는 느낌이랄까요.',
+        action: '<strong>\'기획→초안→수정→완성\' 같은 프로젝트 전 과정에 AI를 설계해서 넣어보세요.</strong> 산발적 사용이 시스템으로 바뀌면 생산성이 몇 배로 뛰어요.'
+      };
+
+      // E: 시스템 빌더형
+      if (maxIdx === 3 && scores[1] <= 8) return {
+        emoji: '⚙️', name: '시스템 빌더형',
+        insight: 'AI를 업무 프로세스에 체계적으로 녕여내는 능력이 뛰어나요. 워크플로우를 설계하고 AI를 편입시키는 데 강하시죠. 다만 AI와의 소통 자체는 아직 깊이가 부족해요. 좋은 공장을 짓긴 했는데, 기계에게 세밀한 지시를 내리는 건 아직 서툴 셈이에요.',
+        action: '<strong>프롬프팅 기법을 익히면 시스템의 효율이 훨씬 올라가요.</strong> 같은 요청을 3가지 방식으로 해보면서 결과 차이를 비교해보세요.'
+      };
+
+      // F: 꼼꼼한 편집자형
+      if (maxIdx === 4 && scores[2] <= 8) return {
+        emoji: '✏️', name: '꼼꼼한 편집자형',
+        insight: 'AI 결과물을 꼼꼼히 검증하고 자기 스타일로 다듬는 데 강해요. 품질에 대한 높은 기준을 갖고 계시네요. 다만 활용하는 AI의 범위가 좀아서, 다듬을 재료 자체가 제한적이에요. 뛰어난 편집자인데 원고가 한 종류밖에 안 들어오는 상황이랄까요.',
+        action: '편집력은 충분하니, <strong>이미지·데이터·영상 등 새로운 영역의 AI를 도입해보세요.</strong> 어떤 결과물이든 잘 가공할 수 있는 분이에요.'
+      };
+
+      // G: 밸런스 전략가형
+      if (max - min <= 4) return {
+        emoji: '⚖️', name: '밸런스 전략가형',
+        insight: '전 영역에서 고르게 성장하고 있어요. 특정 약점이 없다는 건 큰 장점이에요. 하지만 확실한 강점 영역도 아직 없어요. 모든 무기를 골고루 쓸 줄 아는 용병이지만, 아직 \'주무기\'를 못 정한 상태랄까요.',
+        action: '<strong>가장 흥미로운 영역 하나를 골라 집중 투자해보세요.</strong> 하나가 확 올라가면 자신감과 함께 다른 영역도 끌려 올라가요.'
+      };
+
+      // H: AI 마스터형
+      if (avg >= 13) return {
+        emoji: '🏆', name: 'AI 마스터형',
+        insight: '모든 영역에서 높은 수준을 보여주고 있어요. AI를 전략적으로 선택하고, 깊이 대화하고, 결과를 검증하며, 체계적으로 업무에 녕여내고 있네요. AI를 도구가 아니라 사고의 파트너로 다루고 있는 수준이에요.',
+        action: '다음 단계는 <strong>\'팀 단위 AI 활용 체계\'를 만드는 거예요.</strong> 개인의 역량을 조직으로 확산시키는 리더 역할에 도전해보세요.'
+      };
+
+      // Z: 기본형
+      return {
+        emoji: '⚡', name: '나만의 길 개척형',
+        insight: '나만의 독특한 AI 활용 패턴을 발전시켜가고 있어요. 특정 유형에 딱 들어맞지 않는 건, 그만큼 다양한 방식으로 AI를 탐색하고 있다는 뜻이에요.',
+        action: '<strong>가장 자신 있는 영역을 더 키우면서, 가장 약한 영역 하나를 집중 보완</strong>하면 빠르게 레벨업할 수 있어요.'
+      };
+    }
+
+    // ===== BRIEFING =====
+    function generateBriefing(scores, total, level, levelTitle) {
+      const profile = getProfileType(scores);
+
+      let html = `
+    <div class="profile-badge">
+      <span class="pf-emoji">${profile.emoji}</span>
+      <span>${profile.name}</span>
+    </div>
+    <div class="profile-insight">
+      <em>${profile.insight}</em>
+    </div>
+    <div class="profile-action">
+      💡 ${profile.action}
+    </div>
+  `;
+      document.getElementById('briefingBox').innerHTML = html;
+    }
+
+    function generateRecBriefing(scores) {
+      const total = scores.reduce((a, b) => a + b, 0);
+      const avg = total / 6;
+      const maxScore = 17;
+
+      // 영역별 수준 판별
+      const areaLevels = scores.map((s, i) => ({
+        idx: i, score: s, name: categories[i].name,
+        level: s <= 5 ? 'low' : s <= 11 ? 'mid' : 'high'
+      }));
+      const weak = areaLevels.filter(a => a.level === 'low');
+      const mid = areaLevels.filter(a => a.level === 'mid');
+      const strong = areaLevels.filter(a => a.level === 'high');
+
+      // ── Track 1: AI 활용을 통한 레벨업 ──
+      const practiceItems = [];
+
+      if (avg <= 5) {
+        practiceItems.push({
+          title: "AI 사용 패턴을 '의식적'으로 전환하기",
+          desc: "AI를 '가끔 궁금할 때 쓰는 도구'에서 '작업의 출발점'으로 바꿔보세요. 글을 쓸 때, 기획할 때, 정보를 정리할 때 — 일단 AI에 먼저 물어보는 습관을 들이면 사용 빈도와 질이 동시에 올라요."
+        });
+        practiceItems.push({
+          title: "멀티모달 활용 경험 쌓기",
+          desc: "텍스트 대화만 하고 있다면 활용도의 30%도 못 쓰고 있는 거예요. 사진 찍어서 분석 요청하기, PDF 문서 업로드해서 요약하기, 스크린샷으로 에러 해결하기 등 멀티모달 입력을 시도해보세요."
+        });
+      } else if (avg <= 11) {
+        practiceItems.push({
+          title: "AI 도구 간 비교·선택 전략 수립",
+          desc: "ChatGPT, Claude, Gemini, Copilot — 각각의 강점이 달라요. 글쓰기 정밀도는 Claude, 검색 연동은 Gemini, 코드 작업은 Copilot이 강한 편이에요. 작업 성격에 따라 도구를 골라 쓰는 전략을 세워보세요."
+        });
+        practiceItems.push({
+          title: "복합 작업의 AI 워크플로우 설계",
+          desc: "단일 질문-답변을 넘어서, 하나의 프로젝트를 AI와 함께 처리해보세요. 예: 시장 조사 → 보고서 초안 → 프레젠테이션 슬라이드 생성까지. 작업을 단계별로 쪼개서 AI에게 순차적으로 맡기는 '체인 방식'이 핵심이에요."
+        });
+      } else {
+        practiceItems.push({
+          title: "AI 에이전트 & 자동화 파이프라인 구축",
+          desc: "단순 대화형 AI를 넘어 AI 에이전트를 활용해보세요. Claude의 MCP(Model Context Protocol)를 활용하면 파일 관리, 데이터 분석, 외부 서비스 연동까지 자동화할 수 있어요. Zapier, Make 같은 노코드 자동화 도구와 AI를 결합하면 반복 업무가 사라져요."
+        });
+        practiceItems.push({
+          title: "팀 단위 AI 활용 체계 설계",
+          desc: "개인 활용을 넘어 팀 차원의 AI 워크플로우를 구축해보세요. 공유 프롬프트 라이브러리 만들기, AI 결과물 품질 가이드라인 설정, 팀 프로젝트에 AI 협업 단계 편입 등 — 조직의 AI 활용 수준을 끌어올리는 역할에 도전해보세요."
+        });
+      }
+
+      // 취약 영역 맞춤 활용 가이드
+      if (weak.length > 0 || mid.length > 0) {
+        const targets = weak.length > 0 ? weak : mid;
+        const target = targets[0];
+        const practiceByArea = {
+          0: { title: "AI 사용 습관 리셋 — '디폴트 AI' 전략", desc: "이번 주부터 모든 작업의 시작을 'AI로 먼저 해보기'로 바꿔보세요. 이메일 초안, 회의 정리, 자료 검색 등 무엇이든 AI에 먼저 맡기고, 내가 다듬는 방식이에요. 이 순서를 바꾸는 것만으로 생산성이 크게 달라져요." },
+          1: { title: "전략적 프롬프팅 실전 훈련", desc: "같은 요청을 세 가지 방식으로 해보세요. ① 한 줄 요청 ② 맥락+조건+형식을 담은 구조적 요청 ③ 예시를 포함한 요청. 결과 차이를 비교하면 '어떻게 요청해야 하는지' 체감할 수 있어요." },
+          2: { title: "활용 영역 확장 — AI 도구 맵핑", desc: "이미지 생성(Midjourney, DALL-E), 영상 편집(Runway, Vrew), 데이터 분석(Code Interpreter), 음악(Suno, Udio), 프레젠테이션(Gamma, 캔바 AI) 등 — 일주일에 하나씩 새로운 AI 도구를 체험해보세요." },
+          3: { title: "실제 프로젝트에 AI 편입시키기", desc: "지금 진행 중인 업무나 프로젝트 하나를 골라, AI를 정식으로 편입시켜 보세요. 기획서 초안을 AI로 작성하고, 피드백을 반영해 다듬고, 최종본에 내 관점을 더하는 전체 사이클을 경험하는 게 중요해요." },
+          4: { title: "AI 결과물 검증 프로세스 구축", desc: "AI 결과물을 그대로 사용하는 단계를 넘어서세요. ① 사실관계 교차검증 ② 내 전문성·경험 추가 ③ 톤·맥락 맞춤 조정 — 이 3단계 검증을 거치면 AI의 결과물이 '나의 결과물'로 바뀌어요." },
+          5: { title: "AI 트렌드 팔로업 루틴 만들기", desc: "AI 분야는 매주 판이 바뀌어요. 뉴스레터(AI타임스, GeekNews) 구독, 유튜브 채널 팔로우, AI 커뮤니티 참여 중 하나를 선택해서 주 1회 AI 트렌드를 확인하는 루틴을 만들어보세요." }
+        };
+        practiceItems.push(practiceByArea[target.idx]);
+      }
+
+      // ── Track 2: AI 학습을 통한 레벨업 ──
+      const learnItems = [];
+
+      if (avg <= 5) {
+        learnItems.push({
+          title: "프롬프트 엔지니어링 기초 이해",
+          desc: "AI에게 좋은 결과를 얻는 핵심은 '어떻게 요청하느냐'예요. Zero-shot(바로 요청), Few-shot(예시를 주고 요청), Chain of Thought(단계별 사고 유도) 같은 기본 기법을 알아두면 결과의 질이 크게 달라져요."
+        });
+        learnItems.push({
+          title: "AI의 한계와 특성 체계적으로 이해하기",
+          desc: "AI의 할루시네이션(사실처럼 보이는 오류), 학습 데이터 편향, 최신 정보 부재 등 구조적 한계를 이해하면 AI를 '비판적으로' 사용할 수 있어요. 이 이해가 있어야 신뢰할 수 있는 결과물을 만들 수 있어요."
+        });
+      } else if (avg <= 11) {
+        learnItems.push({
+          title: "멀티모달 AI & AI 에이전트 개념 학습",
+          desc: "2025년 AI의 핵심 키워드는 '멀티모달'과 '에이전트'예요. 텍스트·이미지·음성·영상을 통합 처리하는 멀티모달, 스스로 계획하고 실행하는 에이전트 — 이 두 개념을 이해하면 AI의 미래 방향이 보여요."
+        });
+        learnItems.push({
+          title: "AI 윤리 & 저작권 리터러시",
+          desc: "AI로 만든 이미지의 저작권은 누구에게 있을까요? AI가 편향된 답변을 하면 누구의 책임일까요? AI를 '제대로' 활용하려면 윤리적 사용 원칙, 개인정보 보호, 저작권 이슈를 반드시 알아야 해요."
+        });
+      } else {
+        learnItems.push({
+          title: "AI 아키텍처 & 기술 트렌드 심화",
+          desc: "Transformer 구조의 기본 원리, RAG(검색 증강 생성), Fine-tuning과 In-context Learning의 차이, LoRA 같은 경량 학습 방식을 개념적으로 이해해보세요. 기술의 원리를 알면 AI의 가능성과 한계를 정확히 판단할 수 있어요."
+        });
+        learnItems.push({
+          title: "산업별 AI 적용 사례 & 전략 연구",
+          desc: "마케팅, 교육, 의료, 금융, 법률, 미디어 등 각 산업에서 AI가 어떻게 활용되고 있는지 사례를 분석해보세요. 자신의 분야에 AI를 전략적으로 도입하기 위한 인사이트를 얻을 수 있어요."
+        });
+      }
+
+      // 취약 영역 맞춤 학습 가이드
+      if (weak.length > 0 || mid.length > 0) {
+        const targets = weak.length > 0 ? weak : mid;
+        const target = targets.length > 1 ? targets[1] : targets[0];
+        const learnByArea = {
+          0: { title: "AI 사용 습관의 과학 — 행동 설계 학습", desc: "'습관의 힘'은 AI 활용에도 적용돼요. 특정 상황(트리거)에서 AI를 사용하는 자동적 행동을 만드는 게 핵심이에요. '이메일 쓸 때 = AI부터 켠다'처럼 트리거-행동 쌍을 3개만 만들어보세요." },
+          1: { title: "고급 프롬프팅 전략 학습", desc: "시스템 프롬프트 설계, 맥락 윈도우 최적화, 구조화된 출력(JSON, 표) 요청법, 멀티턴 대화에서 맥락 유지하기 등 고급 소통 기법을 학습하면 AI에서 뽑아낼 수 있는 가치가 몇 배로 늘어나요." },
+          2: { title: "AI 도구 생태계 전체 조망", desc: "텍스트(GPT, Claude), 이미지(Midjourney, Stable Diffusion), 영상(Runway, Pika), 음악(Suno), 코딩(Cursor, Copilot), 자동화(Zapier AI, Make) — 2025년 현재 AI 도구 생태계의 전체 지도를 그려보세요." },
+          3: { title: "AI 워크플로우 설계 방법론", desc: "업무에 AI를 편입시키는 체계적 방법론을 학습하세요. 업무 프로세스 분석 → AI 적용 가능 단계 식별 → 도구 선택 → 테스트 → 최적화의 5단계 프레임워크를 활용해보세요." },
+          4: { title: "AI 결과물 품질 관리 프레임워크", desc: "CRAFT 프레임워크를 활용해보세요: Correctness(정확성 검증), Relevance(맥락 적합성), Authenticity(내 관점 반영), Formatting(형식 맞춤), Tone(톤 조정). 이 5가지 기준으로 AI 결과물을 체계적으로 검증할 수 있어요." },
+          5: { title: "AI 기술 로드맵 & 미래 전망 학습", desc: "AGI(범용 인공지능)의 의미, AI 규제 동향(EU AI Act 등), 오픈소스 vs 폐쇄형 모델의 경쟁 구도, AI와 일자리의 미래 — 이런 큰 그림을 이해하면 AI 시대의 전략적 포지셔닝이 가능해요." }
+        };
+        learnItems.push(learnByArea[target.idx]);
+      }
+
+      // ── 종합 한마디 ──
+      let summaryMsg = '';
+      if (avg <= 5) {
+        summaryMsg = 'AI를 쓰고는 있지만 아직 <strong>전략적 활용 단계에 진입하지 못한 상태</strong>예요. 지금 필요한 건 사용 빈도를 높이고 다양한 상황에서 AI를 적용해보는 것이에요. 양이 쌓이면 질이 따라와요.';
+      } else if (avg <= 11) {
+        summaryMsg = 'AI 활용의 기본기가 갖춰져 있어요. 이제 <strong>도구 선택 전략, 복합 작업 설계, 결과물 품질 관리</strong>에 집중하면 확실한 레벨업이 가능해요. 양적 활용에서 질적 활용으로 전환할 타이밍이에요.';
+      } else {
+        summaryMsg = 'AI를 전략적으로 잘 활용하고 계세요. 다음 단계는 <strong>자동화·에이전트 활용, 팀 단위 AI 도입, 기술 트렌드 심화 학습</strong>이에요. 개인의 생산성을 넘어 조직의 AI 전환을 이끄는 역할에 도전해보세요.';
+      }
+
+      // ── HTML 렌더링 ──
+      let html = '<div class="plan-container">';
+
+      // Track 1
+      html += `<div class="plan-track track-practice">
+    <div class="plan-track-header">
+      <div class="plan-track-icon">🚀</div>
+      <div class="plan-track-title">AI 활용을 통한 레벨업</div>
+    </div>
+    <div class="plan-body">`;
+      practiceItems.forEach(item => {
+        html += `<div class="plan-item">
+      <div class="plan-item-title">▸ ${item.title}</div>
+      <div class="plan-item-desc">${item.desc}</div>
+    </div>`;
+      });
+      html += `</div></div>`;
+
+      // Track 2
+      html += `<div class="plan-track track-learn">
+    <div class="plan-track-header">
+      <div class="plan-track-icon">📚</div>
+      <div class="plan-track-title">AI 학습을 통한 레벨업</div>
+    </div>
+    <div class="plan-body">`;
+      learnItems.forEach(item => {
+        html += `<div class="plan-item">
+      <div class="plan-item-title">▸ ${item.title}</div>
+      <div class="plan-item-desc">${item.desc}</div>
+    </div>`;
+      });
+      html += `</div></div>`;
+
+      // Summary
+      html += `<div class="plan-summary">💬 ${summaryMsg}</div>`;
+      html += '</div>';
+
+      document.getElementById('recList').innerHTML = html;
+    }
+
+    function retryQuiz() { startQuiz(); }
+  </script>
+</body>
+
+</html>
