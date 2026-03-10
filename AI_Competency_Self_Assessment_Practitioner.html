@@ -1658,6 +1658,12 @@
       btn.disabled = true;
       btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> 저장 중...';
 
+      // 캡처 전: 버튼과 푸터 숨기기
+      const actions = document.querySelector('#screen-result .result-actions');
+      const footer = document.querySelector('#screen-result .footer');
+      if (actions) actions.style.display = 'none';
+      if (footer) footer.style.display = 'none';
+
       try {
         const target = document.getElementById('screen-result');
         const canvas = await html2canvas(target, {
@@ -1669,37 +1675,43 @@
           windowHeight: target.scrollHeight
         });
 
-        const dataUrl = canvas.toDataURL('image/png');
         const now = new Date();
         const fileName = `AI검진_실무_${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}.png`;
 
+        // Blob 방식으로 안정적 다운로드
+        const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+
         if (navigator.share && /Mobi|Android/i.test(navigator.userAgent)) {
-          const blob = await (await fetch(dataUrl)).blob();
           const file = new File([blob], fileName, { type: 'image/png' });
           try {
             await navigator.share({ files: [file], title: 'AI 활용능력 자가검진 결과' });
           } catch (e) {
-            triggerDownload(dataUrl, fileName);
+            triggerDownload(blob, fileName);
           }
         } else {
-          triggerDownload(dataUrl, fileName);
+          triggerDownload(blob, fileName);
         }
       } catch (err) {
         alert('이미지 저장에 실패했습니다. 다시 시도해주세요.');
         console.error(err);
       } finally {
+        // 캡처 후: 버튼과 푸터 복원
+        if (actions) actions.style.display = '';
+        if (footer) footer.style.display = '';
         btn.disabled = false;
         btn.innerHTML = originalText;
       }
     }
 
-    function triggerDownload(dataUrl, fileName) {
+    function triggerDownload(blob, fileName) {
+      const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.download = fileName;
-      link.href = dataUrl;
+      link.href = url;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      setTimeout(() => URL.revokeObjectURL(url), 5000);
     }
   </script>
 </body>
