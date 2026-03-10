@@ -1,720 +1,1274 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI 활용능력 자가검진 — 입문자용</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap');
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 활용능력 자가검진 — 입문자용</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap');
 
-  :root {
-    --primary: #6C5CE7;
-    --primary-light: #A29BFE;
-    --primary-dark: #4A3AB5;
-    --accent: #00CEC9;
-    --accent2: #FD79A8;
-    --bg: #F8F9FE;
-    --card: #FFFFFF;
-    --text: #2D3436;
-    --text-light: #636E72;
-    --border: #E8E8F0;
-    --gradient1: linear-gradient(135deg, #6C5CE7 0%, #A29BFE 100%);
-    --gradient2: linear-gradient(135deg, #00CEC9 0%, #81ECEC 100%);
-    --shadow: 0 4px 20px rgba(108, 92, 231, 0.1);
-  }
+    :root {
+      --primary: #6C5CE7;
+      --primary-light: #A29BFE;
+      --primary-dark: #4A3AB5;
+      --accent: #00CEC9;
+      --accent2: #FD79A8;
+      --bg: #F8F9FE;
+      --card: #FFFFFF;
+      --text: #2D3436;
+      --text-light: #636E72;
+      --border: #E8E8F0;
+      --gradient1: linear-gradient(135deg, #6C5CE7 0%, #A29BFE 100%);
+      --gradient2: linear-gradient(135deg, #00CEC9 0%, #81ECEC 100%);
+      --shadow: 0 4px 20px rgba(108, 92, 231, 0.1);
+    }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  body {
-    font-family: 'Noto Sans KR', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.7;
-    min-height: 100vh;
-  }
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
 
-  .container { max-width: 720px; margin: 0 auto; padding: 20px; }
-  .screen { display: none; }
-  .screen.active { display: block; }
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 20px;
+    }
 
-  /* ===== INTRO ===== */
-  .intro-hero { text-align: center; padding: 34px 20px 18px; }
-  .intro-hero .hero-figure { width: 150px; margin: 0 auto 12px; display: block; animation: float 3s ease-in-out infinite; }
-  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    .screen {
+      display: none;
+    }
 
-  .intro-summary {
-    display: inline-block; font-size: 14px; color: var(--text-light);
-    background: #F4F3FF; border: 1px solid var(--border); border-radius: 999px;
-    padding: 8px 14px; margin-bottom: 14px;
-  }
+    .screen.active {
+      display: block;
+    }
 
-  .intro-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 18px;
-  }
+    /* ===== INTRO ===== */
+    .intro-hero {
+      text-align: center;
+      padding: 34px 20px 18px;
+    }
 
-  .intro-card {
-    background: var(--card); border-radius: 14px; padding: 16px 12px;
-    text-align: center; border: 1px solid var(--border); transition: transform 0.2s;
-  }
-  .intro-card:hover { transform: translateY(-2px); }
-  .intro-card .ic-emoji {
-    width: 34px; height: 34px; border-radius: 10px; margin: 0 auto 8px;
-    display: flex; align-items: center; justify-content: center; background: #F8F7FF;
-  }
-  .intro-card .ic-emoji svg { width: 20px; height: 20px; }
-  .intro-card .ic-title { font-size: 13px; font-weight: 600; }
+    .intro-hero .hero-figure {
+      width: 150px;
+      margin: 0 auto 12px;
+      display: block;
+      animation: float 3s ease-in-out infinite;
+    }
 
-  .btn-start {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--gradient1); color: white; border: none;
-    padding: 16px 48px; border-radius: 50px; font-size: 18px; font-weight: 600;
-    cursor: pointer; transition: all 0.3s;
-    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
-    font-family: 'Noto Sans KR', sans-serif;
-  }
-  .btn-start:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(108, 92, 231, 0.5); }
+    @keyframes float {
 
-  .intro-note { font-size: 13px; color: var(--text-light); margin-top: 12px; }
+      0%,
+      100% {
+        transform: translateY(0);
+      }
 
-  /* ===== QUIZ ===== */
-  .progress-bar-wrap {
-    background: var(--border); border-radius: 20px; height: 8px;
-    margin-bottom: 8px; overflow: hidden; position: sticky; top: 12px; z-index: 100;
-  }
-  .progress-bar { height: 100%; background: var(--gradient1); border-radius: 20px; transition: width 0.4s ease; width: 0%; }
-  .progress-text { text-align: right; font-size: 13px; color: var(--text-light); margin-bottom: 20px; }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
 
-  .category-badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    color: white; padding: 6px 14px; border-radius: 20px;
-    font-size: 13px; font-weight: 500; margin-bottom: 14px;
-  }
+    .intro-summary {
+      display: inline-block;
+      font-size: 14px;
+      color: var(--text-light);
+      background: #F4F3FF;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 14px;
+      margin-bottom: 14px;
+    }
 
-  .question-card {
-    background: var(--card); border-radius: 20px; padding: 30px;
-    box-shadow: var(--shadow); margin-bottom: 20px; animation: slideIn 0.3s ease;
-  }
-  @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .intro-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
 
-  .question-number { font-size: 13px; color: var(--primary); font-weight: 600; margin-bottom: 8px; }
-  .question-text { font-size: 17px; font-weight: 600; margin-bottom: 22px; line-height: 1.6; }
+    .intro-card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 16px 12px;
+      text-align: center;
+      border: 1px solid var(--border);
+      transition: transform 0.2s;
+    }
 
-  .question-tip {
-    background: #F0EFFF; border-radius: 12px; padding: 14px 16px;
-    margin-bottom: 18px; font-size: 14px; color: var(--primary-dark);
-    border-left: 4px solid var(--primary-light);
-  }
+    .intro-card:hover {
+      transform: translateY(-2px);
+    }
 
-  .options { display: flex; flex-direction: column; gap: 10px; }
+    .intro-card .ic-emoji {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      margin: 0 auto 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #F8F7FF;
+    }
 
-  .option {
-    display: flex; align-items: flex-start; gap: 12px;
-    padding: 14px 18px; border: 2px solid var(--border); border-radius: 14px;
-    cursor: pointer; transition: all 0.2s; font-size: 15px; background: white;
-    line-height: 1.5;
-  }
-  .option:hover { border-color: var(--primary-light); background: #F8F7FF; }
-  .option.selected { border-color: var(--primary); background: #F0EFFF; }
+    .intro-card .ic-emoji svg {
+      width: 20px;
+      height: 20px;
+    }
 
-  .option-radio {
-    width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border);
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; margin-top: 1px; transition: all 0.2s;
-  }
-  .option.selected .option-radio { border-color: var(--primary); background: var(--primary); }
-  .option.selected .option-radio::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: white; }
+    .intro-card .ic-title {
+      font-size: 13px;
+      font-weight: 600;
+    }
 
-  .nav-buttons { display: flex; justify-content: space-between; margin-top: 20px; }
-  .btn-nav {
-    padding: 12px 28px; border-radius: 12px; font-size: 15px; font-weight: 500;
-    cursor: pointer; transition: all 0.2s; font-family: 'Noto Sans KR', sans-serif; border: none;
-  }
-  .btn-prev { background: var(--border); color: var(--text-light); }
-  .btn-prev:hover { background: #DDDDE5; }
-  .btn-next { background: var(--gradient1); color: white; box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3); }
-  .btn-next:hover { box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4); }
-  .btn-next:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-start {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gradient1);
+      color: white;
+      border: none;
+      padding: 16px 48px;
+      border-radius: 50px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+      font-family: 'Noto Sans KR', sans-serif;
+    }
 
-  /* ===== RESULT ===== */
-  .result-header { text-align: center; padding: 40px 20px 16px; }
-  .result-header .emoji-big { font-size: 52px; margin-bottom: 10px; color: var(--primary); }
-  .result-header .emoji-big .icon-inline { width: 52px; height: 52px; margin: 0 auto; }
+    .btn-start:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(108, 92, 231, 0.5);
+    }
 
-  .level-badge {
-    display: inline-block; padding: 8px 24px; border-radius: 30px;
-    font-size: 14px; font-weight: 700; margin-bottom: 10px;
-  }
-  .level-1 { background: #FFF0E0; color: #E17055; }
-  .level-2 { background: #FFF8E1; color: #F39C12; }
-  .level-3 { background: #E0F7FA; color: #00838F; }
-  .level-4 { background: #E8F5E9; color: #2E7D32; }
+    .intro-note {
+      font-size: 13px;
+      color: var(--text-light);
+      margin-top: 12px;
+    }
 
-  .result-header h2 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
-  .result-header .total-score { font-size: 48px; font-weight: 800; color: var(--primary); margin: 4px 0; }
-  .result-header .total-label { font-size: 14px; color: var(--text-light); }
+    /* ===== QUIZ ===== */
+    .progress-bar-wrap {
+      background: var(--border);
+      border-radius: 20px;
+      height: 8px;
+      margin-bottom: 8px;
+      overflow: hidden;
+      position: sticky;
+      top: 12px;
+      z-index: 100;
+    }
 
-  .result-section {
-    background: var(--card); border-radius: 20px; padding: 24px;
-    box-shadow: var(--shadow); margin-bottom: 14px;
-  }
-  .result-section h3 {
-    font-size: 16px; font-weight: 700; margin-bottom: 16px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .icon-inline {
-    width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-  .icon-inline svg { width: 100%; height: 100%; }
+    .progress-bar {
+      height: 100%;
+      background: var(--gradient1);
+      border-radius: 20px;
+      transition: width 0.4s ease;
+      width: 0%;
+    }
 
-  .radar-wrap { display: flex; justify-content: center; margin: 16px 0; }
+    .progress-text {
+      text-align: right;
+      font-size: 13px;
+      color: var(--text-light);
+      margin-bottom: 20px;
+    }
 
-  .score-item { margin-bottom: 14px; }
-  .score-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
-  .score-item-name { font-size: 14px; font-weight: 500; }
-  .score-item-value { font-size: 14px; font-weight: 700; color: var(--primary); }
-  .score-bar-bg { height: 10px; background: var(--border); border-radius: 10px; overflow: hidden; }
-  .score-bar-fill { height: 100%; border-radius: 10px; transition: width 1s ease; width: 0%; }
-  .fill-1 { background: linear-gradient(90deg, #6C5CE7, #A29BFE); }
-  .fill-2 { background: linear-gradient(90deg, #00CEC9, #81ECEC); }
-  .fill-3 { background: linear-gradient(90deg, #FD79A8, #FDCB6E); }
-  .fill-4 { background: linear-gradient(90deg, #00B894, #55EFC4); }
-  .fill-5 { background: linear-gradient(90deg, #F97F51, #FFC048); }
-  .fill-6 { background: linear-gradient(90deg, #E17055, #FAB1A0); }
+    .category-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: white;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 14px;
+    }
 
-  /* Briefing Style Result */
-  .briefing-box {
-    background: linear-gradient(135deg, #F8F7FF 0%, #F0F8FF 100%);
-    border-radius: 16px; padding: 22px; line-height: 1.9; font-size: 15px;
-    border: 1px solid #E8E8F0;
-  }
-  .briefing-box .b-greeting { font-weight: 700; color: var(--primary); font-size: 16px; margin-bottom: 10px; }
-  .briefing-box .b-body { color: var(--text); }
-  .briefing-box .b-highlight { color: var(--primary); font-weight: 600; }
-  .briefing-box .b-weak { color: #E17055; font-weight: 600; }
+    .question-card {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+      animation: slideIn 0.3s ease;
+    }
 
-  .profile-badge {
-    display: inline-flex; align-items: center; gap: 10px;
-    padding: 10px 20px; border-radius: 30px;
-    font-size: 16px; font-weight: 700; margin-bottom: 16px;
-    background: var(--gradient1); color: white;
-  }
-  .profile-badge .pf-emoji {
-    width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;
-  }
-  .profile-badge .pf-emoji svg { width: 100%; height: 100%; }
-  .profile-insight { font-size: 15px; line-height: 1.9; color: var(--text); margin-bottom: 14px; }
-  .profile-insight em {
-    display: block; padding: 14px 16px; margin-bottom: 12px;
-    background: white; border-radius: 12px; font-style: normal;
-    color: var(--primary); border-left: 4px solid var(--primary-light); font-weight: 500;
-  }
-  .profile-action {
-    font-size: 14px; line-height: 1.8; color: var(--text-light);
-    padding: 14px 16px; background: white; border-radius: 12px;
-    border: 1px dashed var(--border);
-  }
-  .profile-action strong { color: var(--primary); }
-  .briefing-box .b-strong { color: #00B894; font-weight: 600; }
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
 
-  .plan-container {
-    display: flex; flex-direction: column; gap: 16px; margin-top: 12px;
-  }
-  .plan-track {
-    background: white; border-radius: 16px; padding: 22px;
-    border: 1px solid #E8E8F0;
-    box-shadow: 0 2px 8px rgba(108, 92, 231, 0.06);
-  }
-  .plan-track-header {
-    display: flex; align-items: center; gap: 10px;
-    margin-bottom: 14px; padding-bottom: 12px;
-    border-bottom: 2px solid #F0EEFF;
-  }
-  .plan-track-icon {
-    width: 36px; height: 36px; border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    color: white; flex-shrink: 0;
-  }
-  .plan-track-icon svg { width: 20px; height: 20px; }
-  .track-practice .plan-track-icon { background: linear-gradient(135deg, #6C5CE7, #A29BFE); }
-  .track-learn .plan-track-icon { background: linear-gradient(135deg, #00B894, #55EFC4); }
-  .plan-track-title {
-    font-size: 15px; font-weight: 700;
-  }
-  .track-practice .plan-track-title { color: #6C5CE7; }
-  .track-learn .plan-track-title { color: #00B894; }
-  .plan-body { font-size: 14px; color: var(--text); line-height: 1.85; }
-  .plan-body .plan-item {
-    margin-bottom: 14px; padding: 14px 16px;
-    background: #F8F7FF; border-radius: 12px;
-    border-left: 3px solid #D5D0F5;
-  }
-  .track-learn .plan-item {
-    background: #F0FFF8; border-left: 3px solid #B8F0D8;
-  }
-  .plan-item-title {
-    font-weight: 700; font-size: 14px; margin-bottom: 6px;
-    color: var(--text);
-  }
-  .plan-item-desc {
-    font-size: 13.5px; color: var(--text-light); line-height: 1.75;
-  }
-  .plan-summary {
-    margin-top: 16px; padding: 16px;
-    background: linear-gradient(135deg, #F8F7FF, #F0F8FF);
-    border-radius: 12px; font-size: 14px; line-height: 1.8;
-    color: var(--text); border: 1px dashed #D5D0F5;
-  }
-  .plan-summary strong { color: var(--primary); }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-  .btn-retry {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--gradient1); color: white; border: none;
-    padding: 14px 36px; border-radius: 50px; font-size: 16px; font-weight: 600;
-    cursor: pointer; margin-top: 20px; font-family: 'Noto Sans KR', sans-serif;
-    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
-  }
-  .result-actions { text-align: center; margin: 28px 0 40px; }
+    .question-number {
+      font-size: 13px;
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
 
-  .footer {
-    text-align: center; padding: 16px; font-size: 12px;
-    color: var(--text-light); border-top: 1px solid var(--border); margin-top: 30px;
-  }
+    .question-text {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 22px;
+      line-height: 1.6;
+    }
 
-  @media (max-width: 600px) {
-    .container { padding: 14px; }
-    .intro-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .intro-card { padding: 12px 8px; }
-    .intro-card .ic-title { font-size: 12px; }
-    .question-card { padding: 22px 18px; }
-    .result-section { padding: 18px; }
-  }
-</style>
+    .question-tip {
+      background: #F0EFFF;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 18px;
+      font-size: 14px;
+      color: var(--primary-dark);
+      border-left: 4px solid var(--primary-light);
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 18px;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 15px;
+      background: white;
+      line-height: 1.5;
+    }
+
+    .option:hover {
+      border-color: var(--primary-light);
+      background: #F8F7FF;
+    }
+
+    .option.selected {
+      border-color: var(--primary);
+      background: #F0EFFF;
+    }
+
+    .option-radio {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+      transition: all 0.2s;
+    }
+
+    .option.selected .option-radio {
+      border-color: var(--primary);
+      background: var(--primary);
+    }
+
+    .option.selected .option-radio::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: white;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .btn-nav {
+      padding: 12px 28px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Noto Sans KR', sans-serif;
+      border: none;
+    }
+
+    .btn-prev {
+      background: var(--border);
+      color: var(--text-light);
+    }
+
+    .btn-prev:hover {
+      background: #DDDDE5;
+    }
+
+    .btn-next {
+      background: var(--gradient1);
+      color: white;
+      box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+    }
+
+    .btn-next:hover {
+      box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+    }
+
+    .btn-next:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* ===== RESULT ===== */
+    .result-header {
+      text-align: center;
+      padding: 40px 20px 16px;
+    }
+
+    .result-header .emoji-big {
+      font-size: 52px;
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+
+    .result-header .emoji-big .icon-inline {
+      width: 52px;
+      height: 52px;
+      margin: 0 auto;
+    }
+
+    .level-badge {
+      display: inline-block;
+      padding: 8px 24px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .level-1 {
+      background: #FFF0E0;
+      color: #E17055;
+    }
+
+    .level-2 {
+      background: #FFF8E1;
+      color: #F39C12;
+    }
+
+    .level-3 {
+      background: #E0F7FA;
+      color: #00838F;
+    }
+
+    .level-4 {
+      background: #E8F5E9;
+      color: #2E7D32;
+    }
+
+    .result-header h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .result-header .total-score {
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--primary);
+      margin: 4px 0;
+    }
+
+    .result-header .total-label {
+      font-size: 14px;
+      color: var(--text-light);
+    }
+
+    .result-section {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 14px;
+    }
+
+    .result-section h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-inline {
+      width: 18px;
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .icon-inline svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .radar-wrap {
+      display: flex;
+      justify-content: center;
+      margin: 16px 0;
+    }
+
+    .score-item {
+      margin-bottom: 14px;
+    }
+
+    .score-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+
+    .score-item-name {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .score-item-value {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .score-bar-bg {
+      height: 10px;
+      background: var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .score-bar-fill {
+      height: 100%;
+      border-radius: 10px;
+      transition: width 1s ease;
+      width: 0%;
+    }
+
+    .fill-1 {
+      background: linear-gradient(90deg, #6C5CE7, #A29BFE);
+    }
+
+    .fill-2 {
+      background: linear-gradient(90deg, #00CEC9, #81ECEC);
+    }
+
+    .fill-3 {
+      background: linear-gradient(90deg, #FD79A8, #FDCB6E);
+    }
+
+    .fill-4 {
+      background: linear-gradient(90deg, #00B894, #55EFC4);
+    }
+
+    .fill-5 {
+      background: linear-gradient(90deg, #F97F51, #FFC048);
+    }
+
+    .fill-6 {
+      background: linear-gradient(90deg, #E17055, #FAB1A0);
+    }
+
+    /* Briefing Style Result */
+    .briefing-box {
+      background: linear-gradient(135deg, #F8F7FF 0%, #F0F8FF 100%);
+      border-radius: 16px;
+      padding: 22px;
+      line-height: 1.9;
+      font-size: 15px;
+      border: 1px solid #E8E8F0;
+    }
+
+    .briefing-box .b-greeting {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .briefing-box .b-body {
+      color: var(--text);
+    }
+
+    .briefing-box .b-highlight {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .briefing-box .b-weak {
+      color: #E17055;
+      font-weight: 600;
+    }
+
+    .profile-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      background: var(--gradient1);
+      color: white;
+    }
+
+    .profile-badge .pf-emoji {
+      width: 24px;
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .profile-badge .pf-emoji svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .profile-insight {
+      font-size: 15px;
+      line-height: 1.9;
+      color: var(--text);
+      margin-bottom: 14px;
+    }
+
+    .profile-insight em {
+      display: block;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      background: white;
+      border-radius: 12px;
+      font-style: normal;
+      color: var(--primary);
+      border-left: 4px solid var(--primary-light);
+      font-weight: 500;
+    }
+
+    .profile-action {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--text-light);
+      padding: 14px 16px;
+      background: white;
+      border-radius: 12px;
+      border: 1px dashed var(--border);
+    }
+
+    .profile-action strong {
+      color: var(--primary);
+    }
+
+    .briefing-box .b-strong {
+      color: #00B894;
+      font-weight: 600;
+    }
+
+    .plan-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    .plan-track {
+      background: white;
+      border-radius: 16px;
+      padding: 22px;
+      border: 1px solid #E8E8F0;
+      box-shadow: 0 2px 8px rgba(108, 92, 231, 0.06);
+    }
+
+    .plan-track-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #F0EEFF;
+    }
+
+    .plan-track-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .plan-track-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .track-practice .plan-track-icon {
+      background: linear-gradient(135deg, #6C5CE7, #A29BFE);
+    }
+
+    .track-learn .plan-track-icon {
+      background: linear-gradient(135deg, #00B894, #55EFC4);
+    }
+
+    .plan-track-title {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .track-practice .plan-track-title {
+      color: #6C5CE7;
+    }
+
+    .track-learn .plan-track-title {
+      color: #00B894;
+    }
+
+    .plan-body {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.85;
+    }
+
+    .plan-body .plan-item {
+      margin-bottom: 14px;
+      padding: 14px 16px;
+      background: #F8F7FF;
+      border-radius: 12px;
+      border-left: 3px solid #D5D0F5;
+    }
+
+    .track-learn .plan-item {
+      background: #F0FFF8;
+      border-left: 3px solid #B8F0D8;
+    }
+
+    .plan-item-title {
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .plan-item-desc {
+      font-size: 13.5px;
+      color: var(--text-light);
+      line-height: 1.75;
+    }
+
+    .plan-summary {
+      margin-top: 16px;
+      padding: 16px;
+      background: linear-gradient(135deg, #F8F7FF, #F0F8FF);
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--text);
+      border: 1px dashed #D5D0F5;
+    }
+
+    .plan-summary strong {
+      color: var(--primary);
+    }
+
+    .btn-retry {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gradient1);
+      color: white;
+      border: none;
+      padding: 14px 36px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 20px;
+      font-family: 'Noto Sans KR', sans-serif;
+      box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+    }
+
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #00B894 0%, #00CEC9 100%);
+      color: white;
+      border: none;
+      padding: 14px 36px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 12px;
+      font-family: 'Noto Sans KR', sans-serif;
+      box-shadow: 0 4px 15px rgba(0, 184, 148, 0.4);
+      transition: all 0.3s;
+    }
+
+    .btn-download:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(0, 184, 148, 0.5);
+    }
+
+    .btn-download:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    .btn-download svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .result-actions {
+      text-align: center;
+      margin: 28px 0 40px;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 16px;
+      font-size: 12px;
+      color: var(--text-light);
+      border-top: 1px solid var(--border);
+      margin-top: 30px;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 14px;
+      }
+
+      .intro-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+
+      .intro-card {
+        padding: 12px 8px;
+      }
+
+      .intro-card .ic-title {
+        font-size: 12px;
+      }
+
+      .question-card {
+        padding: 22px 18px;
+      }
+
+      .result-section {
+        padding: 18px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- ===== INTRO ===== -->
-<div id="screen-intro" class="screen active">
-  <div class="container">
-    <div class="intro-hero">
-      <svg class="hero-figure" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <defs>
-          <linearGradient id="bBodyGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#7dd3fc"/>
-            <stop offset="1" stop-color="#06c755"/>
-          </linearGradient>
-        </defs>
-        <circle cx="90" cy="28" r="8" fill="#06c755"/>
-        <rect x="86" y="36" width="8" height="14" rx="4" fill="#a7f3d0"/>
-        <rect x="52" y="44" width="76" height="72" rx="26" fill="url(#bBodyGrad)"/>
-        <rect x="62" y="58" width="56" height="42" rx="16" fill="#ffffff"/>
-        <circle cx="78" cy="77" r="6" fill="#1f2937"/>
-        <circle cx="102" cy="77" r="6" fill="#1f2937"/>
-        <path d="M75 91c5 6 25 6 30 0" stroke="#1f2937" stroke-width="4" stroke-linecap="round" fill="none"/>
-        <rect x="38" y="66" width="16" height="10" rx="5" fill="#a7f3d0"/>
-        <rect x="126" y="66" width="16" height="10" rx="5" fill="#a7f3d0"/>
-        <rect x="64" y="114" width="14" height="30" rx="7" fill="#34d399"/>
-        <rect x="102" y="114" width="14" height="30" rx="7" fill="#34d399"/>
-        <rect x="60" y="142" width="22" height="10" rx="5" fill="#1f2937"/>
-        <rect x="98" y="142" width="22" height="10" rx="5" fill="#1f2937"/>
-      </svg>
-      <div class="intro-summary">6개 영역으로 진단 내용을 빠르게 점검해요.</div>
-      <div style="text-align:center;">
-        <button class="btn-start" onclick="startQuiz()">검진 시작하기 →</button>
-        <div class="intro-note">부담 없이 풀어보세요. 정답이 따로 있는 시험이 아니에요.</div>
+  <!-- ===== INTRO ===== -->
+  <div id="screen-intro" class="screen active">
+    <div class="container">
+      <div class="intro-hero">
+        <svg class="hero-figure" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="bBodyGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#7dd3fc" />
+              <stop offset="1" stop-color="#06c755" />
+            </linearGradient>
+          </defs>
+          <circle cx="90" cy="28" r="8" fill="#06c755" />
+          <rect x="86" y="36" width="8" height="14" rx="4" fill="#a7f3d0" />
+          <rect x="52" y="44" width="76" height="72" rx="26" fill="url(#bBodyGrad)" />
+          <rect x="62" y="58" width="56" height="42" rx="16" fill="#ffffff" />
+          <circle cx="78" cy="77" r="6" fill="#1f2937" />
+          <circle cx="102" cy="77" r="6" fill="#1f2937" />
+          <path d="M75 91c5 6 25 6 30 0" stroke="#1f2937" stroke-width="4" stroke-linecap="round" fill="none" />
+          <rect x="38" y="66" width="16" height="10" rx="5" fill="#a7f3d0" />
+          <rect x="126" y="66" width="16" height="10" rx="5" fill="#a7f3d0" />
+          <rect x="64" y="114" width="14" height="30" rx="7" fill="#34d399" />
+          <rect x="102" y="114" width="14" height="30" rx="7" fill="#34d399" />
+          <rect x="60" y="142" width="22" height="10" rx="5" fill="#1f2937" />
+          <rect x="98" y="142" width="22" height="10" rx="5" fill="#1f2937" />
+        </svg>
+        <div class="intro-summary">6개 영역으로 진단 내용을 빠르게 점검해요.</div>
+        <div style="text-align:center;">
+          <button class="btn-start" onclick="startQuiz()">검진 시작하기 →</button>
+          <div class="intro-note">부담 없이 풀어보세요. 정답이 따로 있는 시험이 아니에요.</div>
+        </div>
+      </div>
+
+      <div class="intro-grid">
+        <div class="intro-card">
+          <div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 3.5c4.2 0 7.5 3 7.5 7.2 0 4.1-3.3 7.3-7.5 7.3s-7.5-3.2-7.5-7.3C4.5 6.5 7.8 3.5 12 3.5Z"
+                stroke="#6C5CE7" stroke-width="2" />
+              <path d="M9 10.7h6M9.5 14h5" stroke="#6C5CE7" stroke-width="2" stroke-linecap="round" />
+            </svg></div>
+          <div class="ic-title">AI 이해하기</div>
+        </div>
+        <div class="intro-card">
+          <div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none">
+              <rect x="4" y="4" width="16" height="12" rx="4" stroke="#00CEC9" stroke-width="2" />
+              <path d="m9 16 3 3 3-3" stroke="#00CEC9" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg></div>
+          <div class="ic-title">AI와 소통하기</div>
+        </div>
+        <div class="intro-card">
+          <div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none">
+              <path d="M6 14.5V9.8a2.8 2.8 0 0 1 2.8-2.8h6.4A2.8 2.8 0 0 1 18 9.8v4.7" stroke="#FD79A8"
+                stroke-width="2" />
+              <rect x="4.5" y="13.5" width="4" height="5.5" rx="1.4" fill="#FD79A8" />
+              <rect x="15.5" y="13.5" width="4" height="5.5" rx="1.4" fill="#FD79A8" />
+            </svg></div>
+          <div class="ic-title">AI 도구 경험</div>
+        </div>
+        <div class="intro-card">
+          <div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none">
+              <rect x="7" y="3.5" width="10" height="17" rx="2.5" stroke="#00B894" stroke-width="2" />
+              <circle cx="12" cy="16.5" r="1.2" fill="#00B894" />
+            </svg></div>
+          <div class="ic-title">일상에서 AI 쓰기</div>
+        </div>
+        <div class="intro-card">
+          <div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none">
+              <circle cx="11" cy="11" r="6" stroke="#F97F51" stroke-width="2" />
+              <path d="m16 16 4 4" stroke="#F97F51" stroke-width="2" stroke-linecap="round" />
+            </svg></div>
+          <div class="ic-title">AI 결과 판단하기</div>
+        </div>
+        <div class="intro-card">
+          <div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 3.5 14.8 9l6 .9-4.4 4.3 1 6-5.4-2.8-5.4 2.8 1-6L3.2 10l6-.9L12 3.5Z" fill="#E17055" />
+            </svg></div>
+          <div class="ic-title">AI 시대 마인드셋</div>
+        </div>
       </div>
     </div>
+  </div>
 
-    <div class="intro-grid">
-      <div class="intro-card"><div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5c4.2 0 7.5 3 7.5 7.2 0 4.1-3.3 7.3-7.5 7.3s-7.5-3.2-7.5-7.3C4.5 6.5 7.8 3.5 12 3.5Z" stroke="#6C5CE7" stroke-width="2"/><path d="M9 10.7h6M9.5 14h5" stroke="#6C5CE7" stroke-width="2" stroke-linecap="round"/></svg></div><div class="ic-title">AI 이해하기</div></div>
-      <div class="intro-card"><div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="12" rx="4" stroke="#00CEC9" stroke-width="2"/><path d="m9 16 3 3 3-3" stroke="#00CEC9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="ic-title">AI와 소통하기</div></div>
-      <div class="intro-card"><div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none"><path d="M6 14.5V9.8a2.8 2.8 0 0 1 2.8-2.8h6.4A2.8 2.8 0 0 1 18 9.8v4.7" stroke="#FD79A8" stroke-width="2"/><rect x="4.5" y="13.5" width="4" height="5.5" rx="1.4" fill="#FD79A8"/><rect x="15.5" y="13.5" width="4" height="5.5" rx="1.4" fill="#FD79A8"/></svg></div><div class="ic-title">AI 도구 경험</div></div>
-      <div class="intro-card"><div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none"><rect x="7" y="3.5" width="10" height="17" rx="2.5" stroke="#00B894" stroke-width="2"/><circle cx="12" cy="16.5" r="1.2" fill="#00B894"/></svg></div><div class="ic-title">일상에서 AI 쓰기</div></div>
-      <div class="intro-card"><div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6" stroke="#F97F51" stroke-width="2"/><path d="m16 16 4 4" stroke="#F97F51" stroke-width="2" stroke-linecap="round"/></svg></div><div class="ic-title">AI 결과 판단하기</div></div>
-      <div class="intro-card"><div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5 14.8 9l6 .9-4.4 4.3 1 6-5.4-2.8-5.4 2.8 1-6L3.2 10l6-.9L12 3.5Z" fill="#E17055"/></svg></div><div class="ic-title">AI 시대 마인드셋</div></div>
+  <!-- ===== QUIZ ===== -->
+  <div id="screen-quiz" class="screen">
+    <div class="container">
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <div class="progress-text" id="progressText">1 / 15</div>
+      <div id="categoryBadge" class="category-badge"></div>
+      <div class="question-card" id="questionCard">
+        <div class="question-number" id="qNumber"></div>
+        <div class="question-tip" id="qTip" style="display:none;"></div>
+        <div class="question-text" id="qText"></div>
+        <div class="options" id="qOptions"></div>
+      </div>
+      <div class="nav-buttons">
+        <button class="btn-nav btn-prev" id="btnPrev" onclick="prevQuestion()" style="visibility:hidden;">← 이전</button>
+        <button class="btn-nav btn-next" id="btnNext" onclick="nextQuestion()" disabled>다음 →</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- ===== QUIZ ===== -->
-<div id="screen-quiz" class="screen">
-  <div class="container">
-    <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
-    <div class="progress-text" id="progressText">1 / 15</div>
-    <div id="categoryBadge" class="category-badge"></div>
-    <div class="question-card" id="questionCard">
-      <div class="question-number" id="qNumber"></div>
-      <div class="question-tip" id="qTip" style="display:none;"></div>
-      <div class="question-text" id="qText"></div>
-      <div class="options" id="qOptions"></div>
-    </div>
-    <div class="nav-buttons">
-      <button class="btn-nav btn-prev" id="btnPrev" onclick="prevQuestion()" style="visibility:hidden;">← 이전</button>
-      <button class="btn-nav btn-next" id="btnNext" onclick="nextQuestion()" disabled>다음 →</button>
+  <!-- ===== RESULT ===== -->
+  <div id="screen-result" class="screen">
+    <div class="container">
+      <div class="result-header">
+        <div class="emoji-big" id="resultEmoji"></div>
+        <div class="level-badge" id="levelBadge"></div>
+        <h2 id="levelTitle"></h2>
+        <div class="total-score" id="totalScore"></div>
+        <div class="total-label">/ 100점</div>
+      </div>
+
+      <div class="result-section">
+        <h3><span class="icon-inline" id="analysisIcon"></span>영역별 분석</h3>
+        <div class="radar-wrap"><canvas id="radarChart" width="320" height="320"></canvas></div>
+        <div id="scoreBarList"></div>
+      </div>
+
+      <div class="result-section">
+        <h3><span class="icon-inline" id="profileIcon"></span>나의 AI 활용 프로파일</h3>
+        <div class="briefing-box" id="briefingBox"></div>
+      </div>
+
+      <div class="result-section">
+        <h3><span class="icon-inline" id="planIcon"></span>레벨업 종합계획</h3>
+        <div id="recList"></div>
+      </div>
+
+      <div class="result-actions">
+        <button class="btn-download" onclick="downloadResult()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          결과 저장하기
+        </button>
+        <br>
+        <button class="btn-retry" onclick="retryQuiz()"><span class="icon-inline" id="retryIcon"></span>다시 검진하기</button>
+      </div>
+      <div class="footer">AI 활용능력 자가검진 — 입문자용 © 2025</div>
     </div>
   </div>
-</div>
 
-<!-- ===== RESULT ===== -->
-<div id="screen-result" class="screen">
-  <div class="container">
-    <div class="result-header">
-      <div class="emoji-big" id="resultEmoji"></div>
-      <div class="level-badge" id="levelBadge"></div>
-      <h2 id="levelTitle"></h2>
-      <div class="total-score" id="totalScore"></div>
-      <div class="total-label">/ 100점</div>
-    </div>
+  <script>
+    function getIconSvg(name) {
+      const map = {
+        understand: '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M9 11h6M9.5 14h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+        chat: '<svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="4.5" width="17" height="12" rx="4" stroke="currentColor" stroke-width="2"/><path d="m9 16 3 3 3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        tools: '<svg viewBox="0 0 24 24" fill="none"><path d="M6 14.5V9.8A2.8 2.8 0 0 1 8.8 7h6.4A2.8 2.8 0 0 1 18 9.8v4.7" stroke="currentColor" stroke-width="2"/><rect x="4.5" y="13.5" width="4" height="5.5" rx="1.4" fill="currentColor"/><rect x="15.5" y="13.5" width="4" height="5.5" rx="1.4" fill="currentColor"/></svg>',
+        daily: '<svg viewBox="0 0 24 24" fill="none"><rect x="7" y="3.5" width="10" height="17" rx="2.5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="16.5" r="1.2" fill="currentColor"/></svg>',
+        check: '<svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="2"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+        mindset: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5 14.8 9l6 .9-4.4 4.3 1 6-5.4-2.8-5.4 2.8 1-6L3.2 10l6-.9L12 3.5Z" fill="currentColor"/></svg>',
+        tip: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5c4 0 7 3 7 6.8 0 2.1-.9 3.5-2.4 5L15 17.5H9l-1.6-2.2C5.9 13.8 5 12.4 5 10.3c0-3.8 3-6.8 7-6.8Z" stroke="currentColor" stroke-width="2"/><path d="M10 20h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+        refresh: '<svg viewBox="0 0 24 24" fill="none"><path d="M20 11a8 8 0 1 0 1.5 4.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M20 4v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        analysis: '<svg viewBox="0 0 24 24" fill="none"><path d="M4 19h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><rect x="6" y="11" width="3" height="6" rx="1" fill="currentColor"/><rect x="11" y="8" width="3" height="9" rx="1" fill="currentColor"/><rect x="16" y="5" width="3" height="12" rx="1" fill="currentColor"/></svg>',
+        profile: '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="2"/><path d="M5 20c1.4-3.1 4.1-4.6 7-4.6s5.6 1.5 7 4.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+        plan: '<svg viewBox="0 0 24 24" fill="none"><path d="m4 12 5 5L20 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+        level1: '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="11" r="1" fill="currentColor"/><circle cx="15" cy="11" r="1" fill="currentColor"/><path d="M9 15h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+        level2: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5c2.8 2.5 4.7 5.2 4.7 8.2 0 3-2.1 5.8-4.7 7.8-2.6-2-4.7-4.8-4.7-7.8 0-3 1.9-5.7 4.7-8.2Z" fill="currentColor"/></svg>',
+        level3: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 4 14 9l5 1-3.7 3.6.9 5.4L12 16.7 7.8 19l.9-5.4L5 10l5-1 2-5Z" fill="currentColor"/></svg>',
+        level4: '<svg viewBox="0 0 24 24" fill="none"><path d="M5 15.5 12 4l7 11.5H5Z" fill="currentColor"/><path d="M12 4v16" stroke="#fff" stroke-width="2"/></svg>',
+        learning: '<svg viewBox="0 0 24 24" fill="none"><path d="M4 7.5 12 4l8 3.5-8 3.5L4 7.5Z" stroke="currentColor" stroke-width="2"/><path d="M6 11v4.5L12 19l6-3.5V11" stroke="currentColor" stroke-width="2"/></svg>',
+        action: '<svg viewBox="0 0 24 24" fill="none"><path d="m13 3-8 10h6l-1 8 9-12h-6l1-6Z" fill="currentColor"/></svg>'
+      };
+      return map[name] || map.profile;
+    }
 
-    <div class="result-section">
-      <h3><span class="icon-inline" id="analysisIcon"></span>영역별 분석</h3>
-      <div class="radar-wrap"><canvas id="radarChart" width="320" height="320"></canvas></div>
-      <div id="scoreBarList"></div>
-    </div>
+    function icon(name, color = 'currentColor') {
+      return `<span class="icon-inline" style="color:${color}">${getIconSvg(name)}</span>`;
+    }
 
-    <div class="result-section">
-      <h3><span class="icon-inline" id="profileIcon"></span>나의 AI 활용 프로파일</h3>
-      <div class="briefing-box" id="briefingBox"></div>
-    </div>
+    function profileIconByEmoji(emoji) {
+      const map = {
+        '🔥': 'action', '📖': 'learning', '💬': 'chat', '🔬': 'check', '⚡': 'action',
+        '🔍': 'check', '⚖️': 'analysis', '🌟': 'mindset', '🚀': 'level4'
+      };
+      return map[emoji] || 'profile';
+    }
 
-    <div class="result-section">
-      <h3><span class="icon-inline" id="planIcon"></span>레벨업 종합계획</h3>
-      <div id="recList"></div>
-    </div>
+    const categories = [
+      { name: "AI 이해하기", icon: "understand", color: "#6C5CE7" },
+      { name: "AI와 소통하기", icon: "chat", color: "#00CEC9" },
+      { name: "AI 도구 경험", icon: "tools", color: "#FD79A8" },
+      { name: "일상에서 AI 쓰기", icon: "daily", color: "#00B894" },
+      { name: "AI 결과 판단하기", icon: "check", color: "#F97F51" },
+      { name: "AI 시대 마인드셋", icon: "mindset", color: "#E17055" }
+    ];
 
-    <div class="result-actions">
-      <button class="btn-retry" onclick="retryQuiz()"><span class="icon-inline" id="retryIcon"></span>다시 검진하기</button>
-    </div>
-    <div class="footer">AI 활용능력 자가검진 — 입문자용 © 2025</div>
-  </div>
-</div>
+    const questions = [
+      // ===== 1. AI 이해하기 (3문항) =====
+      {
+        cat: 0,
+        text: "요즘 화제인 ChatGPT, Claude 같은 'AI'는 어떻게 답을 만들어낼까요?",
+        options: [
+          "인터넷에서 정답을 검색해서 보여주는 것",
+          "수많은 글을 학습한 뒤, 가장 자연스러운 다음 말을 예측하며 만들어내는 것",
+          "사람처럼 생각하고 판단해서 답을 내는 것",
+          "잘 모르겠어요"
+        ],
+        scores: [1, 3, 0, 0]
+      },
+      {
+        cat: 0,
+        text: "AI에게 '2026년 월드컵 우승팀'을 물어봤더니 자신 있게 대답했어요. 어떻게 봐야 할까요?",
+        options: [
+          "AI가 말했으니 맞을 거예요",
+          "AI는 모르는 것도 자신 있게 지어내기도 해요. 꼭 확인이 필요해요!",
+          "AI는 항상 최신 정보를 알고 있어요",
+          "잘 모르겠어요"
+        ],
+        scores: [0, 3, 0, 0]
+      },
+      {
+        cat: 0,
+        tip: "요즘 AI는 글쓰기뿐 아니라 이미지 만들기, 음성 인식, 동영상 분석까지 할 수 있어요.",
+        text: "다음 중 현재 AI가 할 수 '있는' 일은?",
+        options: [
+          "사진을 보고 무슨 내용인지 설명해주기",
+          "진심으로 사람의 감정을 이해하고 공감하기",
+          "스스로 목표를 정해서 자율적으로 행동하기",
+          "잘 모르겠어요"
+        ],
+        scores: [3, 0, 0, 0]
+      },
 
-<script>
-function getIconSvg(name) {
-  const map = {
-    understand: '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M9 11h6M9.5 14h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
-    chat: '<svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="4.5" width="17" height="12" rx="4" stroke="currentColor" stroke-width="2"/><path d="m9 16 3 3 3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-    tools: '<svg viewBox="0 0 24 24" fill="none"><path d="M6 14.5V9.8A2.8 2.8 0 0 1 8.8 7h6.4A2.8 2.8 0 0 1 18 9.8v4.7" stroke="currentColor" stroke-width="2"/><rect x="4.5" y="13.5" width="4" height="5.5" rx="1.4" fill="currentColor"/><rect x="15.5" y="13.5" width="4" height="5.5" rx="1.4" fill="currentColor"/></svg>',
-    daily: '<svg viewBox="0 0 24 24" fill="none"><rect x="7" y="3.5" width="10" height="17" rx="2.5" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="16.5" r="1.2" fill="currentColor"/></svg>',
-    check: '<svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="2"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
-    mindset: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5 14.8 9l6 .9-4.4 4.3 1 6-5.4-2.8-5.4 2.8 1-6L3.2 10l6-.9L12 3.5Z" fill="currentColor"/></svg>',
-    tip: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5c4 0 7 3 7 6.8 0 2.1-.9 3.5-2.4 5L15 17.5H9l-1.6-2.2C5.9 13.8 5 12.4 5 10.3c0-3.8 3-6.8 7-6.8Z" stroke="currentColor" stroke-width="2"/><path d="M10 20h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
-    refresh: '<svg viewBox="0 0 24 24" fill="none"><path d="M20 11a8 8 0 1 0 1.5 4.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M20 4v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-    analysis: '<svg viewBox="0 0 24 24" fill="none"><path d="M4 19h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><rect x="6" y="11" width="3" height="6" rx="1" fill="currentColor"/><rect x="11" y="8" width="3" height="9" rx="1" fill="currentColor"/><rect x="16" y="5" width="3" height="12" rx="1" fill="currentColor"/></svg>',
-    profile: '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="2"/><path d="M5 20c1.4-3.1 4.1-4.6 7-4.6s5.6 1.5 7 4.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
-    plan: '<svg viewBox="0 0 24 24" fill="none"><path d="m4 12 5 5L20 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-    level1: '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="11" r="1" fill="currentColor"/><circle cx="15" cy="11" r="1" fill="currentColor"/><path d="M9 15h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
-    level2: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5c2.8 2.5 4.7 5.2 4.7 8.2 0 3-2.1 5.8-4.7 7.8-2.6-2-4.7-4.8-4.7-7.8 0-3 1.9-5.7 4.7-8.2Z" fill="currentColor"/></svg>',
-    level3: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 4 14 9l5 1-3.7 3.6.9 5.4L12 16.7 7.8 19l.9-5.4L5 10l5-1 2-5Z" fill="currentColor"/></svg>',
-    level4: '<svg viewBox="0 0 24 24" fill="none"><path d="M5 15.5 12 4l7 11.5H5Z" fill="currentColor"/><path d="M12 4v16" stroke="#fff" stroke-width="2"/></svg>',
-    learning: '<svg viewBox="0 0 24 24" fill="none"><path d="M4 7.5 12 4l8 3.5-8 3.5L4 7.5Z" stroke="currentColor" stroke-width="2"/><path d="M6 11v4.5L12 19l6-3.5V11" stroke="currentColor" stroke-width="2"/></svg>',
-    action: '<svg viewBox="0 0 24 24" fill="none"><path d="m13 3-8 10h6l-1 8 9-12h-6l1-6Z" fill="currentColor"/></svg>'
-  };
-  return map[name] || map.profile;
-}
+      // ===== 2. AI와 소통하기 (3문항) =====
+      {
+        cat: 1,
+        tip: "요즘 AI는 옛날과 달라요. 딱딱한 명령어가 아니라, 친구에게 말하듯 자연스럽게 대화하면 더 좋은 답이 나와요.",
+        text: "AI에게 여행 계획을 물어볼 때, 어떤 방식이 더 좋은 결과를 얻을까요?",
+        options: [
+          "\"여행 계획 짜줘\"",
+          "\"6월에 부모님이랑 제주도 2박 3일 여행 가는데, 70대 어르신이라 편한 코스로 짜줘. 맛집도 포함해줘.\"",
+          "둘 다 비슷할 것 같아요",
+          "잘 모르겠어요"
+        ],
+        scores: [0, 3, 0, 0]
+      },
+      {
+        cat: 1,
+        tip: "AI에게 한 번에 완벽한 답을 기대하기보다, 대화를 주고받으며 다듬어가는 게 핵심이에요.",
+        text: "AI가 준 답이 마음에 안 들 때, 가장 좋은 방법은?",
+        options: [
+          "AI는 원래 그런 거라고 포기한다",
+          "\"좀 더 짧게\", \"예시를 넣어서\", \"초등학생도 이해하게\" 같은 피드백을 주며 다시 요청한다",
+          "처음부터 새로운 대화를 시작한다",
+          "잘 모르겠어요"
+        ],
+        scores: [0, 3, 1, 0]
+      },
+      {
+        cat: 1,
+        text: "요즘 AI는 글뿐 아니라 사진이나 파일을 보여주면서 대화할 수도 있다는 걸 알고 있나요?",
+        options: [
+          "네, 사진이나 문서를 보여주면서 질문해본 적 있어요",
+          "그런 게 가능하다는 건 알지만 아직 안 해봤어요",
+          "처음 알았어요!",
+          "잘 모르겠어요"
+        ],
+        scores: [3, 1, 0, 0]
+      },
 
-function icon(name, color = 'currentColor') {
-  return `<span class="icon-inline" style="color:${color}">${getIconSvg(name)}</span>`;
-}
+      // ===== 3. AI 도구 경험 (2문항) =====
+      {
+        cat: 2,
+        text: "현재까지 사용해본 AI 도구는 몇 개 정도인가요?",
+        options: [
+          "아직 사용해본 적 없어요",
+          "1~2개 (예: ChatGPT 정도)",
+          "3개 이상 다양하게 써봤어요",
+          "매일 여러 AI 도구를 사용하고 있어요"
+        ],
+        scores: [0, 1, 2, 3]
+      },
+      {
+        cat: 2,
+        tip: "요즘은 글 쓰는 AI 말고도, 그림 그려주는 AI, 영상 만드는 AI, 음악 만드는 AI 등 정말 다양해요.",
+        text: "다음 중 경험해본 것을 고르세요.",
+        options: [
+          "텍스트 AI(ChatGPT, Claude 등)만 써봤어요",
+          "텍스트 + 이미지 생성 AI(미드저니, DALL-E 등)도 써봤어요",
+          "텍스트, 이미지, 음성/영상 AI 등 여러 종류를 써봤어요",
+          "아직 AI 도구를 사용해본 적 없어요"
+        ],
+        scores: [1, 2, 3, 0]
+      },
 
-function profileIconByEmoji(emoji) {
-  const map = {
-    '🔥': 'action', '📖': 'learning', '💬': 'chat', '🔬': 'check', '⚡': 'action',
-    '🔍': 'check', '⚖️': 'analysis', '🌟': 'mindset', '🚀': 'level4'
-  };
-  return map[emoji] || 'profile';
-}
+      // ===== 4. 일상에서 AI 쓰기 (3문항) =====
+      {
+        cat: 3,
+        text: "평소에 AI를 얼마나 자주 사용하시나요?",
+        options: [
+          "거의 안 써요",
+          "가끔 궁금할 때 한번씩",
+          "일주일에 여러 번",
+          "거의 매일 사용해요"
+        ],
+        scores: [0, 1, 2, 3]
+      },
+      {
+        cat: 3,
+        tip: "AI는 단순한 질문 답변 외에도, 글쓰기, 요약, 번역, 아이디어 정리, 공부 도우미 등 다양하게 활용할 수 있어요.",
+        text: "AI를 실제로 활용해본 경험 중 해당하는 것은?",
+        options: [
+          "궁금한 것 물어보기 정도만 해봤어요",
+          "글 정리, 번역, 요약 등에 활용해봤어요",
+          "업무나 학습에 꾸준히 활용하고 있어요",
+          "아직 제대로 활용해본 적 없어요"
+        ],
+        scores: [1, 2, 3, 0]
+      },
+      {
+        cat: 3,
+        text: "AI를 사용해서 시간이 줄거나 도움이 됐다고 느낀 적 있나요?",
+        options: [
+          "아직 그런 경험이 없어요",
+          "한두 번 '이건 편하다!'고 느낀 적 있어요",
+          "특정 일에서 확실히 시간이 줄었어요",
+          "이제 AI 없이는 불편하다고 느껴요"
+        ],
+        scores: [0, 1, 2, 3]
+      },
 
-const categories = [
-  { name: "AI 이해하기", icon: "understand", color: "#6C5CE7" },
-  { name: "AI와 소통하기", icon: "chat", color: "#00CEC9" },
-  { name: "AI 도구 경험", icon: "tools", color: "#FD79A8" },
-  { name: "일상에서 AI 쓰기", icon: "daily", color: "#00B894" },
-  { name: "AI 결과 판단하기", icon: "check", color: "#F97F51" },
-  { name: "AI 시대 마인드셋", icon: "mindset", color: "#E17055" }
-];
+      // ===== 5. AI 결과 판단하기 (2문항) =====
+      {
+        cat: 4,
+        text: "AI가 만들어준 글이나 정보를 받았을 때, 보통 어떻게 하나요?",
+        options: [
+          "그대로 믿고 사용해요",
+          "중요한 건 한번쯤 확인해봐요",
+          "항상 다른 자료와 비교해서 확인해요",
+          "확인해야 한다는 생각을 못 했어요"
+        ],
+        scores: [0, 2, 3, 0]
+      },
+      {
+        cat: 4,
+        tip: "AI에 개인정보나 비밀번호 같은 민감한 정보를 입력하면, 데이터가 저장되거나 학습에 쓰일 수 있어요.",
+        text: "AI에 개인정보나 회사 비밀을 입력하는 것에 대해 어떻게 생각하나요?",
+        options: [
+          "별로 생각해본 적 없어요",
+          "조심해야 한다는 건 알지만, 정확히 뭘 조심해야 하는지 모르겠어요",
+          "민감한 정보는 넣지 않으려고 신경 써요",
+          "잘 모르겠어요"
+        ],
+        scores: [0, 1, 3, 0]
+      },
 
-const questions = [
-  // ===== 1. AI 이해하기 (3문항) =====
-  {
-    cat: 0,
-    text: "요즘 화제인 ChatGPT, Claude 같은 'AI'는 어떻게 답을 만들어낼까요?",
-    options: [
-      "인터넷에서 정답을 검색해서 보여주는 것",
-      "수많은 글을 학습한 뒤, 가장 자연스러운 다음 말을 예측하며 만들어내는 것",
-      "사람처럼 생각하고 판단해서 답을 내는 것",
-      "잘 모르겠어요"
-    ],
-    scores: [1, 3, 0, 0]
-  },
-  {
-    cat: 0,
-    text: "AI에게 '2026년 월드컵 우승팀'을 물어봤더니 자신 있게 대답했어요. 어떻게 봐야 할까요?",
-    options: [
-      "AI가 말했으니 맞을 거예요",
-      "AI는 모르는 것도 자신 있게 지어내기도 해요. 꼭 확인이 필요해요!",
-      "AI는 항상 최신 정보를 알고 있어요",
-      "잘 모르겠어요"
-    ],
-    scores: [0, 3, 0, 0]
-  },
-  {
-    cat: 0,
-    tip: "요즘 AI는 글쓰기뿐 아니라 이미지 만들기, 음성 인식, 동영상 분석까지 할 수 있어요.",
-    text: "다음 중 현재 AI가 할 수 '있는' 일은?",
-    options: [
-      "사진을 보고 무슨 내용인지 설명해주기",
-      "진심으로 사람의 감정을 이해하고 공감하기",
-      "스스로 목표를 정해서 자율적으로 행동하기",
-      "잘 모르겠어요"
-    ],
-    scores: [3, 0, 0, 0]
-  },
+      // ===== 6. AI 시대 마인드셋 (2문항) =====
+      {
+        cat: 5,
+        text: "'AI 시대에 중요한 능력'이라고 하면 무엇이 떠오르나요?",
+        options: [
+          "코딩이나 프로그래밍 실력",
+          "AI에게 내가 원하는 걸 잘 설명하고, 결과를 판단하는 능력",
+          "AI에 대해 잘 몰라서 떠오르는 게 없어요",
+          "AI가 다 해주니까 특별한 능력은 필요 없을 것 같아요"
+        ],
+        scores: [1, 3, 0, 0]
+      },
+      {
+        cat: 5,
+        text: "AI에 대한 나의 현재 마음가짐은?",
+        options: [
+          "무섭거나 어렵게 느껴져서 아직 거리감이 있어요",
+          "관심은 있는데 어디서부터 시작해야 할지 모르겠어요",
+          "조금씩 배워가고 있고, 가능성을 느끼고 있어요",
+          "적극적으로 배우고 활용하려고 노력하고 있어요"
+        ],
+        scores: [0, 1, 2, 3]
+      }
+    ];
 
-  // ===== 2. AI와 소통하기 (3문항) =====
-  {
-    cat: 1,
-    tip: "요즘 AI는 옛날과 달라요. 딱딱한 명령어가 아니라, 친구에게 말하듯 자연스럽게 대화하면 더 좋은 답이 나와요.",
-    text: "AI에게 여행 계획을 물어볼 때, 어떤 방식이 더 좋은 결과를 얻을까요?",
-    options: [
-      "\"여행 계획 짜줘\"",
-      "\"6월에 부모님이랑 제주도 2박 3일 여행 가는데, 70대 어르신이라 편한 코스로 짜줘. 맛집도 포함해줘.\"",
-      "둘 다 비슷할 것 같아요",
-      "잘 모르겠어요"
-    ],
-    scores: [0, 3, 0, 0]
-  },
-  {
-    cat: 1,
-    tip: "AI에게 한 번에 완벽한 답을 기대하기보다, 대화를 주고받으며 다듬어가는 게 핵심이에요.",
-    text: "AI가 준 답이 마음에 안 들 때, 가장 좋은 방법은?",
-    options: [
-      "AI는 원래 그런 거라고 포기한다",
-      "\"좀 더 짧게\", \"예시를 넣어서\", \"초등학생도 이해하게\" 같은 피드백을 주며 다시 요청한다",
-      "처음부터 새로운 대화를 시작한다",
-      "잘 모르겠어요"
-    ],
-    scores: [0, 3, 1, 0]
-  },
-  {
-    cat: 1,
-    text: "요즘 AI는 글뿐 아니라 사진이나 파일을 보여주면서 대화할 수도 있다는 걸 알고 있나요?",
-    options: [
-      "네, 사진이나 문서를 보여주면서 질문해본 적 있어요",
-      "그런 게 가능하다는 건 알지만 아직 안 해봤어요",
-      "처음 알았어요!",
-      "잘 모르겠어요"
-    ],
-    scores: [3, 1, 0, 0]
-  },
+    // ===== STATE =====
+    let currentQ = 0;
+    let answers = new Array(questions.length).fill(-1);
 
-  // ===== 3. AI 도구 경험 (2문항) =====
-  {
-    cat: 2,
-    text: "현재까지 사용해본 AI 도구는 몇 개 정도인가요?",
-    options: [
-      "아직 사용해본 적 없어요",
-      "1~2개 (예: ChatGPT 정도)",
-      "3개 이상 다양하게 써봤어요",
-      "매일 여러 AI 도구를 사용하고 있어요"
-    ],
-    scores: [0, 1, 2, 3]
-  },
-  {
-    cat: 2,
-    tip: "요즘은 글 쓰는 AI 말고도, 그림 그려주는 AI, 영상 만드는 AI, 음악 만드는 AI 등 정말 다양해요.",
-    text: "다음 중 경험해본 것을 고르세요.",
-    options: [
-      "텍스트 AI(ChatGPT, Claude 등)만 써봤어요",
-      "텍스트 + 이미지 생성 AI(미드저니, DALL-E 등)도 써봤어요",
-      "텍스트, 이미지, 음성/영상 AI 등 여러 종류를 써봤어요",
-      "아직 AI 도구를 사용해본 적 없어요"
-    ],
-    scores: [1, 2, 3, 0]
-  },
+    function showScreen(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-  // ===== 4. 일상에서 AI 쓰기 (3문항) =====
-  {
-    cat: 3,
-    text: "평소에 AI를 얼마나 자주 사용하시나요?",
-    options: [
-      "거의 안 써요",
-      "가끔 궁금할 때 한번씩",
-      "일주일에 여러 번",
-      "거의 매일 사용해요"
-    ],
-    scores: [0, 1, 2, 3]
-  },
-  {
-    cat: 3,
-    tip: "AI는 단순한 질문 답변 외에도, 글쓰기, 요약, 번역, 아이디어 정리, 공부 도우미 등 다양하게 활용할 수 있어요.",
-    text: "AI를 실제로 활용해본 경험 중 해당하는 것은?",
-    options: [
-      "궁금한 것 물어보기 정도만 해봤어요",
-      "글 정리, 번역, 요약 등에 활용해봤어요",
-      "업무나 학습에 꾸준히 활용하고 있어요",
-      "아직 제대로 활용해본 적 없어요"
-    ],
-    scores: [1, 2, 3, 0]
-  },
-  {
-    cat: 3,
-    text: "AI를 사용해서 시간이 줄거나 도움이 됐다고 느낀 적 있나요?",
-    options: [
-      "아직 그런 경험이 없어요",
-      "한두 번 '이건 편하다!'고 느낀 적 있어요",
-      "특정 일에서 확실히 시간이 줄었어요",
-      "이제 AI 없이는 불편하다고 느껴요"
-    ],
-    scores: [0, 1, 2, 3]
-  },
+    function startQuiz() {
+      currentQ = 0;
+      answers = new Array(questions.length).fill(-1);
+      showScreen('screen-quiz');
+      renderQuestion();
+    }
 
-  // ===== 5. AI 결과 판단하기 (2문항) =====
-  {
-    cat: 4,
-    text: "AI가 만들어준 글이나 정보를 받았을 때, 보통 어떻게 하나요?",
-    options: [
-      "그대로 믿고 사용해요",
-      "중요한 건 한번쯤 확인해봐요",
-      "항상 다른 자료와 비교해서 확인해요",
-      "확인해야 한다는 생각을 못 했어요"
-    ],
-    scores: [0, 2, 3, 0]
-  },
-  {
-    cat: 4,
-    tip: "AI에 개인정보나 비밀번호 같은 민감한 정보를 입력하면, 데이터가 저장되거나 학습에 쓰일 수 있어요.",
-    text: "AI에 개인정보나 회사 비밀을 입력하는 것에 대해 어떻게 생각하나요?",
-    options: [
-      "별로 생각해본 적 없어요",
-      "조심해야 한다는 건 알지만, 정확히 뭘 조심해야 하는지 모르겠어요",
-      "민감한 정보는 넣지 않으려고 신경 써요",
-      "잘 모르겠어요"
-    ],
-    scores: [0, 1, 3, 0]
-  },
+    function renderQuestion() {
+      const q = questions[currentQ];
+      const cat = categories[q.cat];
+      const pct = ((currentQ + 1) / questions.length) * 100;
+      document.getElementById('progressBar').style.width = pct + '%';
+      document.getElementById('progressText').textContent = `${currentQ + 1} / ${questions.length}`;
+      document.getElementById('categoryBadge').innerHTML = `${icon(cat.icon, '#FFFFFF')} ${cat.name}`;
+      document.getElementById('categoryBadge').style.background = cat.color;
+      document.getElementById('qNumber').textContent = `Q${currentQ + 1}`;
+      document.getElementById('qText').textContent = q.text;
 
-  // ===== 6. AI 시대 마인드셋 (2문항) =====
-  {
-    cat: 5,
-    text: "'AI 시대에 중요한 능력'이라고 하면 무엇이 떠오르나요?",
-    options: [
-      "코딩이나 프로그래밍 실력",
-      "AI에게 내가 원하는 걸 잘 설명하고, 결과를 판단하는 능력",
-      "AI에 대해 잘 몰라서 떠오르는 게 없어요",
-      "AI가 다 해주니까 특별한 능력은 필요 없을 것 같아요"
-    ],
-    scores: [1, 3, 0, 0]
-  },
-  {
-    cat: 5,
-    text: "AI에 대한 나의 현재 마음가짐은?",
-    options: [
-      "무섭거나 어렵게 느껴져서 아직 거리감이 있어요",
-      "관심은 있는데 어디서부터 시작해야 할지 모르겠어요",
-      "조금씩 배워가고 있고, 가능성을 느끼고 있어요",
-      "적극적으로 배우고 활용하려고 노력하고 있어요"
-    ],
-    scores: [0, 1, 2, 3]
-  }
-];
+      const tipEl = document.getElementById('qTip');
+      if (q.tip) { tipEl.style.display = 'block'; tipEl.innerHTML = `${icon('tip', '#6C5CE7')} ${q.tip}`; }
+      else { tipEl.style.display = 'none'; }
 
-// ===== STATE =====
-let currentQ = 0;
-let answers = new Array(questions.length).fill(-1);
+      const optWrap = document.getElementById('qOptions');
+      optWrap.innerHTML = '';
+      q.options.forEach((opt, i) => {
+        const div = document.createElement('div');
+        div.className = 'option' + (answers[currentQ] === i ? ' selected' : '');
+        div.innerHTML = `<div class="option-radio"></div><span>${opt}</span>`;
+        div.onclick = () => selectOption(i);
+        optWrap.appendChild(div);
+      });
 
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+      document.getElementById('btnPrev').style.visibility = currentQ === 0 ? 'hidden' : 'visible';
+      const btnNext = document.getElementById('btnNext');
+      btnNext.disabled = answers[currentQ] === -1;
+      btnNext.textContent = currentQ === questions.length - 1 ? '결과 보기' : '다음 →';
 
-function startQuiz() {
-  currentQ = 0;
-  answers = new Array(questions.length).fill(-1);
-  showScreen('screen-quiz');
-  renderQuestion();
-}
+      document.getElementById('questionCard').style.animation = 'none';
+      setTimeout(() => { document.getElementById('questionCard').style.animation = 'slideIn 0.3s ease'; }, 10);
+    }
 
-function renderQuestion() {
-  const q = questions[currentQ];
-  const cat = categories[q.cat];
-  const pct = ((currentQ + 1) / questions.length) * 100;
-  document.getElementById('progressBar').style.width = pct + '%';
-  document.getElementById('progressText').textContent = `${currentQ + 1} / ${questions.length}`;
-  document.getElementById('categoryBadge').innerHTML = `${icon(cat.icon, '#FFFFFF')} ${cat.name}`;
-  document.getElementById('categoryBadge').style.background = cat.color;
-  document.getElementById('qNumber').textContent = `Q${currentQ + 1}`;
-  document.getElementById('qText').textContent = q.text;
+    function selectOption(idx) {
+      answers[currentQ] = idx;
+      document.querySelectorAll('.option').forEach((el, i) => { el.classList.toggle('selected', i === idx); });
+      document.getElementById('btnNext').disabled = false;
+    }
 
-  const tipEl = document.getElementById('qTip');
-  if (q.tip) { tipEl.style.display = 'block'; tipEl.innerHTML = `${icon('tip', '#6C5CE7')} ${q.tip}`; }
-  else { tipEl.style.display = 'none'; }
+    function nextQuestion() {
+      if (answers[currentQ] === -1) return;
+      if (currentQ < questions.length - 1) { currentQ++; renderQuestion(); }
+      else { showResults(); }
+    }
 
-  const optWrap = document.getElementById('qOptions');
-  optWrap.innerHTML = '';
-  q.options.forEach((opt, i) => {
-    const div = document.createElement('div');
-    div.className = 'option' + (answers[currentQ] === i ? ' selected' : '');
-    div.innerHTML = `<div class="option-radio"></div><span>${opt}</span>`;
-    div.onclick = () => selectOption(i);
-    optWrap.appendChild(div);
-  });
+    function prevQuestion() {
+      if (currentQ > 0) { currentQ--; renderQuestion(); }
+    }
 
-  document.getElementById('btnPrev').style.visibility = currentQ === 0 ? 'hidden' : 'visible';
-  const btnNext = document.getElementById('btnNext');
-  btnNext.disabled = answers[currentQ] === -1;
-  btnNext.textContent = currentQ === questions.length - 1 ? '결과 보기' : '다음 →';
+    function showResults() {
+      const catScores = new Array(6).fill(0);
+      const catMax = new Array(6).fill(0);
+      questions.forEach((q, i) => {
+        catScores[q.cat] += q.scores[answers[i]];
+        catMax[q.cat] += 3;
+      });
+      // Scale each category to ~17 points (6 categories, total ≈ 100)
+      const scaled = catScores.map((s, i) => Math.round((s / catMax[i]) * 17));
+      const total = scaled.reduce((a, b) => a + b, 0);
 
-  document.getElementById('questionCard').style.animation = 'none';
-  setTimeout(() => { document.getElementById('questionCard').style.animation = 'slideIn 0.3s ease'; }, 10);
-}
+      let level, levelTitle, levelIcon, levelClass;
+      if (total >= 80) { level = 4; levelTitle = "Lv.4 능숙한 활용자"; levelIcon = "level4"; levelClass = "level-4"; }
+      else if (total >= 55) { level = 3; levelTitle = "Lv.3 성장하는 학습자"; levelIcon = "level3"; levelClass = "level-3"; }
+      else if (total >= 30) { level = 2; levelTitle = "Lv.2 호기심 가득 탐색자"; levelIcon = "level2"; levelClass = "level-2"; }
+      else { level = 1; levelTitle = "Lv.1 첫 발을 내딛는 중"; levelIcon = "level1"; levelClass = "level-1"; }
 
-function selectOption(idx) {
-  answers[currentQ] = idx;
-  document.querySelectorAll('.option').forEach((el, i) => { el.classList.toggle('selected', i === idx); });
-  document.getElementById('btnNext').disabled = false;
-}
+      showScreen('screen-result');
+      document.getElementById('resultEmoji').innerHTML = icon(levelIcon, '#6C5CE7');
+      document.getElementById('levelBadge').textContent = levelTitle;
+      document.getElementById('levelBadge').className = 'level-badge ' + levelClass;
+      document.getElementById('levelTitle').textContent = `당신은 "${levelTitle}"`;
+      document.getElementById('totalScore').textContent = total;
 
-function nextQuestion() {
-  if (answers[currentQ] === -1) return;
-  if (currentQ < questions.length - 1) { currentQ++; renderQuestion(); }
-  else { showResults(); }
-}
-
-function prevQuestion() {
-  if (currentQ > 0) { currentQ--; renderQuestion(); }
-}
-
-function showResults() {
-  const catScores = new Array(6).fill(0);
-  const catMax = new Array(6).fill(0);
-  questions.forEach((q, i) => {
-    catScores[q.cat] += q.scores[answers[i]];
-    catMax[q.cat] += 3;
-  });
-  // Scale each category to ~17 points (6 categories, total ≈ 100)
-  const scaled = catScores.map((s, i) => Math.round((s / catMax[i]) * 17));
-  const total = scaled.reduce((a, b) => a + b, 0);
-
-  let level, levelTitle, levelIcon, levelClass;
-  if (total >= 80) { level = 4; levelTitle = "Lv.4 능숙한 활용자"; levelIcon = "level4"; levelClass = "level-4"; }
-  else if (total >= 55) { level = 3; levelTitle = "Lv.3 성장하는 학습자"; levelIcon = "level3"; levelClass = "level-3"; }
-  else if (total >= 30) { level = 2; levelTitle = "Lv.2 호기심 가득 탐색자"; levelIcon = "level2"; levelClass = "level-2"; }
-  else { level = 1; levelTitle = "Lv.1 첫 발을 내딛는 중"; levelIcon = "level1"; levelClass = "level-1"; }
-
-  showScreen('screen-result');
-  document.getElementById('resultEmoji').innerHTML = icon(levelIcon, '#6C5CE7');
-  document.getElementById('levelBadge').textContent = levelTitle;
-  document.getElementById('levelBadge').className = 'level-badge ' + levelClass;
-  document.getElementById('levelTitle').textContent = `당신은 "${levelTitle}"`;
-  document.getElementById('totalScore').textContent = total;
-
-  // Score bars
-  const barHtml = categories.map((cat, i) => `
+      // Score bars
+      const barHtml = categories.map((cat, i) => `
     <div class="score-item">
       <div class="score-item-header">
         <span class="score-item-name">${icon(cat.icon, cat.color)} ${cat.name}</span>
@@ -725,158 +1279,158 @@ function showResults() {
       </div>
     </div>
   `).join('');
-  document.getElementById('scoreBarList').innerHTML = barHtml;
-  setTimeout(() => { scaled.forEach((s, i) => { document.getElementById(`bar-${i}`).style.width = `${(s / 17) * 100}%`; }); }, 200);
+      document.getElementById('scoreBarList').innerHTML = barHtml;
+      setTimeout(() => { scaled.forEach((s, i) => { document.getElementById(`bar-${i}`).style.width = `${(s / 17) * 100}%`; }); }, 200);
 
-  drawRadar(scaled, 17);
-  generateBriefing(scaled, total, level, levelTitle);
-  generateRecBriefing(scaled);
-}
-
-// ===== RADAR CHART =====
-function drawRadar(scores, maxVal) {
-  const canvas = document.getElementById('radarChart');
-  const ctx = canvas.getContext('2d');
-  const dpr = window.devicePixelRatio || 1;
-  canvas.width = 320 * dpr; canvas.height = 320 * dpr;
-  canvas.style.width = '320px'; canvas.style.height = '320px';
-  ctx.scale(dpr, dpr);
-
-  const cx = 160, cy = 160, maxR = 110, n = 6;
-  const angleStep = (Math.PI * 2) / n;
-  const startAngle = -Math.PI / 2;
-
-  // Grid
-  ctx.strokeStyle = '#E8E8F0'; ctx.lineWidth = 1;
-  for (let ring = 1; ring <= 4; ring++) {
-    const r = (ring / 4) * maxR;
-    ctx.beginPath();
-    for (let i = 0; i <= n; i++) {
-      const a = startAngle + i * angleStep;
-      const x = cx + r * Math.cos(a), y = cy + r * Math.sin(a);
-      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      drawRadar(scaled, 17);
+      generateBriefing(scaled, total, level, levelTitle);
+      generateRecBriefing(scaled);
     }
-    ctx.closePath(); ctx.stroke();
-  }
 
-  // Axes
-  for (let i = 0; i < n; i++) {
-    const a = startAngle + i * angleStep;
-    ctx.beginPath(); ctx.moveTo(cx, cy);
-    ctx.lineTo(cx + maxR * Math.cos(a), cy + maxR * Math.sin(a)); ctx.stroke();
-  }
+    // ===== RADAR CHART =====
+    function drawRadar(scores, maxVal) {
+      const canvas = document.getElementById('radarChart');
+      const ctx = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = 320 * dpr; canvas.height = 320 * dpr;
+      canvas.style.width = '320px'; canvas.style.height = '320px';
+      ctx.scale(dpr, dpr);
 
-  // Data
-  ctx.beginPath();
-  const pts = [];
-  for (let i = 0; i < n; i++) {
-    const a = startAngle + i * angleStep;
-    const r = (scores[i] / maxVal) * maxR;
-    const x = cx + r * Math.cos(a), y = cy + r * Math.sin(a);
-    pts.push({ x, y });
-    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-  }
-  ctx.closePath();
-  ctx.fillStyle = 'rgba(108, 92, 231, 0.2)'; ctx.fill();
-  ctx.strokeStyle = '#6C5CE7'; ctx.lineWidth = 2.5; ctx.stroke();
+      const cx = 160, cy = 160, maxR = 110, n = 6;
+      const angleStep = (Math.PI * 2) / n;
+      const startAngle = -Math.PI / 2;
 
-  pts.forEach(p => {
-    ctx.beginPath(); ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
-    ctx.fillStyle = '#6C5CE7'; ctx.fill();
-    ctx.strokeStyle = 'white'; ctx.lineWidth = 2; ctx.stroke();
-  });
+      // Grid
+      ctx.strokeStyle = '#E8E8F0'; ctx.lineWidth = 1;
+      for (let ring = 1; ring <= 4; ring++) {
+        const r = (ring / 4) * maxR;
+        ctx.beginPath();
+        for (let i = 0; i <= n; i++) {
+          const a = startAngle + i * angleStep;
+          const x = cx + r * Math.cos(a), y = cy + r * Math.sin(a);
+          i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.closePath(); ctx.stroke();
+      }
 
-  // Labels
-  ctx.fillStyle = '#2D3436'; ctx.font = '12px Noto Sans KR, sans-serif'; ctx.textAlign = 'center';
-  const lbls = categories.map(c => c.name);
-  for (let i = 0; i < n; i++) {
-    const a = startAngle + i * angleStep;
-    const lr = maxR + 26;
-    let x = cx + lr * Math.cos(a), y = cy + lr * Math.sin(a);
-    if (i === 0) y -= 3;
-    if (i === 3) y += 5;
-    ctx.fillText(lbls[i], x, y);
-  }
-}
+      // Axes
+      for (let i = 0; i < n; i++) {
+        const a = startAngle + i * angleStep;
+        ctx.beginPath(); ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + maxR * Math.cos(a), cy + maxR * Math.sin(a)); ctx.stroke();
+      }
 
-// ===== PROFILE TYPE =====
-function getProfileType(scores) {
-  // scores: [0]=이해, [1]=소통, [2]=도구경험, [3]=일상활용, [4]=결과판단, [5]=마인드셋
-  const max = Math.max(...scores);
-  const min = Math.min(...scores);
-  const avg = scores.reduce((a, b) => a + b, 0) / 6;
-  const maxIdx = scores.indexOf(max);
+      // Data
+      ctx.beginPath();
+      const pts = [];
+      for (let i = 0; i < n; i++) {
+        const a = startAngle + i * angleStep;
+        const r = (scores[i] / maxVal) * maxR;
+        const x = cx + r * Math.cos(a), y = cy + r * Math.sin(a);
+        pts.push({ x, y });
+        i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(108, 92, 231, 0.2)'; ctx.fill();
+      ctx.strokeStyle = '#6C5CE7'; ctx.lineWidth = 2.5; ctx.stroke();
 
-  // A: 의지 충만형
-  const restAvg = (scores[0]+scores[1]+scores[2]+scores[3]+scores[4]) / 5;
-  if (maxIdx === 5 && restAvg <= 8) return {
-    emoji: '🔥', name: '의지 충만형',
-    insight: 'AI에 대한 관심과 배우려는 의지가 가장 큰 자산이에요. 마음은 이미 AI 시대에 도착했는데, 손은 아직 키보드 위에 올려놓지 못한 상태랄까요.',
-    action: '지금 필요한 건 \'더 배우기\'가 아니라 <strong>\'일단 해보기\'</strong>예요. 오늘 ChatGPT에 접속해서 딱 한 가지만 부탁해보세요. 그 한 번이 의지를 실력으로 바꾸는 출발점이에요.'
-  };
+      pts.forEach(p => {
+        ctx.beginPath(); ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
+        ctx.fillStyle = '#6C5CE7'; ctx.fill();
+        ctx.strokeStyle = 'white'; ctx.lineWidth = 2; ctx.stroke();
+      });
 
-  // B: 이론파형
-  if (maxIdx === 0 && scores[0] - scores[3] >= 5) return {
-    emoji: '📖', name: '이론파형',
-    insight: 'AI가 어떻게 작동하는지 잘 이해하고 계세요. 그런데 아직 그 지식이 일상에서 쓰이지 않고 있어요. 운전면허는 따놨는데 아직 차를 안 몰아본 느낌이랄까요.',
-    action: '이해력이 높으니까, 막상 쓰기 시작하면 남들보다 훨씬 빨리 늘 수 있어요. <strong>이번 주에 AI로 실제 문제 하나만 해결해보세요.</strong> 이론과 실전이 연결되는 순간이 올 거예요.'
-  };
+      // Labels
+      ctx.fillStyle = '#2D3436'; ctx.font = '12px Noto Sans KR, sans-serif'; ctx.textAlign = 'center';
+      const lbls = categories.map(c => c.name);
+      for (let i = 0; i < n; i++) {
+        const a = startAngle + i * angleStep;
+        const lr = maxR + 26;
+        let x = cx + lr * Math.cos(a), y = cy + lr * Math.sin(a);
+        if (i === 0) y -= 3;
+        if (i === 3) y += 5;
+        ctx.fillText(lbls[i], x, y);
+      }
+    }
 
-  // C: 소통 달인형
-  if (maxIdx === 1 && scores[2] <= 5) return {
-    emoji: '💬', name: '소통 달인형',
-    insight: 'AI에게 원하는 걸 잘 설명하는 능력이 돋보여요. 하지만 아직 ChatGPT 하나에만 머물러 계시네요. 요리 솜씨는 뛰어난데 냄비 하나로만 모든 걸 만들고 있는 셈이에요.',
-    action: '소통 능력이 좋으니, 새로운 AI 도구를 만나면 금방 잘 쓰게 될 거예요. <strong>이미지 AI, 음성 AI 등 새로운 도구를 하나만 더 체험해보세요.</strong>'
-  };
+    // ===== PROFILE TYPE =====
+    function getProfileType(scores) {
+      // scores: [0]=이해, [1]=소통, [2]=도구경험, [3]=일상활용, [4]=결과판단, [5]=마인드셋
+      const max = Math.max(...scores);
+      const min = Math.min(...scores);
+      const avg = scores.reduce((a, b) => a + b, 0) / 6;
+      const maxIdx = scores.indexOf(max);
 
-  // D: 호기심 탐색가형
-  if (maxIdx === 2 && scores[3] - scores[2] <= -3) return {
-    emoji: '🔬', name: '호기심 탐색가형',
-    insight: '다양한 AI를 이것저것 써보셨네요! 호기심이 강한 분이에요. 다만 아직 일상에 정착시키지 못하고 \'체험\'에 머물러 있어요. 여러 식당을 돌아다니며 맛보기만 하고, 단골집은 아직 못 정한 느낌이랄까요.',
-    action: '이제 한 가지 AI라도 <strong>\'매일 쓰는 도구\'로 만들어보세요.</strong> 매일 아침 AI에게 하루 일정 정리를 부탁하는 것처럼요. 체험이 습관이 되면 실력이 급성장해요.'
-  };
+      // A: 의지 충만형
+      const restAvg = (scores[0] + scores[1] + scores[2] + scores[3] + scores[4]) / 5;
+      if (maxIdx === 5 && restAvg <= 8) return {
+        emoji: '🔥', name: '의지 충만형',
+        insight: 'AI에 대한 관심과 배우려는 의지가 가장 큰 자산이에요. 마음은 이미 AI 시대에 도착했는데, 손은 아직 키보드 위에 올려놓지 못한 상태랄까요.',
+        action: '지금 필요한 건 \'더 배우기\'가 아니라 <strong>\'일단 해보기\'</strong>예요. 오늘 ChatGPT에 접속해서 딱 한 가지만 부탁해보세요. 그 한 번이 의지를 실력으로 바꾸는 출발점이에요.'
+      };
 
-  // E: 무방비 실전가형
-  if (scores[3] >= 10 && scores[4] <= 5) return {
-    emoji: '⚡', name: '무방비 실전가형',
-    insight: 'AI를 일상에서 꽤 활발하게 쓰고 계세요! 그런데 AI가 만들어준 결과를 거의 그대로 믿고 사용하는 경향이 있어요. 내비게이션을 따라가긴 하는데, 가끔 엉뚱한 길로 안내해도 의심 없이 따라가는 것과 비슷해요.',
-    action: 'AI는 자신 있게 틀릴 때가 있어요. <strong>중요한 정보는 한 번만 검색해서 확인하는 습관</strong>을 들이면, AI 활용의 안정감이 확 올라가요.'
-  };
+      // B: 이론파형
+      if (maxIdx === 0 && scores[0] - scores[3] >= 5) return {
+        emoji: '📖', name: '이론파형',
+        insight: 'AI가 어떻게 작동하는지 잘 이해하고 계세요. 그런데 아직 그 지식이 일상에서 쓰이지 않고 있어요. 운전면허는 따놨는데 아직 차를 안 몰아본 느낌이랄까요.',
+        action: '이해력이 높으니까, 막상 쓰기 시작하면 남들보다 훨씬 빨리 늘 수 있어요. <strong>이번 주에 AI로 실제 문제 하나만 해결해보세요.</strong> 이론과 실전이 연결되는 순간이 올 거예요.'
+      };
 
-  // F: 신중한 관찰자형
-  if (maxIdx === 4 && scores[2] <= 5) return {
-    emoji: '🔍', name: '신중한 관찰자형',
-    insight: 'AI 결과를 비판적으로 바라보는 좋은 습관을 갖고 계세요. 다만 아직 AI 도구 자체를 많이 써보진 않으셨어요. 식품 성분표는 꼼꼼히 보는데, 아직 다양한 음식을 맛보진 못한 상태랄까요.',
-    action: '판단력이 좋으니, 다양한 AI를 써봐도 현명하게 사용할 수 있어요. <strong>안심하고 새로운 도구를 체험해보세요.</strong> 좋은 눈을 이미 갖고 계시니까요.'
-  };
+      // C: 소통 달인형
+      if (maxIdx === 1 && scores[2] <= 5) return {
+        emoji: '💬', name: '소통 달인형',
+        insight: 'AI에게 원하는 걸 잘 설명하는 능력이 돋보여요. 하지만 아직 ChatGPT 하나에만 머물러 계시네요. 요리 솜씨는 뛰어난데 냄비 하나로만 모든 걸 만들고 있는 셈이에요.',
+        action: '소통 능력이 좋으니, 새로운 AI 도구를 만나면 금방 잘 쓰게 될 거예요. <strong>이미지 AI, 음성 AI 등 새로운 도구를 하나만 더 체험해보세요.</strong>'
+      };
 
-  // G: 밸런스 성장형
-  if (max - min <= 4) return {
-    emoji: '⚖️', name: '밸런스 성장형',
-    insight: '모든 영역이 비슷한 수준으로 고르게 성장하고 있어요. 균형 잡힌 건 좋지만, 반대로 확실한 강점이 아직 없다는 뜻이기도 해요. 모든 과목을 골고루 공부하지만 아직 \'자신 있는 과목\'이 없는 학생처럼요.',
-    action: '<strong>하나의 영역을 집중적으로 파보세요.</strong> 가장 재미있는 영역을 골라서 깊이 파면, 다른 영역도 함께 끌려 올라가요.'
-  };
+      // D: 호기심 탐색가형
+      if (maxIdx === 2 && scores[3] - scores[2] <= -3) return {
+        emoji: '🔬', name: '호기심 탐색가형',
+        insight: '다양한 AI를 이것저것 써보셨네요! 호기심이 강한 분이에요. 다만 아직 일상에 정착시키지 못하고 \'체험\'에 머물러 있어요. 여러 식당을 돌아다니며 맛보기만 하고, 단골집은 아직 못 정한 느낌이랄까요.',
+        action: '이제 한 가지 AI라도 <strong>\'매일 쓰는 도구\'로 만들어보세요.</strong> 매일 아침 AI에게 하루 일정 정리를 부탁하는 것처럼요. 체험이 습관이 되면 실력이 급성장해요.'
+      };
 
-  // H: 올라운더형
-  if (avg >= 13) return {
-    emoji: '🌟', name: '올라운더형',
-    insight: '모든 영역에서 높은 수준을 보여주고 있어요! AI를 이해하면서 잘 쓰고, 결과도 판단할 줄 아는 — 진짜 AI 시대 인재의 모습이에요.',
-    action: '이제 <strong>주변 사람들에게 나의 AI 활용법을 알려주세요.</strong> 가르치면서 나도 더 성장하고, 함께 AI 시대를 준비할 수 있어요.'
-  };
+      // E: 무방비 실전가형
+      if (scores[3] >= 10 && scores[4] <= 5) return {
+        emoji: '⚡', name: '무방비 실전가형',
+        insight: 'AI를 일상에서 꽤 활발하게 쓰고 계세요! 그런데 AI가 만들어준 결과를 거의 그대로 믿고 사용하는 경향이 있어요. 내비게이션을 따라가긴 하는데, 가끔 엉뚱한 길로 안내해도 의심 없이 따라가는 것과 비슷해요.',
+        action: 'AI는 자신 있게 틀릴 때가 있어요. <strong>중요한 정보는 한 번만 검색해서 확인하는 습관</strong>을 들이면, AI 활용의 안정감이 확 올라가요.'
+      };
 
-  // Z: 기본형
-  return {
-    emoji: '🚀', name: '나만의 길 개척형',
-    insight: '나만의 독특한 AI 활용 패턴을 가지고 계세요. 특정 유형에 딱 들어맞지 않는 건, 그만큼 다양한 경험을 쌓고 있다는 뜻이에요.',
-    action: '<strong>가장 자신 있는 영역을 더 키우면서, 가장 약한 영역 하나를 집중 보완</strong>하면 빠르게 성장할 수 있어요.'
-  };
-}
+      // F: 신중한 관찰자형
+      if (maxIdx === 4 && scores[2] <= 5) return {
+        emoji: '🔍', name: '신중한 관찰자형',
+        insight: 'AI 결과를 비판적으로 바라보는 좋은 습관을 갖고 계세요. 다만 아직 AI 도구 자체를 많이 써보진 않으셨어요. 식품 성분표는 꼼꼼히 보는데, 아직 다양한 음식을 맛보진 못한 상태랄까요.',
+        action: '판단력이 좋으니, 다양한 AI를 써봐도 현명하게 사용할 수 있어요. <strong>안심하고 새로운 도구를 체험해보세요.</strong> 좋은 눈을 이미 갖고 계시니까요.'
+      };
 
-// ===== BRIEFING =====
-function generateBriefing(scores, total, level, levelTitle) {
-  const profile = getProfileType(scores);
+      // G: 밸런스 성장형
+      if (max - min <= 4) return {
+        emoji: '⚖️', name: '밸런스 성장형',
+        insight: '모든 영역이 비슷한 수준으로 고르게 성장하고 있어요. 균형 잡힌 건 좋지만, 반대로 확실한 강점이 아직 없다는 뜻이기도 해요. 모든 과목을 골고루 공부하지만 아직 \'자신 있는 과목\'이 없는 학생처럼요.',
+        action: '<strong>하나의 영역을 집중적으로 파보세요.</strong> 가장 재미있는 영역을 골라서 깊이 파면, 다른 영역도 함께 끌려 올라가요.'
+      };
 
-  let html = `
+      // H: 올라운더형
+      if (avg >= 13) return {
+        emoji: '🌟', name: '올라운더형',
+        insight: '모든 영역에서 높은 수준을 보여주고 있어요! AI를 이해하면서 잘 쓰고, 결과도 판단할 줄 아는 — 진짜 AI 시대 인재의 모습이에요.',
+        action: '이제 <strong>주변 사람들에게 나의 AI 활용법을 알려주세요.</strong> 가르치면서 나도 더 성장하고, 함께 AI 시대를 준비할 수 있어요.'
+      };
+
+      // Z: 기본형
+      return {
+        emoji: '🚀', name: '나만의 길 개척형',
+        insight: '나만의 독특한 AI 활용 패턴을 가지고 계세요. 특정 유형에 딱 들어맞지 않는 건, 그만큼 다양한 경험을 쌓고 있다는 뜻이에요.',
+        action: '<strong>가장 자신 있는 영역을 더 키우면서, 가장 약한 영역 하나를 집중 보완</strong>하면 빠르게 성장할 수 있어요.'
+      };
+    }
+
+    // ===== BRIEFING =====
+    function generateBriefing(scores, total, level, levelTitle) {
+      const profile = getProfileType(scores);
+
+      let html = `
     <div class="profile-badge">
       <span class="pf-emoji">${getIconSvg(profileIconByEmoji(profile.emoji))}</span>
       <span>${profile.name}</span>
@@ -888,174 +1442,227 @@ function generateBriefing(scores, total, level, levelTitle) {
       ${icon('tip', '#6C5CE7')} ${profile.action}
     </div>
   `;
-  document.getElementById('briefingBox').innerHTML = html;
-}
+      document.getElementById('briefingBox').innerHTML = html;
+    }
 
-function generateRecBriefing(scores) {
-  const total = scores.reduce((a, b) => a + b, 0);
-  const avg = total / 6;
-  const maxScore = 17;
+    function generateRecBriefing(scores) {
+      const total = scores.reduce((a, b) => a + b, 0);
+      const avg = total / 6;
+      const maxScore = 17;
 
-  // 영역별 수준 판별
-  const areaLevels = scores.map((s, i) => ({
-    idx: i, score: s, name: categories[i].name,
-    level: s <= 5 ? 'low' : s <= 11 ? 'mid' : 'high'
-  }));
-  const weak = areaLevels.filter(a => a.level === 'low');
-  const mid = areaLevels.filter(a => a.level === 'mid');
-  const strong = areaLevels.filter(a => a.level === 'high');
+      // 영역별 수준 판별
+      const areaLevels = scores.map((s, i) => ({
+        idx: i, score: s, name: categories[i].name,
+        level: s <= 5 ? 'low' : s <= 11 ? 'mid' : 'high'
+      }));
+      const weak = areaLevels.filter(a => a.level === 'low');
+      const mid = areaLevels.filter(a => a.level === 'mid');
+      const strong = areaLevels.filter(a => a.level === 'high');
 
-  // ── Track 1: AI 활용을 통한 레벨업 ──
-  const practiceItems = [];
+      // ── Track 1: AI 활용을 통한 레벨업 ──
+      const practiceItems = [];
 
-  // 레벨별 활용 가이드
-  if (avg <= 5) {
-    practiceItems.push({
-      title: "매일 AI에게 한 가지 부탁하기",
-      desc: "ChatGPT 또는 Claude에 접속해서 하루에 딱 한 가지만 부탁해보세요. 오늘의 날씨에 맞는 옷 추천, 간단한 메시지 초안 작성, 저녁 메뉴 추천 등 부담 없는 것부터 시작하면 AI와의 거리감이 빠르게 줄어들어요."
-    });
-    practiceItems.push({
-      title: "AI와 '대화하듯' 소통 연습하기",
-      desc: "AI에게 명령하는 게 아니라 대화하세요. \"나는 60대이고, 혈압이 높아서 저염식을 하고 있어. 이번 주 식단을 짜줘\"처럼 내 상황을 구체적으로 알려주면 맞춤형 답변을 받을 수 있어요."
-    });
-  } else if (avg <= 11) {
-    practiceItems.push({
-      title: "AI 활용 범위 확장 — 텍스트를 넘어서",
-      desc: "텍스트 대화만 하고 계셨다면, 사진을 찍어서 AI에게 보여주세요. 식물 이름 찾기, 외국어 메뉴판 번역, 영수증 정리 등 카메라 한 장으로 할 수 있는 일이 많아요. 캔바(Canva) AI로 생일 카드를 만들어보는 것도 좋은 시작이에요."
-    });
-    practiceItems.push({
-      title: "AI에게 피드백 주기 — 한 번에 끝내지 않기",
-      desc: "AI의 첫 답변이 마음에 안 들면 그냥 포기하지 마세요. \"좀 더 쉽게 설명해줘\", \"분량을 반으로 줄여줘\", \"예시를 넣어줘\"처럼 피드백을 주면 결과가 확 달라져요. 대화를 이어가는 게 핵심이에요."
-    });
-  } else {
-    practiceItems.push({
-      title: "나만의 AI 활용 루틴 만들기",
-      desc: "AI를 이미 잘 사용하고 계세요. 이제 '아침에 AI로 오늘 할 일 정리하기', '주말에 AI로 한 주 가계부 분석하기'처럼 정기적인 루틴으로 만들어보세요. 습관이 되면 효과가 배가 돼요."
-    });
-    practiceItems.push({
-      title: "주변 사람에게 AI 사용법 알려주기",
-      desc: "가장 좋은 학습법은 가르치는 것이에요. 가족이나 친구에게 내가 AI를 어떻게 쓰고 있는지 보여주세요. 설명하는 과정에서 나의 활용법도 더 체계적으로 정리돼요."
-    });
-  }
+      // 레벨별 활용 가이드
+      if (avg <= 5) {
+        practiceItems.push({
+          title: "매일 AI에게 한 가지 부탁하기",
+          desc: "ChatGPT 또는 Claude에 접속해서 하루에 딱 한 가지만 부탁해보세요. 오늘의 날씨에 맞는 옷 추천, 간단한 메시지 초안 작성, 저녁 메뉴 추천 등 부담 없는 것부터 시작하면 AI와의 거리감이 빠르게 줄어들어요."
+        });
+        practiceItems.push({
+          title: "AI와 '대화하듯' 소통 연습하기",
+          desc: "AI에게 명령하는 게 아니라 대화하세요. \"나는 60대이고, 혈압이 높아서 저염식을 하고 있어. 이번 주 식단을 짜줘\"처럼 내 상황을 구체적으로 알려주면 맞춤형 답변을 받을 수 있어요."
+        });
+      } else if (avg <= 11) {
+        practiceItems.push({
+          title: "AI 활용 범위 확장 — 텍스트를 넘어서",
+          desc: "텍스트 대화만 하고 계셨다면, 사진을 찍어서 AI에게 보여주세요. 식물 이름 찾기, 외국어 메뉴판 번역, 영수증 정리 등 카메라 한 장으로 할 수 있는 일이 많아요. 캔바(Canva) AI로 생일 카드를 만들어보는 것도 좋은 시작이에요."
+        });
+        practiceItems.push({
+          title: "AI에게 피드백 주기 — 한 번에 끝내지 않기",
+          desc: "AI의 첫 답변이 마음에 안 들면 그냥 포기하지 마세요. \"좀 더 쉽게 설명해줘\", \"분량을 반으로 줄여줘\", \"예시를 넣어줘\"처럼 피드백을 주면 결과가 확 달라져요. 대화를 이어가는 게 핵심이에요."
+        });
+      } else {
+        practiceItems.push({
+          title: "나만의 AI 활용 루틴 만들기",
+          desc: "AI를 이미 잘 사용하고 계세요. 이제 '아침에 AI로 오늘 할 일 정리하기', '주말에 AI로 한 주 가계부 분석하기'처럼 정기적인 루틴으로 만들어보세요. 습관이 되면 효과가 배가 돼요."
+        });
+        practiceItems.push({
+          title: "주변 사람에게 AI 사용법 알려주기",
+          desc: "가장 좋은 학습법은 가르치는 것이에요. 가족이나 친구에게 내가 AI를 어떻게 쓰고 있는지 보여주세요. 설명하는 과정에서 나의 활용법도 더 체계적으로 정리돼요."
+        });
+      }
 
-  // 취약 영역 맞춤 활용 가이드 추가
-  if (weak.length > 0 || mid.length > 0) {
-    const targets = weak.length > 0 ? weak : mid;
-    const target = targets[0];
-    const practiceByArea = {
-      0: { title: "AI의 작동 원리 체험하기", desc: "같은 질문을 ChatGPT와 Claude에 각각 해보세요. 답변이 다를 수 있다는 걸 직접 확인하면 'AI는 정답 기계가 아니다'라는 핵심 개념을 자연스럽게 이해할 수 있어요." },
-      1: { title: "대화 스킬 실전 연습", desc: "AI에게 \"나 대신 사과 문자 써줘\"라고만 하지 말고, \"친한 친구에게 약속을 갑자기 취소하게 된 상황이고, 미안한 마음을 전하고 싶어. 캐주얼한 톤으로 써줘\"라고 해보세요. 맥락을 주는 연습이 소통 능력을 키워요." },
-      2: { title: "새로운 AI 도구 하나 체험하기", desc: "이번 주에 한 번도 써보지 않은 AI 도구를 하나 써보세요. 이미지를 만드는 캔바 AI, 음악을 만드는 Suno, 영상을 만드는 Vrew 등 다양한 세계가 열려 있어요." },
-      3: { title: "실생활 문제에 AI 적용하기", desc: "이번 주에 실제 생활 문제 하나를 AI로 해결해보세요. 여행 계획 세우기, 선물 추천받기, 운동 루틴 만들기 등 직접 써봐야 감이 잡혀요." },
-      4: { title: "AI 답변 팩트체크 연습", desc: "AI에게 \"최근 건강 뉴스 알려줘\"라고 물어본 뒤, 핵심 내용 2~3개를 네이버나 구글에서 직접 검색해보세요. 맞는 것도 있고 틀린 것도 있다는 걸 경험하는 게 중요해요." },
-      5: { title: "AI 활용 영상 하나 시청하기", desc: "유튜브에서 '생성형 AI 활용법', '중장년 AI 시작하기' 같은 영상을 하나 보세요. 10분짜리 영상 하나가 AI에 대한 인식을 크게 바꿔줄 수 있어요." }
-    };
-    practiceItems.push(practiceByArea[target.idx]);
-  }
+      // 취약 영역 맞춤 활용 가이드 추가
+      if (weak.length > 0 || mid.length > 0) {
+        const targets = weak.length > 0 ? weak : mid;
+        const target = targets[0];
+        const practiceByArea = {
+          0: { title: "AI의 작동 원리 체험하기", desc: "같은 질문을 ChatGPT와 Claude에 각각 해보세요. 답변이 다를 수 있다는 걸 직접 확인하면 'AI는 정답 기계가 아니다'라는 핵심 개념을 자연스럽게 이해할 수 있어요." },
+          1: { title: "대화 스킬 실전 연습", desc: "AI에게 \"나 대신 사과 문자 써줘\"라고만 하지 말고, \"친한 친구에게 약속을 갑자기 취소하게 된 상황이고, 미안한 마음을 전하고 싶어. 캐주얼한 톤으로 써줘\"라고 해보세요. 맥락을 주는 연습이 소통 능력을 키워요." },
+          2: { title: "새로운 AI 도구 하나 체험하기", desc: "이번 주에 한 번도 써보지 않은 AI 도구를 하나 써보세요. 이미지를 만드는 캔바 AI, 음악을 만드는 Suno, 영상을 만드는 Vrew 등 다양한 세계가 열려 있어요." },
+          3: { title: "실생활 문제에 AI 적용하기", desc: "이번 주에 실제 생활 문제 하나를 AI로 해결해보세요. 여행 계획 세우기, 선물 추천받기, 운동 루틴 만들기 등 직접 써봐야 감이 잡혀요." },
+          4: { title: "AI 답변 팩트체크 연습", desc: "AI에게 \"최근 건강 뉴스 알려줘\"라고 물어본 뒤, 핵심 내용 2~3개를 네이버나 구글에서 직접 검색해보세요. 맞는 것도 있고 틀린 것도 있다는 걸 경험하는 게 중요해요." },
+          5: { title: "AI 활용 영상 하나 시청하기", desc: "유튜브에서 '생성형 AI 활용법', '중장년 AI 시작하기' 같은 영상을 하나 보세요. 10분짜리 영상 하나가 AI에 대한 인식을 크게 바꿔줄 수 있어요." }
+        };
+        practiceItems.push(practiceByArea[target.idx]);
+      }
 
-  // ── Track 2: AI 학습을 통한 레벨업 ──
-  const learnItems = [];
+      // ── Track 2: AI 학습을 통한 레벨업 ──
+      const learnItems = [];
 
-  if (avg <= 5) {
-    learnItems.push({
-      title: "AI 기초 개념 잡기 — '생성형 AI란?'",
-      desc: "AI가 어떻게 글을 쓰고 그림을 그리는지, 기본 원리를 알면 AI를 대하는 자세가 달라져요. 유튜브에서 '생성형 AI 쉽게 이해하기'를 검색해보세요. 10분이면 충분해요."
-    });
-    learnItems.push({
-      title: "AI가 잘하는 것과 못하는 것 구별하기",
-      desc: "AI는 글쓰기·요약·번역·아이디어 생성에 강하지만, 최신 정보 확인·수학 계산·감정적 판단은 약해요. 이 차이를 알면 AI에게 '적절한 기대'를 할 수 있어요."
-    });
-  } else if (avg <= 11) {
-    learnItems.push({
-      title: "멀티모달 AI의 세계 알아보기",
-      desc: "2025년의 AI는 텍스트뿐 아니라 이미지, 음성, 영상, 문서까지 이해하고 만들 수 있어요. ChatGPT의 음성 대화, Claude의 파일 분석 기능 등을 알아두면 활용 폭이 확 넓어져요."
-    });
-    learnItems.push({
-      title: "AI 안전하게 사용하는 법",
-      desc: "AI에게 주민등록번호, 비밀번호, 의료 정보 같은 민감한 개인정보를 입력하면 안 돼요. 또한 AI가 만든 정보를 공유할 때는 '이건 AI가 만든 내용이야'라고 밝히는 습관이 중요해요."
-    });
-  } else {
-    learnItems.push({
-      title: "AI 에이전트 시대 이해하기",
-      desc: "최신 AI는 단순히 질문에 답하는 것을 넘어, 스스로 계획을 세우고 여러 단계의 작업을 수행하는 '에이전트'로 진화하고 있어요. 이 변화를 이해하면 AI를 더 전략적으로 활용할 수 있어요."
-    });
-    learnItems.push({
-      title: "AI 리터러시 — 비판적 사고력 강화",
-      desc: "AI를 잘 쓰는 것 못지않게, AI가 만든 정보를 비판적으로 평가하는 능력이 중요해요. AI의 편향성, 환각 현상(hallucination), 저작권 이슈 등을 이해하면 더 현명한 사용자가 돼요."
-    });
-  }
+      if (avg <= 5) {
+        learnItems.push({
+          title: "AI 기초 개념 잡기 — '생성형 AI란?'",
+          desc: "AI가 어떻게 글을 쓰고 그림을 그리는지, 기본 원리를 알면 AI를 대하는 자세가 달라져요. 유튜브에서 '생성형 AI 쉽게 이해하기'를 검색해보세요. 10분이면 충분해요."
+        });
+        learnItems.push({
+          title: "AI가 잘하는 것과 못하는 것 구별하기",
+          desc: "AI는 글쓰기·요약·번역·아이디어 생성에 강하지만, 최신 정보 확인·수학 계산·감정적 판단은 약해요. 이 차이를 알면 AI에게 '적절한 기대'를 할 수 있어요."
+        });
+      } else if (avg <= 11) {
+        learnItems.push({
+          title: "멀티모달 AI의 세계 알아보기",
+          desc: "2025년의 AI는 텍스트뿐 아니라 이미지, 음성, 영상, 문서까지 이해하고 만들 수 있어요. ChatGPT의 음성 대화, Claude의 파일 분석 기능 등을 알아두면 활용 폭이 확 넓어져요."
+        });
+        learnItems.push({
+          title: "AI 안전하게 사용하는 법",
+          desc: "AI에게 주민등록번호, 비밀번호, 의료 정보 같은 민감한 개인정보를 입력하면 안 돼요. 또한 AI가 만든 정보를 공유할 때는 '이건 AI가 만든 내용이야'라고 밝히는 습관이 중요해요."
+        });
+      } else {
+        learnItems.push({
+          title: "AI 에이전트 시대 이해하기",
+          desc: "최신 AI는 단순히 질문에 답하는 것을 넘어, 스스로 계획을 세우고 여러 단계의 작업을 수행하는 '에이전트'로 진화하고 있어요. 이 변화를 이해하면 AI를 더 전략적으로 활용할 수 있어요."
+        });
+        learnItems.push({
+          title: "AI 리터러시 — 비판적 사고력 강화",
+          desc: "AI를 잘 쓰는 것 못지않게, AI가 만든 정보를 비판적으로 평가하는 능력이 중요해요. AI의 편향성, 환각 현상(hallucination), 저작권 이슈 등을 이해하면 더 현명한 사용자가 돼요."
+        });
+      }
 
-  // 취약 영역 맞춤 학습 가이드 추가
-  if (weak.length > 0 || mid.length > 0) {
-    const targets = weak.length > 0 ? weak : mid;
-    const target = targets.length > 1 ? targets[1] : targets[0];
-    const learnByArea = {
-      0: { title: "AI 작동 원리 기초 학습", desc: "AI는 수많은 텍스트를 학습해서 '다음에 올 단어를 예측'하는 방식으로 작동해요. 이 원리를 알면 왜 AI가 가끔 그럴듯하게 틀리는지 이해할 수 있어요. '할루시네이션(환각)'이라고 불러요." },
-      1: { title: "효과적인 AI 대화법 학습", desc: "AI와 잘 소통하는 핵심은 세 가지예요: ① 내 상황을 구체적으로 알려주기 ② 원하는 결과물의 형태를 말해주기 ③ 마음에 안 들면 피드백을 주며 이어가기. 이 세 가지만 기억하세요." },
-      2: { title: "AI 도구 지도 그리기", desc: "텍스트 AI(ChatGPT, Claude), 이미지 AI(미드저니, DALL-E, 캔바 AI), 음성 AI(클로바노트), 영상 AI(Vrew) 등 용도별 대표 도구가 있어요. 어떤 AI가 어떤 일을 하는지 지도를 그려보세요." },
-      3: { title: "AI 활용 사례 탐색하기", desc: "다른 사람들은 AI를 어떻게 쓰고 있을까요? '주부의 AI 활용법', '은퇴 후 AI로 글쓰기' 같은 활용 사례를 찾아보면 나에게 맞는 활용법을 발견할 수 있어요." },
-      4: { title: "디지털 리터러시 기초 쌓기", desc: "AI 결과물을 평가하려면 기본적인 정보 검증 능력이 필요해요. 출처 확인하기, 여러 정보원 비교하기, 날짜 확인하기 등 기본적인 팩트체크 습관을 들여보세요." },
-      5: { title: "AI 시대 마인드셋 기르기", desc: "AI 시대에 가장 중요한 자질은 '기술 전문가'가 아니라 '계속 배우는 사람'이에요. 완벽하게 알 필요 없어요. 호기심을 갖고 조금씩 배우는 자세가 가장 큰 경쟁력이에요." }
-    };
-    learnItems.push(learnByArea[target.idx]);
-  }
+      // 취약 영역 맞춤 학습 가이드 추가
+      if (weak.length > 0 || mid.length > 0) {
+        const targets = weak.length > 0 ? weak : mid;
+        const target = targets.length > 1 ? targets[1] : targets[0];
+        const learnByArea = {
+          0: { title: "AI 작동 원리 기초 학습", desc: "AI는 수많은 텍스트를 학습해서 '다음에 올 단어를 예측'하는 방식으로 작동해요. 이 원리를 알면 왜 AI가 가끔 그럴듯하게 틀리는지 이해할 수 있어요. '할루시네이션(환각)'이라고 불러요." },
+          1: { title: "효과적인 AI 대화법 학습", desc: "AI와 잘 소통하는 핵심은 세 가지예요: ① 내 상황을 구체적으로 알려주기 ② 원하는 결과물의 형태를 말해주기 ③ 마음에 안 들면 피드백을 주며 이어가기. 이 세 가지만 기억하세요." },
+          2: { title: "AI 도구 지도 그리기", desc: "텍스트 AI(ChatGPT, Claude), 이미지 AI(미드저니, DALL-E, 캔바 AI), 음성 AI(클로바노트), 영상 AI(Vrew) 등 용도별 대표 도구가 있어요. 어떤 AI가 어떤 일을 하는지 지도를 그려보세요." },
+          3: { title: "AI 활용 사례 탐색하기", desc: "다른 사람들은 AI를 어떻게 쓰고 있을까요? '주부의 AI 활용법', '은퇴 후 AI로 글쓰기' 같은 활용 사례를 찾아보면 나에게 맞는 활용법을 발견할 수 있어요." },
+          4: { title: "디지털 리터러시 기초 쌓기", desc: "AI 결과물을 평가하려면 기본적인 정보 검증 능력이 필요해요. 출처 확인하기, 여러 정보원 비교하기, 날짜 확인하기 등 기본적인 팩트체크 습관을 들여보세요." },
+          5: { title: "AI 시대 마인드셋 기르기", desc: "AI 시대에 가장 중요한 자질은 '기술 전문가'가 아니라 '계속 배우는 사람'이에요. 완벽하게 알 필요 없어요. 호기심을 갖고 조금씩 배우는 자세가 가장 큰 경쟁력이에요." }
+        };
+        learnItems.push(learnByArea[target.idx]);
+      }
 
-  // ── 종합 한마디 ──
-  let summaryMsg = '';
-  if (avg <= 5) {
-    summaryMsg = '지금 가장 중요한 건 <strong>AI와 친해지는 것</strong>이에요. 완벽하게 이해하려 하지 말고, 하루에 한 번 AI를 열어보는 것부터 시작하세요. 작은 습관이 큰 변화를 만들어요.';
-  } else if (avg <= 11) {
-    summaryMsg = '기본기가 갖춰져 있으니, 이제는 <strong>활용의 폭을 넓히고 깊이를 더하는 단계</strong>예요. 새로운 AI 도구를 하나 더 써보고, 대화를 이어가며 결과를 다듬는 연습을 해보세요.';
-  } else {
-    summaryMsg = 'AI를 잘 활용하고 계세요! 이제는 <strong>나만의 AI 활용 전략을 체계화</strong>하고, 주변 사람들에게 나의 노하우를 공유하면서 함께 성장해보세요.';
-  }
+      // ── 종합 한마디 ──
+      let summaryMsg = '';
+      if (avg <= 5) {
+        summaryMsg = '지금 가장 중요한 건 <strong>AI와 친해지는 것</strong>이에요. 완벽하게 이해하려 하지 말고, 하루에 한 번 AI를 열어보는 것부터 시작하세요. 작은 습관이 큰 변화를 만들어요.';
+      } else if (avg <= 11) {
+        summaryMsg = '기본기가 갖춰져 있으니, 이제는 <strong>활용의 폭을 넓히고 깊이를 더하는 단계</strong>예요. 새로운 AI 도구를 하나 더 써보고, 대화를 이어가며 결과를 다듬는 연습을 해보세요.';
+      } else {
+        summaryMsg = 'AI를 잘 활용하고 계세요! 이제는 <strong>나만의 AI 활용 전략을 체계화</strong>하고, 주변 사람들에게 나의 노하우를 공유하면서 함께 성장해보세요.';
+      }
 
-  // ── HTML 렌더링 ──
-  let html = '<div class="plan-container">';
+      // ── HTML 렌더링 ──
+      let html = '<div class="plan-container">';
 
-  // Track 1
-  html += `<div class="plan-track track-practice">
+      // Track 1
+      html += `<div class="plan-track track-practice">
     <div class="plan-track-header">
       <div class="plan-track-icon">${getIconSvg('action')}</div>
       <div class="plan-track-title">AI 활용을 통한 레벨업</div>
     </div>
     <div class="plan-body">`;
-  practiceItems.forEach(item => {
-    html += `<div class="plan-item">
+      practiceItems.forEach(item => {
+        html += `<div class="plan-item">
       <div class="plan-item-title">▸ ${item.title}</div>
       <div class="plan-item-desc">${item.desc}</div>
     </div>`;
-  });
-  html += `</div></div>`;
+      });
+      html += `</div></div>`;
 
-  // Track 2
-  html += `<div class="plan-track track-learn">
+      // Track 2
+      html += `<div class="plan-track track-learn">
     <div class="plan-track-header">
       <div class="plan-track-icon">${getIconSvg('learning')}</div>
       <div class="plan-track-title">AI 학습을 통한 레벨업</div>
     </div>
     <div class="plan-body">`;
-  learnItems.forEach(item => {
-    html += `<div class="plan-item">
+      learnItems.forEach(item => {
+        html += `<div class="plan-item">
       <div class="plan-item-title">▸ ${item.title}</div>
       <div class="plan-item-desc">${item.desc}</div>
     </div>`;
-  });
-  html += `</div></div>`;
+      });
+      html += `</div></div>`;
 
-  // Summary
-  html += `<div class="plan-summary">${icon('chat', '#6C5CE7')} ${summaryMsg}</div>`;
-  html += '</div>';
+      // Summary
+      html += `<div class="plan-summary">${icon('chat', '#6C5CE7')} ${summaryMsg}</div>`;
+      html += '</div>';
 
-  document.getElementById('recList').innerHTML = html;
-}
+      document.getElementById('recList').innerHTML = html;
+    }
 
-function retryQuiz() { startQuiz(); }
+    function retryQuiz() { startQuiz(); }
 
-document.getElementById('analysisIcon').innerHTML = getIconSvg('analysis');
-document.getElementById('profileIcon').innerHTML = getIconSvg('profile');
-document.getElementById('planIcon').innerHTML = getIconSvg('plan');
-document.getElementById('retryIcon').innerHTML = getIconSvg('refresh');
-</script>
+    document.getElementById('analysisIcon').innerHTML = getIconSvg('analysis');
+    document.getElementById('profileIcon').innerHTML = getIconSvg('profile');
+    document.getElementById('planIcon').innerHTML = getIconSvg('plan');
+    document.getElementById('retryIcon').innerHTML = getIconSvg('refresh');
+
+    async function downloadResult() {
+      const btn = document.querySelector('.btn-download');
+      const originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> 저장 중...';
+
+      try {
+        const target = document.getElementById('screen-result');
+        const canvas = await html2canvas(target, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: '#F5F3FF',
+          scrollY: -window.scrollY,
+          windowWidth: target.scrollWidth,
+          windowHeight: target.scrollHeight
+        });
+
+        const dataUrl = canvas.toDataURL('image/png');
+        const now = new Date();
+        const fileName = `AI검진_입문_${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}.png`;
+
+        // 모바일 공유 API 지원 시 (갤러리 저장 가능)
+        if (navigator.share && /Mobi|Android/i.test(navigator.userAgent)) {
+          const blob = await (await fetch(dataUrl)).blob();
+          const file = new File([blob], fileName, { type: 'image/png' });
+          try {
+            await navigator.share({ files: [file], title: 'AI 활용능력 자가검진 결과' });
+          } catch (e) {
+            // 공유 취소 시 폴백으로 다운로드
+            triggerDownload(dataUrl, fileName);
+          }
+        } else {
+          triggerDownload(dataUrl, fileName);
+        }
+      } catch (err) {
+        alert('이미지 저장에 실패했습니다. 다시 시도해주세요.');
+        console.error(err);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+      }
+    }
+
+    function triggerDownload(dataUrl, fileName) {
+      const link = document.createElement('a');
+      link.download = fileName;
+      link.href = dataUrl;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
 </body>
+
 </html>

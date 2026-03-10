@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI 활용능력 자가검진 — 실무자용</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap');
 
@@ -130,7 +131,11 @@
       justify-content: center;
       background: #f3f5ff;
     }
-    .intro-card .ic-emoji svg { width: 20px; height: 20px; }
+
+    .intro-card .ic-emoji svg {
+      width: 20px;
+      height: 20px;
+    }
 
     .intro-card .ic-title {
       font-size: 13px;
@@ -358,7 +363,12 @@
       margin-bottom: 10px;
       color: var(--primary);
     }
-    .result-header .emoji-big .icon-inline { width: 52px; height: 52px; margin: 0 auto; }
+
+    .result-header .emoji-big .icon-inline {
+      width: 52px;
+      height: 52px;
+      margin: 0 auto;
+    }
 
     .level-badge {
       display: inline-block;
@@ -423,6 +433,7 @@
       align-items: center;
       gap: 8px;
     }
+
     .icon-inline {
       width: 18px;
       height: 18px;
@@ -431,7 +442,11 @@
       justify-content: center;
       flex-shrink: 0;
     }
-    .icon-inline svg { width: 100%; height: 100%; }
+
+    .icon-inline svg {
+      width: 100%;
+      height: 100%;
+    }
 
     .radar-wrap {
       display: flex;
@@ -564,7 +579,11 @@
       align-items: center;
       justify-content: center;
     }
-    .profile-badge .pf-emoji svg { width: 100%; height: 100%; }
+
+    .profile-badge .pf-emoji svg {
+      width: 100%;
+      height: 100%;
+    }
 
     .profile-insight {
       font-size: 15px;
@@ -633,7 +652,11 @@
       color: white;
       flex-shrink: 0;
     }
-    .plan-track-icon svg { width: 20px; height: 20px; }
+
+    .plan-track-icon svg {
+      width: 20px;
+      height: 20px;
+    }
 
     .track-practice .plan-track-icon {
       background: linear-gradient(135deg, #1B1464, #6C5CE7);
@@ -720,6 +743,39 @@
       box-shadow: 0 4px 15px rgba(27, 20, 100, 0.3);
     }
 
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #00B894 0%, #00CEC9 100%);
+      color: white;
+      border: none;
+      padding: 14px 36px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 12px;
+      font-family: 'Noto Sans KR', sans-serif;
+      box-shadow: 0 4px 15px rgba(0, 184, 148, 0.4);
+      transition: all 0.3s;
+    }
+
+    .btn-download:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(0, 184, 148, 0.5);
+    }
+
+    .btn-download:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    .btn-download svg {
+      width: 20px;
+      height: 20px;
+    }
+
     .result-actions {
       text-align: center;
       margin: 28px 0 40px;
@@ -772,23 +828,23 @@
         <svg class="hero-figure" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <defs>
             <linearGradient id="pBodyGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#7dd3fc"/>
-              <stop offset="1" stop-color="#06c755"/>
+              <stop offset="0" stop-color="#7dd3fc" />
+              <stop offset="1" stop-color="#06c755" />
             </linearGradient>
           </defs>
-          <circle cx="90" cy="28" r="8" fill="#06c755"/>
-          <rect x="86" y="36" width="8" height="14" rx="4" fill="#a7f3d0"/>
-          <rect x="52" y="44" width="76" height="72" rx="26" fill="url(#pBodyGrad)"/>
-          <rect x="62" y="58" width="56" height="42" rx="16" fill="#ffffff"/>
-          <circle cx="78" cy="77" r="6" fill="#1f2937"/>
-          <circle cx="102" cy="77" r="6" fill="#1f2937"/>
-          <path d="M75 91c5 6 25 6 30 0" stroke="#1f2937" stroke-width="4" stroke-linecap="round" fill="none"/>
-          <rect x="38" y="66" width="16" height="10" rx="5" fill="#a7f3d0"/>
-          <rect x="126" y="66" width="16" height="10" rx="5" fill="#a7f3d0"/>
-          <rect x="64" y="114" width="14" height="30" rx="7" fill="#34d399"/>
-          <rect x="102" y="114" width="14" height="30" rx="7" fill="#34d399"/>
-          <rect x="60" y="142" width="22" height="10" rx="5" fill="#1f2937"/>
-          <rect x="98" y="142" width="22" height="10" rx="5" fill="#1f2937"/>
+          <circle cx="90" cy="28" r="8" fill="#06c755" />
+          <rect x="86" y="36" width="8" height="14" rx="4" fill="#a7f3d0" />
+          <rect x="52" y="44" width="76" height="72" rx="26" fill="url(#pBodyGrad)" />
+          <rect x="62" y="58" width="56" height="42" rx="16" fill="#ffffff" />
+          <circle cx="78" cy="77" r="6" fill="#1f2937" />
+          <circle cx="102" cy="77" r="6" fill="#1f2937" />
+          <path d="M75 91c5 6 25 6 30 0" stroke="#1f2937" stroke-width="4" stroke-linecap="round" fill="none" />
+          <rect x="38" y="66" width="16" height="10" rx="5" fill="#a7f3d0" />
+          <rect x="126" y="66" width="16" height="10" rx="5" fill="#a7f3d0" />
+          <rect x="64" y="114" width="14" height="30" rx="7" fill="#34d399" />
+          <rect x="102" y="114" width="14" height="30" rx="7" fill="#34d399" />
+          <rect x="60" y="142" width="22" height="10" rx="5" fill="#1f2937" />
+          <rect x="98" y="142" width="22" height="10" rx="5" fill="#1f2937" />
         </svg>
         <div class="intro-summary">6개 영역으로 실무형 진단 내용을 점검해요.</div>
         <div style="text-align:center;">
@@ -799,27 +855,49 @@
 
       <div class="intro-grid">
         <div class="intro-card">
-          <div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none"><path d="M19 8.5A7 7 0 1 0 19 15" stroke="#1B1464" stroke-width="2" stroke-linecap="round"/><path d="M19 4v5h-5" stroke="#1B1464" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none">
+              <path d="M19 8.5A7 7 0 1 0 19 15" stroke="#1B1464" stroke-width="2" stroke-linecap="round" />
+              <path d="M19 4v5h-5" stroke="#1B1464" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg></div>
           <div class="ic-title">사용 습관 & 패턴</div>
         </div>
         <div class="intro-card">
-          <div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="7" stroke="#F97F51" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="#F97F51"/></svg></div>
+          <div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="7" stroke="#F97F51" stroke-width="2" />
+              <circle cx="12" cy="12" r="3" fill="#F97F51" />
+            </svg></div>
           <div class="ic-title">전략적 소통</div>
         </div>
         <div class="intro-card">
-          <div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="#6C5CE7" stroke-width="2"/><path d="M4 12h16M12 4c2.3 2.2 2.3 13.8 0 16M12 4c-2.3 2.2-2.3 13.8 0 16" stroke="#6C5CE7" stroke-width="2"/></svg></div>
+          <div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="8" stroke="#6C5CE7" stroke-width="2" />
+              <path d="M4 12h16M12 4c2.3 2.2 2.3 13.8 0 16M12 4c-2.3 2.2-2.3 13.8 0 16" stroke="#6C5CE7"
+                stroke-width="2" />
+            </svg></div>
           <div class="ic-title">AI 활용 스펙트럼</div>
         </div>
         <div class="intro-card">
-          <div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3.2" stroke="#00B894" stroke-width="2"/><path d="M12 3.8v3M12 17.2v3M3.8 12h3M17.2 12h3M6.4 6.4l2.2 2.2M15.4 15.4l2.2 2.2M17.6 6.4l-2.2 2.2M8.6 15.4l-2.2 2.2" stroke="#00B894" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="3.2" stroke="#00B894" stroke-width="2" />
+              <path
+                d="M12 3.8v3M12 17.2v3M3.8 12h3M17.2 12h3M6.4 6.4l2.2 2.2M15.4 15.4l2.2 2.2M17.6 6.4l-2.2 2.2M8.6 15.4l-2.2 2.2"
+                stroke="#00B894" stroke-width="2" stroke-linecap="round" />
+            </svg></div>
           <div class="ic-title">워크플로우 통합</div>
         </div>
         <div class="intro-card">
-          <div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none"><rect x="4.5" y="4.5" width="15" height="15" rx="4" stroke="#E17055" stroke-width="2"/><path d="m8.5 12 2.3 2.5 4.8-5.2" stroke="#E17055" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none">
+              <rect x="4.5" y="4.5" width="15" height="15" rx="4" stroke="#E17055" stroke-width="2" />
+              <path d="m8.5 12 2.3 2.5 4.8-5.2" stroke="#E17055" stroke-width="2.2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg></div>
           <div class="ic-title">결과물 품질 관리</div>
         </div>
         <div class="intro-card">
-          <div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none"><path d="M4 18h16M9.5 18V9.5l6-3 2 3-6 3V18" stroke="#0984E3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div class="ic-emoji"><svg viewBox="0 0 24 24" fill="none">
+              <path d="M4 18h16M9.5 18V9.5l6-3 2 3-6 3V18" stroke="#0984E3" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg></div>
           <div class="ic-title">AI 세계관 확장</div>
         </div>
       </div>
@@ -876,6 +954,16 @@
       </div>
 
       <div class="result-actions">
+        <button class="btn-download" onclick="downloadResult()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          결과 저장하기
+        </button>
+        <br>
         <button class="btn-retry" onclick="retryQuiz()"><span class="icon-inline" id="retryIcon"></span>다시 검진하기</button>
       </div>
       <div class="footer">AI 활용능력 자가검진 — 실무자용 © 2025</div>
@@ -1563,6 +1651,56 @@
     document.getElementById('profileIcon').innerHTML = getIconSvg('profile');
     document.getElementById('planIcon').innerHTML = getIconSvg('plan');
     document.getElementById('retryIcon').innerHTML = getIconSvg('refresh');
+
+    async function downloadResult() {
+      const btn = document.querySelector('.btn-download');
+      const originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> 저장 중...';
+
+      try {
+        const target = document.getElementById('screen-result');
+        const canvas = await html2canvas(target, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: '#F0F1F8',
+          scrollY: -window.scrollY,
+          windowWidth: target.scrollWidth,
+          windowHeight: target.scrollHeight
+        });
+
+        const dataUrl = canvas.toDataURL('image/png');
+        const now = new Date();
+        const fileName = `AI검진_실무_${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}.png`;
+
+        if (navigator.share && /Mobi|Android/i.test(navigator.userAgent)) {
+          const blob = await (await fetch(dataUrl)).blob();
+          const file = new File([blob], fileName, { type: 'image/png' });
+          try {
+            await navigator.share({ files: [file], title: 'AI 활용능력 자가검진 결과' });
+          } catch (e) {
+            triggerDownload(dataUrl, fileName);
+          }
+        } else {
+          triggerDownload(dataUrl, fileName);
+        }
+      } catch (err) {
+        alert('이미지 저장에 실패했습니다. 다시 시도해주세요.');
+        console.error(err);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+      }
+    }
+
+    function triggerDownload(dataUrl, fileName) {
+      const link = document.createElement('a');
+      link.download = fileName;
+      link.href = dataUrl;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   </script>
 </body>
 
